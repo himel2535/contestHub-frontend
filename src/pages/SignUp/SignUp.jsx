@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
@@ -25,13 +26,17 @@ const SignUp = () => {
     try {
       const { name, email, password, image } = data;
 
-      let imageURL =
-        "https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c";
+      const imageFile = image[0];
+      const formData = new FormData();
+      formData.append("image", imageFile);
 
-      // Image upload (local preview URL)
-      if (image && image.length > 0) {
-        imageURL = URL.createObjectURL(image[0]);
-      }
+      const imageData = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API_KEY
+        }`,
+        formData
+      );
+      const imageURL = imageData?.data?.data?.display_url;
 
       // 1. Create User
       await createUser(email, password);
