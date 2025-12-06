@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import logo1 from "../../assets/images/logo1.jpg"
 
 const Card = () => {
   return (
@@ -24,7 +25,7 @@ const Card = () => {
                 group-hover:scale-110 
                 transition
               '
-            src='https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg'
+            src={logo1}
             alt='Plant Image'
           />
           <div
@@ -35,9 +36,9 @@ const Card = () => {
             '
           ></div>
         </div>
-        <div className='font-semibold text-lg'>Money Plant</div>
+        <div className='font-semibold text-lg'>contest</div>
         <div className='font-semibold text-lg'>Category: Indoor</div>
-        <div className='font-semibold text-lg'>Quantity: 10</div>
+        <div className='font-semibold text-lg'>Participants count: 10</div>
         <div className='flex flex-row items-center gap-1'>
           <div className='font-semibold'> Price: 15$</div>
         </div>
