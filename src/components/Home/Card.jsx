@@ -1,10 +1,11 @@
 import { Link } from 'react-router'
 import logo1 from "../../assets/images/logo1.jpg"
 
-const Card = () => {
+const Card = ({contest}) => {
+  console.log(contest)
   return (
     <Link
-      to={`/plant/1`}
+      to={`/contest/1`}
       className='col-span-1 cursor-pointer group shadow-xl p-3 rounded-xl'
     >
       <div className='flex flex-col gap-2 w-full'>

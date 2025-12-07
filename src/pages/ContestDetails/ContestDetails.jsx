@@ -4,7 +4,7 @@ import Button from '../../components/Shared/Button/Button'
 import PurchaseModal from '../../components/Modal/PurchaseModal'
 import { useState } from 'react'
 
-const PlantDetails = () => {
+const ContestDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
 
   const closeModal = () => {
@@ -92,4 +92,4 @@ const PlantDetails = () => {
   )
 }
 
-export default PlantDetails
+export default ContestDetails

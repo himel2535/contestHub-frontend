@@ -1,9 +1,11 @@
-import Plants from '../../components/Home/Plants'
+import Contests from '../../components/Home/AllContests'
+import PopularContests from '../../components/Home/PopularContests'
 
 const Home = () => {
   return (
     <div>
-      <Plants />
+      <PopularContests></PopularContests>
+      {/* <Contests /> */}
       {/* More components */}
     </div>
   )
