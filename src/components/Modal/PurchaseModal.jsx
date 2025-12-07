@@ -33,11 +33,12 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
       },
     };
 
-    const result = await axios.post(
+    const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/create-checkout-session`,
       paymentInfo
     );
-    console.log(result);
+    window.location.href=data.url
+    // console.log(data.url);
   };
 
   return (
@@ -82,7 +83,7 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
             </div> */}
             <div className="flex mt-2 justify-around">
               <button
-              onClick={handlePayment}
+                onClick={handlePayment}
                 type="button"
                 className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
               >
