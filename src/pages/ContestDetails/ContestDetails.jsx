@@ -73,7 +73,9 @@ const ContestDetails = () => {
               referrerPolicy="no-referrer"
             />
             <div>
-              <p className="font-semibold text-neutral-500">{contestCreator?.name}</p>
+              <p className="font-semibold text-neutral-500">
+                {contestCreator?.name}
+              </p>
               <p className="font-semibold text-neutral-500">
                 {contestCreator?.email}
               </p>
@@ -106,7 +108,11 @@ const ContestDetails = () => {
           </div>
 
           {/* Modal */}
-          <PurchaseModal isOpen={isOpen} closeModal={closeModal} />
+          <PurchaseModal
+            contest={contest}
+            isOpen={isOpen}
+            closeModal={closeModal}
+          />
         </div>
       </div>
     </Container>
