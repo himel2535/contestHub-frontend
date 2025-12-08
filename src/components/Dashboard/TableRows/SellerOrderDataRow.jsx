@@ -1,28 +1,26 @@
 import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
-const SellerOrderDataRow = () => {
+const SellerOrderDataRow = ({contest}) => {
   let [isOpen, setIsOpen] = useState(false)
   const closeModal = () => setIsOpen(false)
 
   return (
     <tr>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Money Plant</p>
+        <p className='text-gray-900 '>{contest?.name}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>abc@gmail.com</p>
+        <p className='text-gray-900 '>{contest.participant}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>$120</p>
+        <p className='text-gray-900 '>${contest.contestFee}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p className='text-gray-900 '>5</p>
       </td>
+
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Dhaka</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Pending</p>
+        <p className='text-gray-900 '>{contest.status}</p>
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>

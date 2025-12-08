@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
-const CustomerOrderDataRow = () => {
+const CustomerOrderDataRow = ({contest}) => {
   let [isOpen, setIsOpen] = useState(false)
   const closeModal = () => setIsOpen(false)
 
@@ -12,7 +12,7 @@ const CustomerOrderDataRow = () => {
             <div className='block relative'>
               <img
                 alt='profile'
-                src='https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg'
+                src={contest.image}
                 className='mx-auto object-cover rounded h-10 w-15 '
               />
             </div>
@@ -21,19 +21,17 @@ const CustomerOrderDataRow = () => {
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>Money Plant</p>
+        <p className='text-gray-900'>{contest.name}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>Indoor</p>
+        <p className='text-gray-900'>{contest.category}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>$120</p>
+        <p className='text-gray-900'>${contest.contestFee}</p>
       </td>
+
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>5</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>Pending</p>
+        <p className='text-gray-900'>{contest.status}</p>
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>

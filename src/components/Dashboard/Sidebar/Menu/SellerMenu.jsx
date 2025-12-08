@@ -15,6 +15,11 @@ const SellerMenu = () => {
         label='Manage Orders'
         address='manage-orders'
       />
+      <MenuItem
+        icon={MdOutlineManageHistory}
+        label='My created Contests'
+        address='my-created-contests'
+      />
     </>
   )
 }

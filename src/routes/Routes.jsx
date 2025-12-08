@@ -17,6 +17,7 @@ import { createBrowserRouter } from "react-router";
 import AllContests from "../components/Home/AllContests";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
+import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
 
 export const router = createBrowserRouter([
   {
@@ -97,6 +98,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-created-contests",
+        element: (
+          <PrivateRoute>
+            <MyCreatedContests />
           </PrivateRoute>
         ),
       },
