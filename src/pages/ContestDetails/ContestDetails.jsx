@@ -6,9 +6,17 @@ import { useState } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+// import { useAuth } from "../../hooks/useAuth";
+import SubmitTaskModal from "../Submit/SubmitTaskModal";
+import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import ErrorPage from "../ErrorPage";
 
 const ContestDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [taskOpen, setTaskOpen] = useState(false);
+
+  const { user } = useAuth();
   const { id } = useParams();
 
   const {
@@ -25,12 +33,9 @@ const ContestDetails = () => {
     },
   });
 
-  const closeModal = () => setIsOpen(false);
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (isError) return <ErrorPage></ErrorPage>;
 
-  if (isLoading) return <p className="text-center py-10">Loading...</p>;
-  if (isError) return <p className="text-center py-10">Error loading data</p>;
-
-  // destructuring contest data safely
   const {
     image,
     name,
@@ -40,12 +45,16 @@ const ContestDetails = () => {
     contestFee,
     category,
     contestCreator,
+    participants = [],
   } = contest || {};
+
+  // ⭐ check if user registered:
+  const isRegistered = participants.includes(user?.email);
 
   return (
     <Container>
       <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-12">
-        {/* Left / Image */}
+        {/* Left */}
         <div className="flex-1">
           <img
             className="rounded-xl h-full w-full object-cover"
@@ -54,64 +63,55 @@ const ContestDetails = () => {
           />
         </div>
 
-        {/* Right / Details */}
+        {/* Right */}
         <div className="flex-1">
           <Heading title={name} subtitle={`Category: ${category}`} />
-
           <hr className="my-4" />
-
-          <p className="text-neutral-600 leading-relaxed">{description}</p>
-
+          <p className="text-neutral-600">{description}</p>
           <hr className="my-4" />
 
           <div className="flex items-center gap-3 mt-3">
-            {" "}
             <img
               src={contestCreator?.image}
-              alt="creator"
-              className="w-15 h-15 rounded-full"
-              referrerPolicy="no-referrer"
+              className="w-12 h-12 rounded-full"
             />
             <div>
-              <p className="font-semibold text-neutral-500">
-                {contestCreator?.name}
-              </p>
-              <p className="font-semibold text-neutral-500">
-                {contestCreator?.email}
-              </p>
+              <p className="font-semibold">{contestCreator?.name}</p>
+              <p className="text-sm">{contestCreator?.email}</p>
             </div>
           </div>
 
           <hr className="my-4" />
-
           <p className="text-lg font-semibold">
             Participants: {participantsCount}
           </p>
 
           <hr className="my-4" />
 
-          {/* Creator Info */}
-          <div className="flex items-center justify-between">
-            <p className="text-xl font-bold mt-2 text-gray-700">
-              Prize Money: ${prizeMoney}
-            </p>
-            <p className="text-xl font-bold mt-2 text-gray-700">
-              Registration Fee: ${contestFee}
-            </p>
+          <div className="flex justify-between">
+            <p className="text-xl font-bold">Prize: ${prizeMoney}</p>
+            <p className="text-xl font-bold">Fee: ${contestFee}</p>
           </div>
 
           <hr className="my-6" />
 
-          {/* Pay / Register */}
-          <div className="flex justify-between items-center">
-            <Button label="Pay" onClick={() => setIsOpen(true)} />
-          </div>
+          {/* ⭐ BUTTON LOGIC */}
+          {!isRegistered ? (
+            <Button label="Pay & Register" onClick={() => setIsOpen(true)} />
+          ) : (
+            <Button label="Submit Task" onClick={() => setTaskOpen(true)} />
+          )}
 
-          {/* Modal */}
+          {/* Modals */}
           <PurchaseModal
             contest={contest}
             isOpen={isOpen}
-            closeModal={closeModal}
+            closeModal={() => setIsOpen(false)}
+          />
+          <SubmitTaskModal
+            contestId={id}
+            isOpen={taskOpen}
+            closeModal={() => setTaskOpen(false)}
           />
         </div>
       </div>
