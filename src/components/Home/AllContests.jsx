@@ -3,8 +3,9 @@ import Container from "../Shared/Container";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Shared/LoadingSpinner";
-import ErrorPage from "../../pages/ErrorPage";
+// import ErrorPage from "../../pages/ErrorPage";
 import AllContestCard from "./AllContestCard";
+import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 const AllContests = () => {
   const { data, isPending, isError } = useQuery({

@@ -1,40 +1,37 @@
 import { useForm } from "react-hook-form";
 import { imageUpload } from "../../utils";
 import useAuth from "../../hooks/useAuth";
-import LoadingSpinner from "../Shared/LoadingSpinner";
-import ErrorPage from "../../pages/ErrorPage";
 import { TbFidgetSpinner } from "react-icons/tb";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 const AddContestForm = () => {
   const { user } = useAuth();
 
-  // use mutation hook---tanstackQuery
-  const { isPending, isError, mutateAsync,reset:mutationReset } = useMutation({
+  // react-query mutation
+  const {
+    mutateAsync,
+    isLoading: isMutating,
+    isError,
+    reset: mutationReset,
+  } = useMutation({
     mutationFn: async (payload) => {
-      return await axios.post(
-        `${import.meta.env.VITE_API_URL}/contests`,
-        payload
-      );
+      return await axios.post(`${import.meta.env.VITE_API_URL}/contests`, payload);
     },
     onSuccess: (data) => {
-      console.log(data);
-      toast.success("Plant Added successfully");
-      mutationReset()
-    },
-    onMutate: (payload) => {
-      console.log(payload);
+      toast.success("Contest added successfully");
+      console.log("Server response:", data);
+      mutationReset();
     },
     onError: (error) => {
-      console.log(error);
+      console.error("Mutation error:", error);
+      toast.error("Failed to add contest");
     },
-    retry: 3,
+    retry: 1,
   });
 
-
-  // --use react hook form--
   const {
     register,
     handleSubmit,
@@ -43,19 +40,24 @@ const AddContestForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const {
-      name,
-      description,
-      participantsCount,
-      prizeMoney,
-      contestFee,
-      category,
-      image,
-    } = data;
-    const imageFile = image[0];
-
     try {
-      const imageUrl = await imageUpload(imageFile);
+      const { name, description, participantsCount, prizeMoney, contestFee, category, image, deadline } = data;
+
+      if (!image || image.length === 0) {
+        toast.error("Please select an image");
+        return;
+      }
+
+      // IMAGE UPLOAD
+      let imageUrl = "";
+      try {
+        imageUrl = await imageUpload(image[0]);
+        console.log("Image uploaded:", imageUrl);
+      } catch (err) {
+        console.error("Image upload failed:", err);
+        toast.error("Image upload failed!");
+        return;
+      }
 
       const contestData = {
         image: imageUrl,
@@ -65,6 +67,7 @@ const AddContestForm = () => {
         prizeMoney: Number(prizeMoney),
         contestFee: Number(contestFee),
         category,
+        deadline: new Date(deadline).toISOString(),
         contestCreator: {
           image: user?.photoURL,
           name: user?.displayName,
@@ -72,205 +75,104 @@ const AddContestForm = () => {
         },
       };
 
+      // SEND TO SERVER
       await mutateAsync(contestData);
-      reset()
+      reset();
     } catch (err) {
-      console.log(err);
+      console.error("Form submit error:", err);
+      toast.error("Something went wrong");
     }
   };
 
-  // if (isPending) return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
+
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Left */}
           <div className="space-y-6">
             {/* Name */}
             <div className="space-y-1 text-sm">
-              <label htmlFor="name" className="block text-gray-600">
-                Name
-              </label>
+              <label className="block text-gray-600">Name</label>
               <input
-                className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                id="name"
-                type="text"
-                placeholder="Plant Name"
-                {...register("name", {
-                  required: "Name is required",
-                  maxLength: {
-                    value: 20,
-                    message: "Name cannot be too long",
-                  },
-                })}
+                {...register("name", { required: "Name is required", maxLength: 50 })}
+                className="w-full px-4 py-3 border rounded-md bg-white"
+                placeholder="Contest name"
               />
-
-              {errors.name && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.name.message}
-                </p>
-              )}
+              {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
             </div>
+
             {/* Category */}
             <div className="space-y-1 text-sm">
-              <label htmlFor="category" className="block text-gray-600 ">
-                Category
-              </label>
+              <label className="block text-gray-600">Category</label>
               <select
-                required
-                className="w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                name="category"
                 {...register("category", { required: "Category is required" })}
+                className="w-full px-4 py-3 rounded-md bg-white"
               >
-                {/* design contests, article writing, business ideas, gaming reviews, */}
                 <option value="Programming Contest">Programming Contest</option>
                 <option value="Design Contest">Design Contest</option>
                 <option value="Gaming Contest">Gaming Contest</option>
                 <option value="Article Writing">Article Writing</option>
               </select>
-              {errors.category && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.category.message}
-                </p>
-              )}
+              {errors.category && <p className="text-xs text-red-500">{errors.category.message}</p>}
             </div>
-            {/* Description */}
-            <div className="space-y-1 text-sm">
-              <label htmlFor="description" className="block text-gray-600">
-                Description
-              </label>
 
+            {/* Description */}
+            <div>
+              <label className="block text-gray-600">Description</label>
               <textarea
-                id="description"
-                placeholder="Write plant description here..."
-                className="block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 "
-                name="description"
-                {...register("description", {
-                  required: "Description is required",
-                })}
-              ></textarea>
-              {errors.description && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.description.message}
-                </p>
-              )}
+                {...register("description", { required: "Description is required" })}
+                className="w-full h-32 p-3 border rounded-md bg-white"
+                placeholder="Describe the contest"
+              />
+              {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
+            </div>
+
+            {/* Deadline */}
+            <div>
+              <label className="block text-gray-600">Deadline</label>
+              <input
+                {...register("deadline", { required: "Deadline is required" })}
+                type="datetime-local"
+                className="w-full px-4 py-3 border rounded-md bg-white"
+              />
+              {errors.deadline && <p className="text-xs text-red-500">{errors.deadline.message}</p>}
             </div>
           </div>
-          <div className="space-y-6 flex flex-col">
-            {/* Prize Money & participants Counts */}
-            <div className="flex justify-between gap-2">
-              {/* Prize Money */}
 
-              <div className="space-y-1 text-sm">
-                <label htmlFor="prizeMoney" className="block text-gray-600 ">
-                  Prize Money
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                  id="prizeMoney"
-                  type="number"
-                  placeholder="Prize Money"
-                  {...register("prizeMoney", {
-                    required: "Prize Money is required",
-                    min: { value: 0, message: "Prize Money must be positive" },
-                  })}
-                />
-                {errors.prizeMoney && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.prizeMoney.message}
-                  </p>
-                )}
+          {/* Right */}
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-gray-600">Prize Money</label>
+                <input {...register("prizeMoney", { required: true, min: 0 })} type="number" className="w-full px-4 py-3 border rounded-md bg-white" />
               </div>
 
-              {/* Contest Fee */}
-              <div className="space-y-1 text-sm">
-                <label htmlFor="contestFee" className="block text-gray-600 ">
-                  Contest Fee
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                  id="contestFee"
-                  type="number"
-                  placeholder="Contest Fee per Contest"
-                  {...register("contestFee", {
-                    required: "Contest Fee is required",
-                    min: { value: 0, message: "Contest Fee must be positive" },
-                  })}
-                />
-                {errors.contestFee && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.contestFee.message}
-                  </p>
-                )}
+              <div>
+                <label className="block text-gray-600">Contest Fee</label>
+                <input {...register("contestFee", { required: true, min: 0 })} type="number" className="w-full px-4 py-3 border rounded-md bg-white" />
               </div>
-              {/* Participants Count */}
-              <div className="space-y-1 text-sm">
-                <label
-                  htmlFor="participantsCount"
-                  className="block text-gray-600"
-                >
-                  Participants Count
-                </label>
-                <input
-                  className="w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white"
-                  id="participantsCount"
-                  type="number"
-                  placeholder="Participants Count"
-                  {...register("participantsCount", {
-                    required: "Participants Count is required",
-                    min: {
-                      value: 0,
-                      message: "Participants Count must be Positive",
-                    },
-                  })}
-                />
-                {errors.participantsCount && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.participantsCount.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            {/* Image */}
-            <div className=" p-4  w-full  m-auto rounded-lg grow">
-              <div className="file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg">
-                <div className="flex flex-col w-max mx-auto text-center">
-                  <label>
-                    <input
-                      className="text-sm cursor-pointer w-36 hidden"
-                      type="file"
-                      name="image"
-                      id="image"
-                      accept="image/*"
-                      hidden
-                      {...register("image", {
-                        required: "Image is required",
-                      })}
-                    />
-                    {errors.image && (
-                      <p className="text-xs text-red-500 mt-1">
-                        {errors.image.message}
-                      </p>
-                    )}
-                    <div className="bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500">
-                      Upload
-                    </div>
-                  </label>
-                </div>
+
+              <div>
+                <label className="block text-gray-600">Participants Count</label>
+                <input {...register("participantsCount", { required: true, min: 0 })} type="number" className="w-full px-4 py-3 border rounded-md bg-white" />
               </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Image upload */}
+            <div className="p-4 rounded-lg">
+              <label className="block text-gray-600 mb-2">Banner Image</label>
+              <input {...register("image", { required: "Image is required" })} type="file" accept="image/*" />
+              {errors.image && <p className="text-xs text-red-500">{errors.image.message}</p>}
+            </div>
+
             <button
               type="submit"
-              className="w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 "
+              disabled={isMutating}
+              className={`w-full p-3 text-white rounded-md ${isMutating ? "bg-gray-400" : "bg-lime-500"}`}
             >
-              {isPending ? (
-                <TbFidgetSpinner className='animate-spin m-auto' />
-              ) : (
-                'Save & Continue'
-              )}
-              {/* save and continue */}
+              {isMutating ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Save & Continue"}
             </button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import Home from "../pages/Home/Home";
-import ErrorPage from "../pages/ErrorPage";
+
 import Login from "../pages/Login/Login";
 import SignUp from "../pages/SignUp/SignUp";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
@@ -16,6 +16,7 @@ import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import { createBrowserRouter } from "react-router";
 import AllContests from "../components/Home/AllContests";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
