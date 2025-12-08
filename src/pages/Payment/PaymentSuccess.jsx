@@ -15,25 +15,7 @@ const PaymentSuccess = () => {
   }
 }, [sessionId]);
 
-  // TanStack Query
-  // const {
-  //   data: payment,
-  //   isLoading,
-  //   isError,
-  // } = useQuery({
-  //   queryKey: ["paymentStatus", sessionId],
-  //   queryFn: async () => {
-  //     const res = await axios.get(
-  //       `${import.meta.env.VITE_API_URL}/payment/verify/${sessionId}`
-  //     );
-  //     return res.data;
-  //   },
-  //   enabled: !!sessionId,
-  // });
-
-  // if (isLoading) return <p>Loading payment status...</p>;
-  // if (isError) return <p>Something went wrong!</p>;
-
+ 
   return (
     <div className="text-center mt-20">
       <h1 className="text-3xl font-bold text-green-600">
