@@ -88,7 +88,7 @@ const MyInventory = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody>  
                   {contests.map((contest) => (
                
                     <PlantDataRow key={contest._id} contest={contest} refetch={refetch} />

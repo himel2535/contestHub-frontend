@@ -4,12 +4,11 @@ import { useState } from "react";
 import DeleteModal from "../../Modal/DeleteModal";
 import UpdatePlantModal from "../../Modal/UpdatePlantModal";
 
-import { Link } from 'react-router'; 
+import { Link } from "react-router";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const PlantDataRow = ({ contest, refetch }) => {
-
   let [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -28,8 +27,8 @@ const PlantDataRow = ({ contest, refetch }) => {
         `${import.meta.env.VITE_API_URL}/contests-delete/${contest._id}`
       );
       toast.success("Contest deleted!");
-      refetch && refetch(); 
-      closeDeleteModal(); 
+      refetch && refetch();
+      closeDeleteModal();
     } catch (err) {
       toast.error("Failed to delete contest!");
       console.log(err);
@@ -52,12 +51,12 @@ const PlantDataRow = ({ contest, refetch }) => {
           </div>
         </div>
       </td>
-      
+
       {/* Name */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 ">{contest.name}</p>
       </td>
-      
+
       {/* Status */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 ">{contest.status}</p>
@@ -65,19 +64,20 @@ const PlantDataRow = ({ contest, refetch }) => {
 
       {/* 💡 Submissions Link */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <Link 
-        contestName={contest.name}
-          to={`/dashboard/contest-submissions/${contest._id}`} 
+        <Link
+          to={`/dashboard/contest-submissions/${contest._id}`}
           className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
         >
           <span
             aria-hidden="true"
             className="absolute inset-0 bg-blue-200 opacity-50 rounded-full"
           ></span>
-          <span className="relative text-blue-900 hover:text-blue-700">View Submissions</span>
+          <span className="relative text-blue-900 hover:text-blue-700">
+            View Submissions
+          </span>
         </Link>
       </td>
-      
+
       {/* Delete Button */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span
@@ -96,7 +96,7 @@ const PlantDataRow = ({ contest, refetch }) => {
           closeModal={closeDeleteModal}
         />
       </td>
-      
+
       {/* Update Button */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span
