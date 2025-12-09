@@ -6,6 +6,7 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
+import LoadingSpinner from "../Shared/LoadingSpinner";
 
 const AddContestForm = () => {
   const { user } = useAuth();
@@ -13,7 +14,8 @@ const AddContestForm = () => {
   // react-query mutation
   const {
     mutateAsync,
-    isLoading: isMutating,
+    // isLoading: isMutating,
+    isPending,
     isError,
     reset: mutationReset,
   } = useMutation({
@@ -67,6 +69,7 @@ const AddContestForm = () => {
         prizeMoney: Number(prizeMoney),
         contestFee: Number(contestFee),
         category,
+        status:'pending',
         deadline: new Date(deadline).toISOString(),
         contestCreator: {
           image: user?.photoURL,
@@ -85,6 +88,7 @@ const AddContestForm = () => {
   };
 
   if (isError) return <ErrorPage />;
+  // if (isPending) return <LoadingSpinner />;
 
   return (
     <div className="w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50">
@@ -161,18 +165,18 @@ const AddContestForm = () => {
             </div>
 
             {/* Image upload */}
-            <div className="p-4 rounded-lg">
+            <div className="p-4 rounded-lg ">
               <label className="block text-gray-600 mb-2">Banner Image</label>
-              <input {...register("image", { required: "Image is required" })} type="file" accept="image/*" />
+              <input {...register("image", { required: "Image is required" })} type="file" accept="image/*" className="cursor-pointer" />
               {errors.image && <p className="text-xs text-red-500">{errors.image.message}</p>}
             </div>
 
             <button
               type="submit"
-              disabled={isMutating}
-              className={`w-full p-3 text-white rounded-md ${isMutating ? "bg-gray-400" : "bg-lime-500"}`}
+              disabled={isPending}
+              className={`w-full p-3 text-white rounded-md cursor-pointer ${isPending ? "bg-gray-400" : "bg-lime-500"}`}
             >
-              {isMutating ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Save & Continue"}
+              {isPending ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Save & Continue"}
             </button>
           </div>
         </div>

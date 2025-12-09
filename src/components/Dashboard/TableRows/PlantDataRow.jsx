@@ -1,31 +1,35 @@
-// src/components/PlantDataRow.jsx
+// src/components/Dashboard/TableRows/PlantDataRow.jsx
 
 import { useState } from "react";
 import DeleteModal from "../../Modal/DeleteModal";
 import UpdatePlantModal from "../../Modal/UpdatePlantModal";
+
+import { Link } from 'react-router'; 
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const PlantDataRow = ({ contest, refetch }) => {
-  let [isOpen, setIsOpen] = useState(false);
+
+  let [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  function openModal() {
-    setIsOpen(true);
+  // Delete Modal Handlers
+  function openDeleteModal() {
+    setIsDeleteOpen(true);
   }
-  function closeModal() {
-    setIsOpen(false);
+  function closeDeleteModal() {
+    setIsDeleteOpen(false);
   }
 
-  // ---delete--- (Keeping simple delete handler for context)
+  // ---delete---
   const handleDelete = async () => {
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/contests-delete/${contest._id}`
       );
       toast.success("Contest deleted!");
-      // 💡 Using refetch or reload as fallback
-      refetch ? refetch() : window.location.reload(); 
+      refetch && refetch(); 
+      closeDeleteModal(); 
     } catch (err) {
       toast.error("Failed to delete contest!");
       console.log(err);
@@ -34,13 +38,13 @@ const PlantDataRow = ({ contest, refetch }) => {
 
   return (
     <tr>
-   
+      {/* Image */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <div className="flex items-center">
           <div className="shrink-0">
             <div className="block relative">
               <img
-                alt="profile"
+                alt="Contest Banner"
                 src={contest.image}
                 className="mx-auto object-cover rounded h-10 w-15 "
               />
@@ -48,23 +52,36 @@ const PlantDataRow = ({ contest, refetch }) => {
           </div>
         </div>
       </td>
+      
+      {/* Name */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 ">{contest.name}</p>
       </td>
+      
+      {/* Status */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{contest.category}</p>
+        <p className="text-gray-900 ">{contest.status}</p>
       </td>
+
+      {/* 💡 Submissions Link */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">${contest.contestFee}</p>
-      </td>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{contest.prizeMoney}</p>
+        <Link 
+        contestName={contest.name}
+          to={`/dashboard/contest-submissions/${contest._id}`} 
+          className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+        >
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 bg-blue-200 opacity-50 rounded-full"
+          ></span>
+          <span className="relative text-blue-900 hover:text-blue-700">View Submissions</span>
+        </Link>
       </td>
       
       {/* Delete Button */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span
-          onClick={openModal}
+          onClick={openDeleteModal}
           className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
         >
           <span
@@ -75,8 +92,8 @@ const PlantDataRow = ({ contest, refetch }) => {
         </span>
         <DeleteModal
           handleDelete={handleDelete}
-          isOpen={isOpen}
-          closeModal={closeModal}
+          isOpen={isDeleteOpen}
+          closeModal={closeDeleteModal}
         />
       </td>
       
@@ -96,6 +113,7 @@ const PlantDataRow = ({ contest, refetch }) => {
           contest={contest}
           isOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
+          refetch={refetch}
         />
       </td>
     </tr>

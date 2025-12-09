@@ -18,6 +18,7 @@ import AllContests from "../components/Home/AllContests";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
 import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
+import ContestSubmissions from "../components/Modal/ContestSubmissions";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +99,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "contest-submissions/:contestId",
+        element: (
+          <PrivateRoute>
+            <ContestSubmissions />
           </PrivateRoute>
         ),
       },

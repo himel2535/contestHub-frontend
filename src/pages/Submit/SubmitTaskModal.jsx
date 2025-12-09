@@ -15,6 +15,7 @@ const SubmitTaskModal = ({ isOpen, closeModal, contestId }) => {
       contestId,
       task,
       email: user.email,
+      name:user.displayName
     });
 
     toast("Task submitted!");

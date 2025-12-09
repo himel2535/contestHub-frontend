@@ -11,9 +11,11 @@ const MyInventory = () => {
     data: contests = [],
     isPending,
     isError,
+    refetch, 
   } = useQuery({
     queryKey: ["inventory", user.email],
     queryFn: async () => {
+    
       const result = await axios(
         `${import.meta.env.VITE_API_URL}/my-inventory/${user.email}`
       );
@@ -25,6 +27,18 @@ const MyInventory = () => {
   if (isPending) return <LoadingSpinner></LoadingSpinner>;
 
   if (isError) return <ErrorPage></ErrorPage>;
+  
+  // No contest message
+  if (contests.length === 0) {
+    return (
+        <div className="text-center py-20">
+            <h2 className="text-2xl font-semibold text-gray-600">
+                You have not created any contests yet. 📝
+            </h2>
+        </div>
+    );
+  }
+  
   return (
     <>
       <div className="container mx-auto px-4 sm:px-8">
@@ -50,19 +64,14 @@ const MyInventory = () => {
                       scope="col"
                       className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                     >
-                      Category
+                      Status
                     </th>
+                    {/* 💡 Submissions Header */}
                     <th
                       scope="col"
                       className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                     >
-                      Price
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                    >
-                      Quantity
+                      Submissions
                     </th>
 
                     <th
@@ -81,7 +90,8 @@ const MyInventory = () => {
                 </thead>
                 <tbody>
                   {contests.map((contest) => (
-                    <PlantDataRow key={contest._id} contest={contest} />
+               
+                    <PlantDataRow key={contest._id} contest={contest} refetch={refetch} />
                   ))}
                 </tbody>
               </table>
