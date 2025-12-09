@@ -1,6 +1,8 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 
 const DeleteModal = ({ closeModal, isOpen, handleDelete }) => {
+
+  
   return (
     <Dialog
       open={isOpen}

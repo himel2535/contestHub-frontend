@@ -11,6 +11,7 @@ const MyContestRow = ({ contest }) => {
     contest.status?.toLowerCase() || "pending"
   );
 
+  // ---delete---
   const handleDelete = async () => {
     try {
       await axios.delete(

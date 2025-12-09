@@ -1,7 +1,8 @@
+// src/Modal/UpdatePlantModal.jsx
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import UpdatePlantForm from '../Form/UpdatePlantForm'
 
-const UpdatePlantModal = ({ setIsEditModalOpen, isOpen }) => {
+const UpdatePlantModal = ({ setIsEditModalOpen, isOpen, contest }) => {
   return (
     <Dialog
       open={isOpen}
@@ -30,7 +31,10 @@ const UpdatePlantModal = ({ setIsEditModalOpen, isOpen }) => {
               Update Plant Info
             </DialogTitle>
             <div className='mt-2 w-full'>
-              <UpdatePlantForm />
+              <UpdatePlantForm
+                contest={contest}
+                closeModal={() => setIsEditModalOpen(false)}
+              />
             </div>
           </DialogPanel>
         </div>
