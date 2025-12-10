@@ -15,7 +15,8 @@ const SubmitTaskModal = ({ isOpen, closeModal, contestId }) => {
       contestId,
       task,
       email: user.email,
-      name:user.displayName
+      name: user.displayName,
+      photoUrl: user?.photoURL,
     });
 
     toast("Task submitted!");
@@ -25,7 +26,6 @@ const SubmitTaskModal = ({ isOpen, closeModal, contestId }) => {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg w-96">
-
         <h2 className="text-xl font-semibold mb-3">Submit Your Task</h2>
 
         <textarea
@@ -42,13 +42,9 @@ const SubmitTaskModal = ({ isOpen, closeModal, contestId }) => {
           Submit
         </button>
 
-        <button
-          onClick={closeModal}
-          className="mt-2 w-full text-gray-600"
-        >
+        <button onClick={closeModal} className="mt-2 w-full text-gray-600">
           Cancel
         </button>
-
       </div>
     </div>
   );

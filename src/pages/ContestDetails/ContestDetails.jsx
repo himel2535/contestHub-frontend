@@ -10,6 +10,7 @@ import { useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { FaTrophy } from "react-icons/fa";
 
 const ContestDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -127,16 +128,24 @@ const ContestDetails = () => {
 
           <hr className="my-4" />
           <div className="flex justify-between">
-            <p className="text-xl font-bold">Prize: ${prizeMoney}</p>
-            <p className="text-xl font-bold">Fee: ${contestFee}</p>
+            <p className="text-xl font-bold"> Prize Money:  ${prizeMoney}</p>
+            <p className="text-xl font-bold"> Fee:  ${contestFee}</p>
           </div>
 
           {winner && winner.name && (
             <>
               <hr className="my-4" />
               <div className="flex items-center gap-3">
-                <img src={winner.photo} className="w-12 h-12 rounded-full" />
-                <p className="font-semibold">Winner: {winner.name}</p>
+                
+                <div className="bg-green-100 border-l-4 w-full border-green-500 text-green-700 p-4 mb-6 rounded-lg  shadow-md flex items-center gap-3">
+                  <img src={winner.photo} className="w-12 h-12 rounded-full " />
+                  <FaTrophy className="text-2xl " />
+                  <p className="font-semibold">
+                    {" "}
+                    <span className="font-bold text-lg">Winner</span>:{" "}
+                    {winner.name}
+                  </p>
+                </div>
               </div>
             </>
           )}
