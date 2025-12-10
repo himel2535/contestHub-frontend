@@ -19,7 +19,7 @@ import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
 import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
 import ContestSubmissions from "../components/Modal/ContestSubmissions";
-
+import LeaderboardPage from "../pages/LeaderBoard/LeaderBoardPage";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-contests",
         element: <AllContests />,
+      },
+      {
+        path: "/leaderboard",
+        element: <LeaderboardPage />,
       },
       {
         path: "/contest/:id",
