@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
 // import axios from "axios";
-import { imageUpload } from "../../utils";
+import { imageUpload, saveOrUpdateUser } from "../../utils";
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
@@ -35,6 +35,10 @@ const SignUp = () => {
       // 1. Create User
       await createUser(email, password);
 
+      // --store user to mongodb--
+      await saveOrUpdateUser({name,email,image:imageURL})
+
+
       // 2. Update Profile
       await updateUserProfile(name, imageURL);
 
@@ -52,7 +56,11 @@ const SignUp = () => {
   // Google Sign In
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+      const {user}=await signInWithGoogle();
+
+      // --store user to mongodb--
+      await saveOrUpdateUser({name:user?.displayName,email:user?.email,image:user?.photoURL})
+
       toast.success("Signup Successful!");
       navigate(from, { replace: true });
     } catch (error) {
