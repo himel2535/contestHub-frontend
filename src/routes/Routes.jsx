@@ -20,6 +20,7 @@ import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
 import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
 import ContestSubmissions from "../components/Modal/ContestSubmissions";
 import LeaderboardPage from "../pages/LeaderBoard/LeaderBoardPage";
+import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 
 export const router = createBrowserRouter([
   {
@@ -88,6 +89,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ManageUsers />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manage-contests",
+        element: (
+          <PrivateRoute>
+            <ManageContests />
           </PrivateRoute>
         ),
       },
