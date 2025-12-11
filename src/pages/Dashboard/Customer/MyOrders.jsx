@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import CustomerOrderDataRow from "../../../components/Dashboard/TableRows/CustomerOrderDataRow";
-import axios from "axios";
+// import axios from "axios";
 import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyOrders = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const {
     data: contests = [],
     isPending,
@@ -14,9 +16,7 @@ const MyOrders = () => {
   } = useQuery({
     queryKey: ["my-contests", user?.email],
     queryFn: async () => {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/my-contests/${user?.email}`
-      );
+      const result = await axiosSecure(`/my-contests`);
       return result.data;
     },
   });
