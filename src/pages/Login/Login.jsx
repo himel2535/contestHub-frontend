@@ -4,6 +4,7 @@ import { TbFidgetSpinner } from "react-icons/tb";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
 
@@ -24,7 +25,9 @@ const Login = () => {
     const { email, password } = data;
 
     try {
-      await signIn(email, password);
+      const {user}=await signIn(email, password);
+     // --store user to mongodb--
+     await saveOrUpdateUser({name:user?.displayName,email:user?.email,image:user?.photoURL})
       toast.success("Login Successful!");
       navigate(from, { replace: true });
     } catch (error) {
@@ -36,7 +39,9 @@ const Login = () => {
   // Google Sign In
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle();
+     const {user}= await signInWithGoogle();
+     // --store user to mongodb--
+      await saveOrUpdateUser({name:user?.displayName,email:user?.email,image:user?.photoURL})
       toast.success("Login Successful!");
       navigate(from, { replace: true });
     } catch (error) {
