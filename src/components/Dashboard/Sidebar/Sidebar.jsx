@@ -11,10 +11,10 @@ import { BsGraphUp } from "react-icons/bs";
 // User Menu
 import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/AdminMenu";
-import SellerMenu from "./Menu/SellerMenu";
-import CustomerMenu from "./Menu/CustomerMenu";
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
+import CreatorMenu from "./Menu/CreatorMenu";
+import ParticipantMenu from "./Menu/ParticipantMenu";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
@@ -26,7 +26,7 @@ const Sidebar = () => {
     setActive(!isActive);
   };
 
-  if(isRoleLoading) return <LoadingSpinner></LoadingSpinner>
+  if (isRoleLoading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <>
@@ -76,8 +76,8 @@ const Sidebar = () => {
                 address="/dashboard"
               />
               {/* Role-Based Menu */}
-              {role === "participant" && <CustomerMenu />}
-              {role === "contestCreator" && <SellerMenu />}
+              {role === "participant" && <ParticipantMenu />}
+              {role === "contestCreator" && <CreatorMenu />}
               {role === "admin" && <AdminMenu />}
             </nav>
           </div>

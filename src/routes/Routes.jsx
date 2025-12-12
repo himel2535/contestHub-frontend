@@ -11,7 +11,6 @@ import Profile from "../pages/Dashboard/Common/Profile";
 import Statistics from "../pages/Dashboard/Common/Statistics";
 import MainLayout from "../layouts/MainLayout";
 import MyInventory from "../pages/Dashboard/Seller/MyInventory";
-import ManageOrders from "../pages/Dashboard/Seller/ManageOrders";
 import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import { createBrowserRouter } from "react-router";
 import AllContests from "../components/Home/AllContests";
@@ -20,12 +19,12 @@ import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
 import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
 import ContestSubmissions from "../components/Modal/ContestSubmissions";
 import LeaderboardPage from "../pages/LeaderBoard/LeaderBoardPage";
-// import ManageContests from "../pages/Dashboard/Admin/CreatorRequests";
 import CreatorRequests from "../pages/Dashboard/Admin/CreatorRequests";
 import ContestCreatorRoute from "./ContestCreatorRoute";
 import AdminRoute from "./AdminRoute";
 import ParticipantRoute from "./ParticipantRoute";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
+import ManageOrders from "../pages/Dashboard/Seller/ManageSubmissions";
 
 export const router = createBrowserRouter([
   {
@@ -160,7 +159,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "manage-orders",
+        path: "manage-submissions",
         element: (
           <PrivateRoute>
             <ContestCreatorRoute>
