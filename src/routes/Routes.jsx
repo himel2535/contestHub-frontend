@@ -26,6 +26,7 @@ import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import ManageOrders from "../pages/Dashboard/Seller/ManageSubmissions";
 import MyParticipatedContests from "../pages/Dashboard/Customer/MyParticipatedContests";
 import MyWinningContests from "../pages/Dashboard/Customer/MyWinningContests";
+import MyProfile from "../pages/Dashboard/Customer/MyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -147,6 +148,16 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <ParticipantRoute>
               <MyWinningContests />
+            </ParticipantRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-profile",
+        element: (
+          <PrivateRoute>
+            <ParticipantRoute>
+              <MyProfile></MyProfile>
             </ParticipantRoute>
           </PrivateRoute>
         ),
