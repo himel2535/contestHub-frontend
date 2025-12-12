@@ -27,9 +27,9 @@ const PlantDataRow = ({ contest, refetch }) => {
   const currentStatusClass =
     statusClasses[contest.status] || "bg-gray-200 text-gray-800";
 
-  // Delete Modal Handlers
+
   function openDeleteModal() {
-    // Only allow modal to open if status is Pending
+
     if (isPending) {
       setIsDeleteOpen(true);
     }
@@ -41,7 +41,7 @@ const PlantDataRow = ({ contest, refetch }) => {
   // ---delete---
   const handleDelete = async () => {
     try {
-      // Creator-only DELETE রুট ব্যবহার করা হচ্ছে
+      // Creator-only 
       await axiosSecure.delete(`/creator-contests-delete/${contest._id}`);
       toast.success("Contest deleted successfully!");
       refetch && refetch();
