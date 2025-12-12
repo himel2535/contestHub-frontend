@@ -16,6 +16,12 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
   } = contest || {};
 
   const handlePayment = async () => {
+    // 💡 Error Handling: If user is null, should not proceed
+    if (!user) {
+        console.error("User not logged in.");
+        return; 
+    }
+    
     const paymentInfo = {
       contestId: _id,
       name,
@@ -27,6 +33,7 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
       participantsCount: 1,
       contestCreator,
       participant: {
+        // 💡 ঐচ্ছিক চেইনিং ব্যবহার করা হয়েছে
         name: user?.displayName,
         email: user?.email,
         image: user?.photoURL,
@@ -37,8 +44,7 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
       `${import.meta.env.VITE_API_URL}/create-checkout-session`,
       paymentInfo
     );
-    window.location.href=data.url
-    // console.log(data.url);
+    window.location.href = data.url;
   };
 
   return (
@@ -69,7 +75,7 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
             <div className="mt-2">
               <p className="text-sm text-gray-500">
                 {" "}
-                Participant : {user.displayName}
+                Participant : {user?.displayName} {/* 💡 সংশোধিত */}
               </p>
             </div>
 
@@ -78,9 +84,6 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
                 Contest Fee: $ {contestFee}
               </p>
             </div>
-            {/* <div className="mt-2">
-              <p className="text-sm text-gray-500">Available Quantity: 5</p>
-            </div> */}
             <div className="flex mt-2 justify-around">
               <button
                 onClick={handlePayment}

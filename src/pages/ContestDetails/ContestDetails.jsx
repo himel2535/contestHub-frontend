@@ -18,14 +18,14 @@ const ContestDetails = () => {
   const [timeLeft, setTimeLeft] = useState("");
   const [isContestEnded, setIsContestEnded] = useState(false);
 
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { id } = useParams();
   const queryClient = useQueryClient();
 
-  // Fetch contest data
+  // 1. Fetch contest data
   const {
     data: contest,
-    isLoading,
+    isLoading: isContestLoading,
     isError,
   } = useQuery({
     queryKey: ["contest", id],
@@ -35,6 +35,23 @@ const ContestDetails = () => {
       );
       return res.data;
     },
+    refetchOnWindowFocus: false,
+    enabled: !!id, // Ensure ID exists before fetching
+  });
+
+  // 2. Fetch Submission Status
+  const { data: submissionStatus, isLoading: isSubmissionLoading } = useQuery({
+    queryKey: ["submissionStatus", id, user?.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/contest-submission-status/${id}/${
+          user.email
+        }`
+      );
+      return res.data;
+    },
+    // Query runs only if contest data is loaded and user is logged in
+    enabled: !!user?.email && !!contest && !authLoading,
     refetchOnWindowFocus: false,
   });
 
@@ -65,8 +82,11 @@ const ContestDetails = () => {
     return () => clearInterval(interval);
   }, [contest?.deadline]);
 
-  if (isLoading) return <LoadingSpinner />;
+  // Handle Loading and Error States
+  if (isContestLoading || isSubmissionLoading || authLoading)
+    return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
+  if (!contest) return <ErrorPage message="Contest Not Found" />;
 
   const {
     image,
@@ -82,11 +102,20 @@ const ContestDetails = () => {
   } = contest || {};
 
   const isRegistered = participants.includes(user?.email);
+  const isSubmitted = submissionStatus?.submitted;
+  
+  // 💡 New Logic: Check if winner is declared OR deadline is passed
+  const isFinalized = !!winner?.name || isContestEnded; 
 
   // After successful registration, refetch contest to update participantsCount
   const handleRegistered = () => {
     queryClient.invalidateQueries(["contest", id]);
   };
+  
+  // Function to refetch submission status after successful task submission
+  const handleSubmitted = () => {
+      queryClient.invalidateQueries({ queryKey: ["submissionStatus", id, user?.email] });
+  }
 
   return (
     <Container>
@@ -105,7 +134,10 @@ const ContestDetails = () => {
           <Heading title={name} subtitle={`Category: ${category}`} />
           <hr className="my-4" />
 
-          <p className="text-lg font-semibold mt-3">Deadline: {timeLeft}</p>
+          {/* 💡 Deadline Check */}
+          <p className="text-lg font-semibold mt-3 text-red-600">
+            Deadline: {timeLeft}
+          </p>
 
           <p className="text-neutral-600 my-4">{description}</p>
           <hr className="my-4" />
@@ -128,15 +160,15 @@ const ContestDetails = () => {
 
           <hr className="my-4" />
           <div className="flex justify-between">
-            <p className="text-xl font-bold"> Prize Money:  ${prizeMoney}</p>
-            <p className="text-xl font-bold"> Fee:  ${contestFee}</p>
+            <p className="text-xl font-bold"> Prize Money: ${prizeMoney}</p>
+            <p className="text-xl font-bold"> Fee: ${contestFee}</p>
           </div>
 
+          {/* Winner Display */}
           {winner && winner.name && (
             <>
               <hr className="my-4" />
               <div className="flex items-center gap-3">
-                
                 <div className="bg-green-100 border-l-4 w-full border-green-500 text-green-700 p-4 mb-6 rounded-lg  shadow-md flex items-center gap-3">
                   <img src={winner.photo} className="w-12 h-12 rounded-full " />
                   <FaTrophy className="text-2xl " />
@@ -155,16 +187,18 @@ const ContestDetails = () => {
           {/* Button logic */}
           <div className="flex flex-col gap-3">
             <Button
-              label={isRegistered ? "Already Registered" : "Pay & Register"}
+              // 💡 Finalized Check: If winner selected OR deadline ended, disable both buttons
+              label={isFinalized ? "Contest Closed" : isRegistered ? "Already Registered" : "Pay & Register"}
               onClick={() => setIsOpen(true)}
-              disabled={isContestEnded || isRegistered}
+              disabled={isFinalized || isRegistered || !user} // Also disable if not logged in
             />
 
             {isRegistered && (
               <Button
-                label="Submit Task"
+                label={isSubmitted ? "Task Submitted" : "Submit Task"}
                 onClick={() => setTaskOpen(true)}
-                disabled={isContestEnded}
+                // 💡 Finalized Check: If winner selected OR deadline ended, disable task submission
+                disabled={isFinalized || isSubmitted}
               />
             )}
           </div>
@@ -181,6 +215,7 @@ const ContestDetails = () => {
             contestId={id}
             isOpen={taskOpen}
             closeModal={() => setTaskOpen(false)}
+            onSuccess={handleSubmitted} // Refreshes submission status after success
           />
         </div>
       </div>
