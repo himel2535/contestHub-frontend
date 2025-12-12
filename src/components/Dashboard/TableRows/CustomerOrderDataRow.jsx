@@ -1,52 +1,76 @@
-import { useState } from 'react'
-import DeleteModal from '../../Modal/DeleteModal'
-const CustomerOrderDataRow = ({contest}) => {
-  let [isOpen, setIsOpen] = useState(false)
-  const closeModal = () => setIsOpen(false)
+// src/components/Dashboard/TableRows/CustomerOrderDataRow.jsx
+
+import { format } from "date-fns";
+
+const CustomerOrderDataRow = ({ contest }) => {
+  // Determine badge color based on status
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case "paid":
+      case "confirmed":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  // 💡 Deadline Formatting: Only displaying the date if it exists
+  const formattedDeadline = contest.deadline
+    ? format(new Date(contest.deadline), "MMM dd, yyyy")
+    : "N/A"; // If deadline field is missing, show 'N/A'
 
   return (
-    <tr>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <div className='flex items-center'>
-          <div className='shrink-0'>
-            <div className='block relative'>
+    <tr className="hover:bg-gray-50">
+      {/* 1. Image */}
+      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm text-center">
+        <div className="flex items-center justify-content-center">
+          <div className="shrink-0">
+            <div className="block relative">
               <img
-                alt='profile'
+                alt={contest.name}
                 src={contest.image}
-                className='mx-auto object-cover rounded h-10 w-15 '
+                className="mx-auto object-cover rounded w-16 h-10 shadow-md"
               />
             </div>
           </div>
         </div>
       </td>
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>{contest.name}</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>{contest.category}</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>${contest.contestFee}</p>
+      {/* 2. Name */}
+      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+        <p className="text-gray-900 font-medium">{contest.name}</p>
       </td>
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>{contest.status}</p>
+      {/* 3. Category */}
+      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+        <p className="text-gray-600">{contest.category}</p>
       </td>
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <button
-          onClick={() => setIsOpen(true)}
-          className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-lime-900 leading-tight'
+      {/* 4. Fee */}
+      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+        <p className="text-gray-900">${contest.contestFee}</p>
+      </td>
+
+      {/* 5. Status (Payment Status) */}
+      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+        <span
+          className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
+            contest.status
+          )}`}
         >
-          <span className='absolute cursor-pointer inset-0 bg-red-200 opacity-50 rounded-full'></span>
-          <span className='relative cursor-pointer'>Cancel</span>
-        </button>
-
-        <DeleteModal isOpen={isOpen} closeModal={closeModal} />
+          {contest.status}
+        </span>
       </td>
-    </tr>
-  )
-}
 
-export default CustomerOrderDataRow
+      {/* 6. Deadline (Dynamically display contest.deadline) */}
+      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+        <p className="text-gray-900 font-medium">{formattedDeadline}</p>
+      </td>
+
+    </tr>
+  );
+};
+
+export default CustomerOrderDataRow;

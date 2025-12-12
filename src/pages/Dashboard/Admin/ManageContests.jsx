@@ -1,3 +1,4 @@
+// src/pages/Dashboard/Admin/ManageContests.jsx
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -5,9 +6,8 @@ import { FaCheckCircle, FaTimesCircle, FaTrashAlt } from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useState } from "react";
-// 💡 Existing Delete Modal
+// 💡 Modals (assuming these components are correctly defined)
 import DeleteModal from "../../../components/Modal/DeleteModal";
-// 💡 New Modals
 import ConfirmModal from "../../../components/Modal/ConfirmModal";
 import RejectModal from "../../../components/Modal/RejectModal";
 
@@ -135,7 +135,7 @@ const ManageContests = () => {
       </h2>
       <div className="overflow-x-auto bg-white shadow-2xl rounded-xl">
         <table className="min-w-full divide-y divide-gray-200">
-          {/* Table Head... (no change) */}
+          {/* Table Head */}
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -197,7 +197,7 @@ const ManageContests = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                    {/* Confirm Button (Size increased to text-2xl) */}
+                    {/* Confirm Button (Only enabled for Pending) */}
                     <button
                       onClick={() => handleActionClick(contest._id, "confirm")}
                       disabled={contest.status !== "Pending" || isActionPending}
@@ -211,7 +211,7 @@ const ManageContests = () => {
                       <FaCheckCircle className="inline text-2xl" />
                     </button>
 
-                    {/* Reject Button (Size increased to text-2xl) */}
+                    {/* Reject Button (Only enabled for Pending) */}
                     <button
                       onClick={() => handleActionClick(contest._id, "reject")}
                       disabled={contest.status !== "Pending" || isActionPending}
@@ -225,7 +225,7 @@ const ManageContests = () => {
                       <FaTimesCircle className="inline text-2xl" />
                     </button>
 
-                    {/* Delete Button (Size increased to text-2xl) */}
+                    {/* Delete Button (Always enabled, but protected by modal/auth) */}
                     <button
                       onClick={() => handleActionClick(contest._id, "delete")}
                       disabled={isActionPending}
@@ -267,7 +267,7 @@ const ManageContests = () => {
         isOpen={isDeleteOpen}
         closeModal={closeModal}
         handleDelete={() => handleConfirmedAction("delete")}
-        actionType="delete" // To keep your DeleteModal logic clean
+        actionType="delete" 
         message="Are you sure you want to permanently delete this contest from the database? This action is irreversible."
       />
     </div>

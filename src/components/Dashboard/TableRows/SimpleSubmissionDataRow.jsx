@@ -1,18 +1,15 @@
+// src/components/Dashboard/TableRows/SimpleSubmissionDataRow.jsx
 
 const SimpleSubmissionDataRow = ({ submission }) => {
 
+  // Data extraction based on the provided DB structure (submission.photo, submission.name, submission.email)
   const participantPhoto = submission?.photo || 'https://i.ibb.co/L8GqX61/user.png'; 
-  
-
   const participantName = submission?.name || 'N/A';
   const participantEmail = submission?.email || 'N/A';
-  
-
   const taskData = submission?.task || 'No Submission Provided';
+  
   const submissionTime = submission?.submittedAt ? new Date(submission.submittedAt).toLocaleDateString() : 'N/A';
   
-
-
   // Check if the task data is a valid looking URL
   const isLink = taskData && (taskData.startsWith('http') || taskData.startsWith('www.'));
 
@@ -24,7 +21,6 @@ const SimpleSubmissionDataRow = ({ submission }) => {
         <div className="flex items-center justify-center">
             <img 
                 className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-md" 
-          
                 src={participantPhoto} 
                 alt={participantName} 
             />

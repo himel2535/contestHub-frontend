@@ -2,7 +2,7 @@ import { Dialog, DialogTitle, DialogPanel } from '@headlessui/react'
 import useAxiosSecure from '../../hooks/useAxiosSecure'
 import toast from "react-hot-toast"
 
-const BecomeSellerModal = ({ closeModal, isOpen }) => {
+const BecomeCreatorModal = ({ closeModal, isOpen }) => {
 
   const axiosSecure=useAxiosSecure()
 
@@ -34,7 +34,7 @@ const BecomeSellerModal = ({ closeModal, isOpen }) => {
               as='h3'
               className='text-lg font-medium text-center leading-6 text-gray-900'
             >
-              Become A Seller!
+              Become A Contest Creator!
             </DialogTitle>
             <div className='mt-2'>
               <p className='text-sm text-gray-500'>
@@ -65,4 +65,4 @@ const BecomeSellerModal = ({ closeModal, isOpen }) => {
   )
 }
 
-export default BecomeSellerModal
+export default BecomeCreatorModal

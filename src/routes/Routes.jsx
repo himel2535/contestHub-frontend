@@ -11,7 +11,6 @@ import Profile from "../pages/Dashboard/Common/Profile";
 import Statistics from "../pages/Dashboard/Common/Statistics";
 import MainLayout from "../layouts/MainLayout";
 import MyInventory from "../pages/Dashboard/Seller/MyInventory";
-import MyOrders from "../pages/Dashboard/Customer/MyOrders";
 import { createBrowserRouter } from "react-router";
 import AllContests from "../components/Home/AllContests";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
@@ -25,6 +24,7 @@ import AdminRoute from "./AdminRoute";
 import ParticipantRoute from "./ParticipantRoute";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import ManageOrders from "../pages/Dashboard/Seller/ManageSubmissions";
+import MyParticipatedContests from "../pages/Dashboard/Customer/MyParticipatedContests";
 
 export const router = createBrowserRouter([
   {
@@ -131,11 +131,11 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "my-orders",
+        path: "my-participated-contests",
         element: (
           <PrivateRoute>
             <ParticipantRoute>
-              <MyOrders />
+              <MyParticipatedContests />
             </ParticipantRoute>
           </PrivateRoute>
         ),
