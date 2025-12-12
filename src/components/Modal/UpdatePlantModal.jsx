@@ -1,14 +1,19 @@
-// src/Modal/UpdatePlantModal.jsx
+
+
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import UpdatePlantForm from '../Form/UpdatePlantForm'
 
-const UpdatePlantModal = ({ setIsEditModalOpen, isOpen, contest }) => {
+
+const UpdatePlantModal = ({ setIsEditModalOpen, isOpen, contest, refetch }) => { 
+
+  const closeModal = () => setIsEditModalOpen(false);
+  
   return (
     <Dialog
       open={isOpen}
       as='div'
       className='relative z-10 focus:outline-none '
-      onClose={() => setIsEditModalOpen(false)}
+      onClose={closeModal}
     >
       <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
         <div className='flex min-h-full items-center justify-center p-4'>
@@ -18,7 +23,7 @@ const UpdatePlantModal = ({ setIsEditModalOpen, isOpen, contest }) => {
           >
             <div className='flex justify-end'>
               <button
-                onClick={() => setIsEditModalOpen(false)}
+                onClick={closeModal}
                 className='bg-red-100 px-3 py-1 rounded-md text-red-500 cursor-pointer'
               >
                 X
@@ -28,12 +33,13 @@ const UpdatePlantModal = ({ setIsEditModalOpen, isOpen, contest }) => {
               as='h3'
               className='text-lg font-medium text-center leading-6 text-gray-900'
             >
-              Update Plant Info
+              Update Contest Info
             </DialogTitle>
             <div className='mt-2 w-full'>
               <UpdatePlantForm
                 contest={contest}
-                closeModal={() => setIsEditModalOpen(false)}
+                closeModal={closeModal} 
+                refetch={refetch} 
               />
             </div>
           </DialogPanel>

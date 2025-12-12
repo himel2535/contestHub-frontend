@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { TbFidgetSpinner } from "react-icons/tb";
 
-// 💡 onSuccess prop যোগ করা হয়েছে ContestDetails থেকে স্ট্যাটাস আপডেট করার জন্য
+
 const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
   const { register, handleSubmit, reset } = useForm();
   const { user } = useAuth();
@@ -28,7 +28,6 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
       reset();
       closeModal();
 
-      // টাস্ক সফলভাবে সাবমিট হওয়ার পর ContestDetails কে আপডেট করার জন্য কল
       if (onSuccess) {
         onSuccess();
       }
@@ -40,10 +39,10 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
   });
 
   const onSubmit = (data) => {
-    // 💡 এখানে 'taskContent' ফিল্ড ব্যবহার করা হচ্ছে
+
     const taskData = {
       contestId: contestId,
-      task: data.taskContent, // সংশোধিত: টেক্সট এরিয়া থেকে ডেটা
+      task: data.taskContent, 
       email: user?.email,
       name: user?.displayName,
       photoUrl: user?.photoURL,
@@ -78,7 +77,7 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
                 >
                   Submit Your Task Content or Description
                 </label>
-                {/* 💡 টেক্সট এরিয়া যোগ করা হলো */}
+     
                 <textarea
                   id="taskContent"
                   rows="6"

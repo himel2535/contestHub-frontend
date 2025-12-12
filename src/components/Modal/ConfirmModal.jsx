@@ -1,15 +1,19 @@
+// src/components/Modal/ConfirmModal.jsx (New File - Fixed Style)
 
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle, Transition } from "@headlessui/react";
 
-const DeleteModal = ({ closeModal, isOpen, handleDelete, actionType }) => {
+const ConfirmModal = ({ closeModal, isOpen, handleAction }) => {
   return (
     <Dialog
       open={isOpen}
       as="div"
-      className="relative z-10 focus:outline-none "
+      className="relative z-10 focus:outline-none"
       onClose={closeModal}
     >
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+      {/* Background/Backdrop fixed using absolute positioning inside Dialog */}
+      <div className="fixed inset-0 bg-black/30 z-10" aria-hidden="true" /> 
+      
+      <div className="fixed inset-0 z-20 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
@@ -17,28 +21,26 @@ const DeleteModal = ({ closeModal, isOpen, handleDelete, actionType }) => {
           >
             <DialogTitle
               as="h3"
-              className="text-lg font-medium leading-6 text-gray-900"
+              className="text-lg font-bold leading-6 text-gray-900"
             >
-              Are you sure?
+              Confirm Contest Approval
             </DialogTitle>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">
-                {actionType === 'reject' 
-                    ? "This action will REJECT and PERMANENTLY DELETE the contest." 
-                    : "This action will permanently DELETE the contest."}
-                <br />
-                You cannot undo once it&apos;s done!
+              <p className="text-sm text-gray-600">
+                Are you sure you want to **CONFIRM** this contest?
+              </p>
+              <p className="text-sm text-gray-500 mt-1 font-semibold">
+                Once confirmed, it will be visible to all users.
               </p>
             </div>
             <hr className="mt-8 " />
             <div className="flex mt-2 justify-around">
               <button
-          
-                onClick={handleDelete}
+                onClick={handleAction}
                 type="button"
                 className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
               >
-                Yes, {actionType === 'reject' ? 'Reject & Delete' : 'Delete'}
+                Yes, Confirm
               </button>
               <button
                 type="button"
@@ -55,4 +57,4 @@ const DeleteModal = ({ closeModal, isOpen, handleDelete, actionType }) => {
   );
 };
 
-export default DeleteModal;
+export default ConfirmModal;

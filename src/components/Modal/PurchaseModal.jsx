@@ -18,10 +18,10 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
   const handlePayment = async () => {
     // 💡 Error Handling: If user is null, should not proceed
     if (!user) {
-        console.error("User not logged in.");
-        return; 
+      console.error("User not logged in.");
+      return;
     }
-    
+
     const paymentInfo = {
       contestId: _id,
       name,
@@ -33,7 +33,6 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
       participantsCount: 1,
       contestCreator,
       participant: {
-        // 💡 ঐচ্ছিক চেইনিং ব্যবহার করা হয়েছে
         name: user?.displayName,
         email: user?.email,
         image: user?.photoURL,
@@ -75,7 +74,7 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
             <div className="mt-2">
               <p className="text-sm text-gray-500">
                 {" "}
-                Participant : {user?.displayName} {/* 💡 সংশোধিত */}
+                Participant : {user?.displayName}
               </p>
             </div>
 

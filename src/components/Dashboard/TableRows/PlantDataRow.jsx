@@ -1,20 +1,38 @@
-// src/components/Dashboard/TableRows/PlantDataRow.jsx
+
 
 import { useState } from "react";
+import { Link } from "react-router";
+
 import DeleteModal from "../../Modal/DeleteModal";
 import UpdatePlantModal from "../../Modal/UpdatePlantModal";
 
-import { Link } from "react-router";
-import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const PlantDataRow = ({ contest, refetch }) => {
+  const axiosSecure = useAxiosSecure();
   let [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  // Check if contest is in Pending status (only allowed status for modification)
+  const isPending = contest.status === "Pending";
+
+  // Status Class Mapping for UI
+  const statusClasses = {
+    Pending: "bg-yellow-200 text-yellow-800",
+    Confirmed: "bg-green-200 text-green-800",
+    Rejected: "bg-red-200 text-red-800",
+    Completed: "bg-blue-200 text-blue-800",
+  };
+  const currentStatusClass =
+    statusClasses[contest.status] || "bg-gray-200 text-gray-800";
+
   // Delete Modal Handlers
   function openDeleteModal() {
-    setIsDeleteOpen(true);
+    // Only allow modal to open if status is Pending
+    if (isPending) {
+      setIsDeleteOpen(true);
+    }
   }
   function closeDeleteModal() {
     setIsDeleteOpen(false);
@@ -23,17 +41,24 @@ const PlantDataRow = ({ contest, refetch }) => {
   // ---delete---
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/contests-delete/${contest._id}`
-      );
-      toast.success("Contest deleted!");
+      // Creator-only DELETE রুট ব্যবহার করা হচ্ছে
+      await axiosSecure.delete(`/creator-contests-delete/${contest._id}`);
+      toast.success("Contest deleted successfully!");
       refetch && refetch();
       closeDeleteModal();
     } catch (err) {
-      toast.error("Failed to delete contest!");
-      console.log(err);
+      const errorMessage =
+        err.response?.data?.message || "Failed to delete contest!";
+      toast.error(errorMessage);
+      console.error("Delete Error:", err);
+      closeDeleteModal();
     }
   };
+
+  // Update Modal Handlers
+  function closeEditModal() {
+    setIsEditModalOpen(false);
+  }
 
   return (
     <tr>
@@ -59,60 +84,96 @@ const PlantDataRow = ({ contest, refetch }) => {
 
       {/* Status */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{contest.status}</p>
+        <span
+          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full text-xs ${currentStatusClass}`}
+        >
+          {contest.status}
+        </span>
       </td>
 
-      {/* 💡 Submissions Link */}
+      {/* Submissions Button (Text changed to "Submissions") */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <Link
           to={`/dashboard/contest-submissions/${contest._id}`}
-          className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+          className="relative inline-block px-3 py-1 font-semibold leading-tight group"
         >
           <span
             aria-hidden="true"
-            className="absolute inset-0 bg-blue-200 opacity-50 rounded-full"
+            className="absolute inset-0 bg-blue-200 opacity-50 rounded-full transition duration-150 group-hover:bg-blue-300"
           ></span>
-          <span className="relative text-blue-900 hover:text-blue-700">
-            View Submissions
+          <span className="relative text-blue-900 group-hover:text-blue-700">
+            Submissions
           </span>
         </Link>
       </td>
 
-      {/* Delete Button */}
+      {/* Delete Button (Disabled if not Pending) */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <span
+        <button
           onClick={openDeleteModal}
-          className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+          disabled={!isPending}
+          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full transition duration-150 ${
+            isPending
+              ? "cursor-pointer text-red-900 group"
+              : "cursor-not-allowed text-gray-500 opacity-70"
+          }`}
+          title={
+            isPending
+              ? "Delete Contest"
+              : `Cannot delete contest with status: ${contest.status}`
+          }
         >
           <span
             aria-hidden="true"
-            className="absolute inset-0 bg-red-200 opacity-50 rounded-full"
+            className={`absolute inset-0 rounded-full transition duration-150 ${
+              isPending
+                ? "bg-red-200 opacity-50 group-hover:bg-red-300"
+                : "bg-gray-200 opacity-50"
+            }`}
           ></span>
           <span className="relative">Delete</span>
-        </span>
+        </button>
+
         <DeleteModal
           handleDelete={handleDelete}
           isOpen={isDeleteOpen}
           closeModal={closeDeleteModal}
+          actionType="delete"
         />
       </td>
 
-      {/* Update Button */}
+      {/* Update/Edit Button (Disabled if not Pending) */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <span
-          onClick={() => setIsEditModalOpen(true)}
-          className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+        <button
+          onClick={() => isPending && setIsEditModalOpen(true)}
+          disabled={!isPending}
+          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full transition duration-150 ${
+            isPending
+              ? "cursor-pointer text-green-900 group"
+              : "cursor-not-allowed text-gray-500 opacity-70"
+          }`}
+          title={
+            isPending
+              ? "Edit Contest"
+              : `Cannot edit contest with status: ${contest.status}`
+          }
         >
           <span
             aria-hidden="true"
-            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+            className={`absolute inset-0 rounded-full transition duration-150 ${
+              isPending
+                ? "bg-green-200 opacity-50 group-hover:bg-green-300"
+                : "bg-gray-200 opacity-50"
+            }`}
           ></span>
-          <span className="relative">Update</span>
-        </span>
+          <span className="relative">Edit</span>
+        </button>
+
         <UpdatePlantModal
           contest={contest}
           isOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
+          closeModal={closeEditModal}
           refetch={refetch}
         />
       </td>

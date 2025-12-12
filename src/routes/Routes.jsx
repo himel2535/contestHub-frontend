@@ -25,6 +25,7 @@ import CreatorRequests from "../pages/Dashboard/Admin/CreatorRequests";
 import ContestCreatorRoute from "./ContestCreatorRoute";
 import AdminRoute from "./AdminRoute";
 import ParticipantRoute from "./ParticipantRoute";
+import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +99,16 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <AdminRoute>
               <ManageUsers />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manage-contests",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageContests />
             </AdminRoute>
           </PrivateRoute>
         ),
