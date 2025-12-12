@@ -22,6 +22,9 @@ import ContestSubmissions from "../components/Modal/ContestSubmissions";
 import LeaderboardPage from "../pages/LeaderBoard/LeaderBoardPage";
 // import ManageContests from "../pages/Dashboard/Admin/CreatorRequests";
 import CreatorRequests from "../pages/Dashboard/Admin/CreatorRequests";
+import ContestCreatorRoute from "./ContestCreatorRoute";
+import AdminRoute from "./AdminRoute";
+import ParticipantRoute from "./ParticipantRoute";
 
 export const router = createBrowserRouter([
   {
@@ -73,7 +76,9 @@ export const router = createBrowserRouter([
         path: "add-contest",
         element: (
           <PrivateRoute>
-            <AddContest />
+            <ContestCreatorRoute>
+              <AddContest />
+            </ContestCreatorRoute>
           </PrivateRoute>
         ),
       },
@@ -81,7 +86,9 @@ export const router = createBrowserRouter([
         path: "my-inventory",
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <ContestCreatorRoute>
+              <MyInventory />
+            </ContestCreatorRoute>
           </PrivateRoute>
         ),
       },
@@ -89,7 +96,9 @@ export const router = createBrowserRouter([
         path: "manage-users",
         element: (
           <PrivateRoute>
-            <ManageUsers />
+            <AdminRoute>
+              <ManageUsers />
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -97,7 +106,9 @@ export const router = createBrowserRouter([
         path: "creator-requests",
         element: (
           <PrivateRoute>
-            <CreatorRequests />
+            <AdminRoute>
+              <CreatorRequests />
+            </AdminRoute>
           </PrivateRoute>
         ),
       },
@@ -113,7 +124,9 @@ export const router = createBrowserRouter([
         path: "my-orders",
         element: (
           <PrivateRoute>
-            <MyOrders />
+            <ParticipantRoute>
+              <MyOrders />
+            </ParticipantRoute>
           </PrivateRoute>
         ),
       },
@@ -129,13 +142,21 @@ export const router = createBrowserRouter([
         path: "my-created-contests",
         element: (
           <PrivateRoute>
-            <MyCreatedContests />
+            <ContestCreatorRoute>
+              <MyCreatedContests />
+            </ContestCreatorRoute>
           </PrivateRoute>
         ),
       },
       {
         path: "manage-orders",
-        element: <ManageOrders />,
+        element: (
+          <PrivateRoute>
+            <ContestCreatorRoute>
+              <ManageOrders></ManageOrders>
+            </ContestCreatorRoute>
+          </PrivateRoute>
+        ),
       },
     ],
   },
