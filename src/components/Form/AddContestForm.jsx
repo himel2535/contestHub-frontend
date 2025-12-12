@@ -2,14 +2,16 @@ import { useForm } from "react-hook-form";
 import { imageUpload } from "../../utils";
 import useAuth from "../../hooks/useAuth";
 import { TbFidgetSpinner } from "react-icons/tb";
-import axios from "axios";
+// import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 import LoadingSpinner from "../Shared/LoadingSpinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddContestForm = () => {
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure()
 
   // react-query mutation
   const {
@@ -20,7 +22,7 @@ const AddContestForm = () => {
     reset: mutationReset,
   } = useMutation({
     mutationFn: async (payload) => {
-      return await axios.post(`${import.meta.env.VITE_API_URL}/contests`, payload);
+      return await axiosSecure.post(`/contests`, payload);
     },
     onSuccess: (data) => {
       toast.success("Contest added successfully");

@@ -1,12 +1,16 @@
-import axios from "axios";
+// import axios from "axios";
 import PlantDataRow from "../../../components/Dashboard/TableRows/PlantDataRow";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const MyInventory = () => {
   const { user } = useAuth();
+
+  const axiosSecure=useAxiosSecure()
+
   const {
     data: contests = [],
     isPending,
@@ -16,8 +20,8 @@ const MyInventory = () => {
     queryKey: ["inventory", user.email],
     queryFn: async () => {
     
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/my-inventory/${user.email}`
+      const result = await axiosSecure(
+        `/my-inventory/${user.email}`
       );
       return result.data;
     },

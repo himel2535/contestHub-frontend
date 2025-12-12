@@ -1,12 +1,14 @@
-import axios from "axios";
+// import axios from "axios";
 import SellerOrderDataRow from "../../../components/Dashboard/TableRows/SellerOrderDataRow";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const ManageOrders = () => {
   const { user } = useAuth();
+  const axiosSecure=useAxiosSecure()
   
   const {
     data: contests = [],
@@ -15,8 +17,8 @@ const ManageOrders = () => {
   } = useQuery({
     queryKey: ["creatorSubmissions", user.email], 
     queryFn: async () => {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/creator-submissions/${user.email}`
+      const result = await axiosSecure(
+        `/creator-submissions/${user.email}`
       );
       return result.data;
     },
