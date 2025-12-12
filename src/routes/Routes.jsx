@@ -20,7 +20,8 @@ import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
 import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
 import ContestSubmissions from "../components/Modal/ContestSubmissions";
 import LeaderboardPage from "../pages/LeaderBoard/LeaderBoardPage";
-import ManageContests from "../pages/Dashboard/Admin/ManageContests";
+// import ManageContests from "../pages/Dashboard/Admin/CreatorRequests";
+import CreatorRequests from "../pages/Dashboard/Admin/CreatorRequests";
 
 export const router = createBrowserRouter([
   {
@@ -93,10 +94,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "manage-contests",
+        path: "creator-requests",
         element: (
           <PrivateRoute>
-            <ManageContests />
+            <CreatorRequests />
           </PrivateRoute>
         ),
       },

@@ -1,8 +1,31 @@
 import React from "react";
 import UserDataRow from "../../../components/Dashboard/TableRows/UserDataRow";
 import CreatorRequestsDataRow from "../../../components/Dashboard/TableRows/CreatorRequestsDataRow";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 
-const ManageContests = () => {
+const CreatorRequests = () => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const {
+    data: requests = [],
+    isPending,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["creator-requests", user?.email],
+    queryFn: async () => {
+      const result = await axiosSecure(`/creator-requests`);
+      return result.data;
+    },
+  });
+
+  if (isPending) return <LoadingSpinner></LoadingSpinner>;
+
+  if (isError) return <ErrorPage></ErrorPage>;
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
@@ -17,18 +40,6 @@ const ManageContests = () => {
                   >
                     Email
                   </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                  >
-                    Role
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
-                  >
-                    Status
-                  </th>
 
                   <th
                     scope="col"
@@ -39,7 +50,13 @@ const ManageContests = () => {
                 </tr>
               </thead>
               <tbody>
-                <CreatorRequestsDataRow />
+                {requests.map((request) => (
+                  <CreatorRequestsDataRow
+                    refetch={refetch}
+                    key={request._id}
+                    request={request}
+                  />
+                ))}
               </tbody>
             </table>
           </div>
@@ -49,4 +66,4 @@ const ManageContests = () => {
   );
 };
 
-export default ManageContests;
+export default CreatorRequests;
