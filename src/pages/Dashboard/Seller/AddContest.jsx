@@ -1,6 +1,6 @@
 import AddContestForm from '../../../components/Form/AddContestForm'
 
-const AddPlant = () => {
+const AddContest = () => {
   return (
     <div>
       {/* Form */}
@@ -9,4 +9,4 @@ const AddPlant = () => {
   )
 }
 
-export default AddPlant
+export default AddContest

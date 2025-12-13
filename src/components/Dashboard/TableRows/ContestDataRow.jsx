@@ -1,20 +1,18 @@
-
-
 import { useState } from "react";
+
 import { Link } from "react-router";
 
 import DeleteModal from "../../Modal/DeleteModal";
-import UpdatePlantModal from "../../Modal/UpdatePlantModal";
 
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import UpdateContestModal from "../../Modal/UpdateContestModal";
 
-const PlantDataRow = ({ contest, refetch }) => {
+const ContestDataRow = ({ contest, refetch }) => {
   const axiosSecure = useAxiosSecure();
   let [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  // Check if contest is in Pending status (only allowed status for modification)
   const isPending = contest.status === "Pending";
 
   // Status Class Mapping for UI
@@ -27,9 +25,7 @@ const PlantDataRow = ({ contest, refetch }) => {
   const currentStatusClass =
     statusClasses[contest.status] || "bg-gray-200 text-gray-800";
 
-
   function openDeleteModal() {
-
     if (isPending) {
       setIsDeleteOpen(true);
     }
@@ -41,7 +37,6 @@ const PlantDataRow = ({ contest, refetch }) => {
   // ---delete---
   const handleDelete = async () => {
     try {
-      // Creator-only 
       await axiosSecure.delete(`/creator-contests-delete/${contest._id}`);
       toast.success("Contest deleted successfully!");
       refetch && refetch();
@@ -61,7 +56,7 @@ const PlantDataRow = ({ contest, refetch }) => {
   }
 
   return (
-    <tr>
+    <tr data-aos="fade-up" data-aos-delay="50">
       {/* Image */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <div className="flex items-center">
@@ -79,67 +74,32 @@ const PlantDataRow = ({ contest, refetch }) => {
 
       {/* Name */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{contest.name}</p>
+        <p className="text-gray-900 font-medium">{contest.name}</p>
       </td>
 
       {/* Status */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <span
-          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full text-xs ${currentStatusClass}`}
+          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full text-xs transition duration-200 ${currentStatusClass}`}
         >
           {contest.status}
         </span>
       </td>
 
-      {/* Submissions Button (Text changed to "Submissions") */}
+      {/* Submissions Button */}
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         <Link
           to={`/dashboard/contest-submissions/${contest._id}`}
-          className="relative inline-block px-3 py-1 font-semibold leading-tight group"
+          className="relative inline-block px-3 py-1 font-semibold leading-tight group text-center"
         >
           <span
             aria-hidden="true"
-            className="absolute inset-0 bg-blue-200 opacity-50 rounded-full transition duration-150 group-hover:bg-blue-300"
+            className="absolute inset-0 bg-yellow-200 opacity-70 rounded-full transition duration-150 group-hover:bg-yellow-300"
           ></span>
-          <span className="relative text-blue-900 group-hover:text-blue-700">
-            Submissions
+          <span className="relative text-yellow-900 group-hover:text-yellow-800">
+            Submissions ({contest.submissionCount || 0})
           </span>
         </Link>
-      </td>
-
-      {/* Delete Button (Disabled if not Pending) */}
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <button
-          onClick={openDeleteModal}
-          disabled={!isPending}
-          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full transition duration-150 ${
-            isPending
-              ? "cursor-pointer text-red-900 group"
-              : "cursor-not-allowed text-gray-500 opacity-70"
-          }`}
-          title={
-            isPending
-              ? "Delete Contest"
-              : `Cannot delete contest with status: ${contest.status}`
-          }
-        >
-          <span
-            aria-hidden="true"
-            className={`absolute inset-0 rounded-full transition duration-150 ${
-              isPending
-                ? "bg-red-200 opacity-50 group-hover:bg-red-300"
-                : "bg-gray-200 opacity-50"
-            }`}
-          ></span>
-          <span className="relative">Delete</span>
-        </button>
-
-        <DeleteModal
-          handleDelete={handleDelete}
-          isOpen={isDeleteOpen}
-          closeModal={closeDeleteModal}
-          actionType="delete"
-        />
       </td>
 
       {/* Update/Edit Button (Disabled if not Pending) */}
@@ -162,14 +122,14 @@ const PlantDataRow = ({ contest, refetch }) => {
             aria-hidden="true"
             className={`absolute inset-0 rounded-full transition duration-150 ${
               isPending
-                ? "bg-green-200 opacity-50 group-hover:bg-green-300"
+                ? "bg-green-200 opacity-70 group-hover:bg-green-300"
                 : "bg-gray-200 opacity-50"
             }`}
           ></span>
           <span className="relative">Edit</span>
         </button>
 
-        <UpdatePlantModal
+        <UpdateContestModal
           contest={contest}
           isOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
@@ -177,8 +137,43 @@ const PlantDataRow = ({ contest, refetch }) => {
           refetch={refetch}
         />
       </td>
+
+      {/* Delete Button (Disabled if not Pending) */}
+      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+        <button
+          onClick={openDeleteModal}
+          disabled={!isPending}
+          className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full transition duration-150 ${
+            isPending
+              ? "cursor-pointer text-red-900 group"
+              : "cursor-not-allowed text-gray-500 opacity-70"
+          }`}
+          title={
+            isPending
+              ? "Delete Contest"
+              : `Cannot delete contest with status: ${contest.status}`
+          }
+        >
+          <span
+            aria-hidden="true"
+            className={`absolute inset-0 rounded-full transition duration-150 ${
+              isPending
+                ? "bg-red-200 opacity-70 group-hover:bg-red-300"
+                : "bg-gray-200 opacity-50"
+            }`}
+          ></span>
+          <span className="relative">Delete</span>
+        </button>
+
+        <DeleteModal
+          handleDelete={handleDelete}
+          isOpen={isDeleteOpen}
+          closeModal={closeDeleteModal}
+          actionType="delete"
+        />
+      </td>
     </tr>
   );
 };
 
-export default PlantDataRow;
+export default ContestDataRow;

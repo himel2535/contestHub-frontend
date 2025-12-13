@@ -5,7 +5,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
-import AddContest from "../pages/Dashboard/Seller/AddContest";
+// import AddContest from "../pages/Dashboard/Seller/AddContest";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import Profile from "../pages/Dashboard/Common/Profile";
 import Statistics from "../pages/Dashboard/Common/Statistics";
@@ -27,6 +27,7 @@ import ManageOrders from "../pages/Dashboard/Seller/ManageSubmissions";
 import MyParticipatedContests from "../pages/Dashboard/Customer/MyParticipatedContests";
 import MyWinningContests from "../pages/Dashboard/Customer/MyWinningContests";
 import MyProfile from "../pages/Dashboard/Customer/MyProfile";
+import AddContest from "../pages/Dashboard/Seller/AddContest";
 
 export const router = createBrowserRouter([
   {

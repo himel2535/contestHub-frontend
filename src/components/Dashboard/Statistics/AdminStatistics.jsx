@@ -1,10 +1,9 @@
-// src/components/Dashboard/Statistics/AdminStatistics.jsx
 
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
-// import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage"; // assuming it's available
+import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 
 import { FaUserAlt, FaDollarSign, FaListAlt } from "react-icons/fa";
 import { BsFillCartPlusFill } from "react-icons/bs";
@@ -13,8 +12,8 @@ import { FaChartPie } from "react-icons/fa";
 // --- Sub-Component: StatusPieChart (No change in logic/colors) ---
 const StatusPieChart = ({ stats }) => {
   const data = [
-    { label: "Completed", value: stats.Completed || 0, color: "#facc15" },
-    { label: "Confirmed", value: stats.Confirmed || 0, color: "#f59e0b" },
+    { label: "Completed", value: stats.Completed || 0, color: "#10b981" }, // Changed color for better contrast
+    { label: "Confirmed", value: stats.Confirmed || 0, color: "#facc15" }, // Changed color for better contrast
     { label: "Pending", value: stats.Pending || 0, color: "#fde047" },
     { label: "Rejected", value: stats.Rejected || 0, color: "#ef4444" },
   ].filter((item) => item.value > 0);
@@ -40,14 +39,16 @@ const StatusPieChart = ({ stats }) => {
 
   gradientString = gradientString.slice(0, -2);
 
-  // 💡 Chart Size Change: Added w-full to the outer div, and increased chart size
   return (
-    <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md p-8 w-full">
+    <div 
+      className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md p-8 w-full max-w-2xl"
+      data-aos="zoom-in" 
+      data-aos-duration="1000"
+    >
       <h3 className="text-2xl font-semibold text-gray-800 mb-8 flex items-center justify-center">
         <FaChartPie className="mr-3 text-yellow-600" /> Contest Status Breakdown
       </h3>
       <div className="flex flex-col md:flex-row justify-around items-center space-y-8 md:space-y-0">
-        {/* 💡 Increased Pie Chart Size: w-52 h-52 (from w-40 h-40) */}
         <div className="relative w-52 h-52">
           <div
             className="w-full h-full rounded-full"
@@ -65,7 +66,7 @@ const StatusPieChart = ({ stats }) => {
 
         <div className="space-y-3 text-base">
           {data.map((item, index) => (
-            <div key={index} className="flex items-center">
+            <div key={index} className="flex items-center" data-aos="fade-left" data-aos-delay={index * 150}>
               <span
                 className="w-4 h-4 rounded-full mr-3"
                 style={{ backgroundColor: item.color }}
@@ -89,7 +90,7 @@ const AdminStatistics = () => {
   const {
     data: statsData = {},
     isLoading,
-    // isError,
+    isError,
   } = useQuery({
     queryKey: ["adminStats", user?.email],
     enabled: !loading && !!user?.email,
@@ -100,8 +101,7 @@ const AdminStatistics = () => {
   });
 
   if (isLoading || loading) return <LoadingSpinner />;
-  // Assuming ErrorPage is defined and works
-  // if (isError) return <ErrorPage />;
+  if (isError) return <ErrorPage />;
 
   const {
     totalUsers,
@@ -119,103 +119,87 @@ const AdminStatistics = () => {
     maximumFractionDigits: 0,
   }).format(totalRevenue || 0);
 
+  // Array of card data for easy mapping and staggered animation
+  const cardData = [
+    {
+      title: "Total Revenue",
+      value: formattedRevenue,
+      icon: FaDollarSign,
+      colorStart: "#d97706",
+      colorEnd: "#fcd34d",
+      delay: 0,
+    },
+    {
+      title: "Total Participation",
+      value: totalOrders,
+      icon: BsFillCartPlusFill,
+      colorStart: "#65a30d",
+      colorEnd: "#a3e635",
+      delay: 150,
+    },
+    {
+      title: "Total Contests",
+      value: totalContests,
+      icon: FaListAlt,
+      colorStart: "#92400e",
+      colorEnd: "#d97706",
+      delay: 300,
+    },
+    {
+      title: "Total User",
+      value: totalUsers,
+      icon: FaUserAlt,
+      colorStart: "#eab308",
+      colorEnd: "#facc15",
+      delay: 450,
+    },
+  ];
+
   return (
-    <div>
-      <div className="mt-16">
-        {/* small cards (remains the same) */}
-        <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grow">
-          {/* 1. Total Revenue Card */}
-          <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+    <div className="py-8">
+
+      <h2 
+        className="text-4xl font-extrabold text-gray-900 mb-10 flex items-center border-b-4 border-yellow-500 pb-2 inline-block"
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
+        <FaChartPie className="mr-3 text-yellow-600" /> Admin Global Statistics
+      </h2>
+      
+      {/* small cards */}
+      <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grow">
+        
+        {cardData.map((card) => (
+          <div 
+            key={card.title}
+            className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md transform hover:scale-[1.02] transition duration-300"
+            data-aos="zoom-in" 
+            data-aos-delay={card.delay}
+          >
             <div
-              className={`bg-clip-border mx-4 rounded-xl overflow-hidden shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-amber-600 to-amber-400 text-white shadow-amber-500/40`}
+              className={`bg-clip-border mx-4 rounded-xl overflow-hidden shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center text-white`}
               style={{
-                backgroundImage:
-                  "linear-gradient(to top right, #d97706, #fcd34d)",
+                backgroundImage: `linear-gradient(to top right, ${card.colorStart}, ${card.colorEnd})`,
               }}
             >
-              <FaDollarSign className="w-6 h-6 text-white" />
+              <card.icon className="w-6 h-6 text-white" />
             </div>
             <div className="p-4 text-right">
               <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                Total Revenue
+                {card.title}
               </p>
               <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                {formattedRevenue}
+                {card.value}
               </h4>
             </div>
           </div>
+        ))}
 
-          {/* 2. Total Orders Card */}
-          <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-            <div
-              className={`bg-clip-border mx-4 rounded-xl overflow-hidden shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-lime-600 to-lime-400 text-white shadow-lime-500/40`}
-              style={{
-                backgroundImage:
-                  "linear-gradient(to top right, #65a30d, #a3e635)",
-              }}
-            >
-              <BsFillCartPlusFill className="w-6 h-6 text-white" />
-            </div>
-            <div className="p-4 text-right">
-              <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                Total Participation
-              </p>
-              <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                {totalOrders}
-              </h4>
-            </div>
-          </div>
+      </div>
 
-          {/* 3. Total Contests Card */}
-          <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-            <div
-              className={`bg-clip-border mx-4 rounded-xl overflow-hidden shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-yellow-800 to-yellow-600 text-white shadow-yellow-800/40`}
-              style={{
-                backgroundImage:
-                  "linear-gradient(to top right, #92400e, #d97706)",
-              }}
-            >
-              <FaListAlt className="w-6 h-6 text-white" />
-            </div>
-            <div className="p-4 text-right">
-              <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                Total Contests
-              </p>
-              <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                {totalContests}
-              </h4>
-            </div>
-          </div>
-
-          {/* 4. Total Users Card */}
-          <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
-            <div
-              className={`bg-clip-border mx-4 rounded-xl overflow-hidden shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center from-yellow-600 to-yellow-400 text-white shadow-yellow-500/40`}
-              style={{
-                backgroundImage:
-                  "linear-gradient(to top right, #eab308, #facc15)",
-              }}
-            >
-              <FaUserAlt className="w-6 h-6 text-white" />
-            </div>
-            <div className="p-4 text-right">
-              <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                Total User
-              </p>
-              <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
-                {totalUsers}
-              </h4>
-            </div>
-          </div>
-        </div>
-
-        {/* 💡 Chart Section: Changed grid layout to center and maximize the chart */}
-        <div className="mb-4 grid grid-cols-1 justify-center">
-          {/* Contest Status Pie Chart - Use col-span-1 and center it */}
-          <div className="flex justify-center w-full">
-            <StatusPieChart stats={statusBreakdown} />
-          </div>
-        </div>
+      {/* Chart Section: Used flex to ensure centering */}
+      <div className="mb-4 flex justify-center w-full">
+        <StatusPieChart stats={statusBreakdown} />
       </div>
     </div>
   );

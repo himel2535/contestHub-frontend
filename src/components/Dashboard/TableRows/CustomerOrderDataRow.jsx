@@ -1,4 +1,3 @@
-// src/components/Dashboard/TableRows/CustomerOrderDataRow.jsx
 
 import { format } from "date-fns";
 
@@ -22,7 +21,8 @@ const CustomerOrderDataRow = ({ contest }) => {
     : "N/A"; // If deadline field is missing, show 'N/A'
 
   return (
-    <tr className="hover:bg-gray-50">
+
+    <> 
       {/* 1. Image */}
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm text-center">
         <div className="flex items-center justify-content-center">
@@ -68,8 +68,7 @@ const CustomerOrderDataRow = ({ contest }) => {
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
         <p className="text-gray-900 font-medium">{formattedDeadline}</p>
       </td>
-
-    </tr>
+    </>
   );
 };
 

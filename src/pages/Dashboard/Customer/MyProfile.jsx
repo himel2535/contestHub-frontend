@@ -1,3 +1,5 @@
+// src/pages/Dashboard/Customer/MyProfile.jsx (আপডেট করা কোড)
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { FaUser, FaTrophy, FaChartPie, FaEdit, FaSave } from "react-icons/fa";
@@ -13,7 +15,11 @@ const WinRateChart = ({ winPercentage }) => {
   const participated = 100 - won;
 
   return (
-    <div className="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg border-t-4 border-yellow-500">
+    <div 
+      className="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg border-t-4 border-yellow-500"
+      data-aos="fade-right" // চার্টের অ্যানিমেশন
+      data-aos-duration="800"
+    >
       <h3 className="text-xl font-semibold text-gray-700 mb-4 flex items-center">
         <FaChartPie className="mr-2 text-yellow-600" /> Win Rate
       </h3>
@@ -22,7 +28,6 @@ const WinRateChart = ({ winPercentage }) => {
         <div
           className="w-full h-full rounded-full"
           style={{
-            // 💡 Changed #84cc16 (yellow) to a yellow shade or appropriate
             background: `conic-gradient(#facc15 ${won}%, #d1d5db 0)`,
           }}
         >
@@ -59,6 +64,7 @@ const MyProfile = () => {
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/my-stats`);
 
+      // Reset form with fetched profile data
       reset(data.profile);
       return data;
     },
@@ -94,16 +100,44 @@ const MyProfile = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
-      <h2 className="text-4xl font-extrabold text-gray-900 mb-8 flex items-center">
-        <FaUser className="mr-3 text-yellow-600" /> My Profile & Stats
-      </h2>
+      
+      {/* 💡 রেসপনসিভ হেডিং সেকশন */}
+      <div 
+        className="text-center mb-10" // পুরো সেকশনটিকে সেন্টারে রাখার জন্য
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
+        <div className="inline-block border-b-4 border-yellow-500 pb-2">
+            
+            {/* ছোট স্ক্রিনের জন্য: আইকন একাই উপরে, সেন্টারে থাকবে */}
+            <div className="mb-2 block md:hidden">
+                <FaUser className="text-5xl text-yellow-600 mx-auto" />
+            </div>
+
+            <h2 
+                className="text-4xl font-extrabold text-gray-900 inline-flex items-center"
+            >
+                {/* বড় স্ক্রিনের জন্য: আইকন এবং লেখা এক লাইনে */}
+                <span className="hidden md:inline-flex items-center justify-center">
+                    <FaUser className="mr-3 text-yellow-600 text-4xl" />
+                </span>
+                My Profile & Stats
+            </h2>
+        </div>
+      </div>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* 1. Stats and Win Chart Column */}
+        
+        {/* 1. Stats and Win Chart Column (Left) */}
         <div className="lg:col-span-1 space-y-8">
           <WinRateChart winPercentage={winPercentage} />
 
-          <div className="p-6 bg-white rounded-xl shadow-lg border-t-4 border-yellow-500">
+          <div 
+            className="p-6 bg-white rounded-xl shadow-lg border-t-4 border-yellow-500"
+            data-aos="fade-up" // ওভারভিউ কার্ডের অ্যানিমেশন
+            data-aos-delay="200"
+          >
             <h3 className="text-xl font-semibold text-gray-700 mb-4 flex items-center">
               <FaTrophy className="mr-2 text-yellow-600" /> Contest Overview
             </h3>
@@ -124,8 +158,12 @@ const MyProfile = () => {
           </div>
         </div>
 
-        {/* 2. Profile Details and Update Form */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-500">
+        {/* 2. Profile Details and Update Form (Right) */}
+        <div 
+          className="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-500"
+          data-aos="fade-left" // ফর্ম কন্টেইনারের অ্যানিমেশন
+          data-aos-duration="800"
+        >
           <div className="flex justify-between items-center mb-6 border-b pb-4">
             <h3 className="text-2xl font-bold text-gray-800">
               Account Details
@@ -166,9 +204,9 @@ const MyProfile = () => {
             </div>
 
             {/* Form Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="300">
               {/* 1. Name */}
-              <div>
+              <div data-aos="fade-up" data-aos-delay="400">
                 <label className="block text-gray-700 font-medium mb-2">
                   Name
                 </label>
@@ -185,7 +223,7 @@ const MyProfile = () => {
               </div>
 
               {/* 2. Photo URL */}
-              <div>
+              <div data-aos="fade-up" data-aos-delay="500">
                 <label className="block text-gray-700 font-medium mb-2">
                   Photo URL
                 </label>
@@ -202,7 +240,7 @@ const MyProfile = () => {
               </div>
 
               {/* 3. Bio (Extra Field) */}
-              <div className="md:col-span-2">
+              <div className="md:col-span-2" data-aos="fade-up" data-aos-delay="600">
                 <label className="block text-gray-700 font-medium mb-2">
                   Bio / Short Address
                 </label>
@@ -222,7 +260,7 @@ const MyProfile = () => {
 
             {/* Submit Button */}
             {isEditing && (
-              <div className="mt-8">
+              <div className="mt-8" data-aos="fade-in" data-aos-delay="700">
                 <button
                   type="submit"
                   disabled={updateProfileMutation.isPending}

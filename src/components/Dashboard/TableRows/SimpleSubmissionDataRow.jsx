@@ -2,25 +2,36 @@
 
 const SimpleSubmissionDataRow = ({ submission }) => {
 
-  // Data extraction based on the provided DB structure (submission.photo, submission.name, submission.email)
+  // Data extraction based on the provided DB structure
   const participantPhoto = submission?.photo || 'https://i.ibb.co/L8GqX61/user.png'; 
   const participantName = submission?.name || 'N/A';
   const participantEmail = submission?.email || 'N/A';
   const taskData = submission?.task || 'No Submission Provided';
   
-  const submissionTime = submission?.submittedAt ? new Date(submission.submittedAt).toLocaleDateString() : 'N/A';
+  // Format submission date
+  const submissionTime = submission?.submittedAt 
+    ? new Date(submission.submittedAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      }) 
+    : 'N/A';
   
   // Check if the task data is a valid looking URL
   const isLink = taskData && (taskData.startsWith('http') || taskData.startsWith('www.'));
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr 
+        className="hover:bg-yellow-50 transition duration-150 ease-in-out"
+        data-aos="fade-up" 
+        data-aos-duration="600"
+    >
       
       {/* 1. Participant Image */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 bg-white text-sm text-center">
+      <td className="px-6 py-4 whitespace-nowrap text-center border-b border-gray-100 bg-white text-sm">
         <div className="flex items-center justify-center">
             <img 
-                className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 shadow-md" 
+                className="w-10 h-10 rounded-full object-cover border-2 border-yellow-400 shadow-sm" 
                 src={participantPhoto} 
                 alt={participantName} 
             />
@@ -28,25 +39,27 @@ const SimpleSubmissionDataRow = ({ submission }) => {
       </td>
       
       {/* 2. Participant Name */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 bg-white text-sm">
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-100 bg-white text-sm">
         <p className="text-gray-900 font-medium">{participantName}</p>
       </td>
       
       {/* 3. Participant Email */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{participantEmail}</p>
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-100 bg-white text-sm">
+        <p className="text-gray-600 font-light">{participantEmail}</p>
       </td>
       
       {/* 4. Task/Submission Link/Text */}
-      <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm">
+      <td className="px-6 py-4 border-b border-gray-100 bg-white text-sm">
         {isLink ? (
             <a 
                 href={taskData} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-blue-600 hover:text-blue-800 underline transition duration-150 break-all"
+           
+                className="text-yellow-600 hover:text-yellow-800 underline transition duration-150 break-all font-medium"
             >
-                {taskData.length > 50 ? `${taskData.substring(0, 50)}...` : taskData} 
+                {/* Shorten text for better table fit */}
+                {taskData.length > 40 ? `${taskData.substring(0, 40)}... [View Link]` : taskData} 
             </a>
         ) : (
             <p className="text-gray-900 break-words max-w-xs">{taskData}</p>
@@ -54,8 +67,8 @@ const SimpleSubmissionDataRow = ({ submission }) => {
       </td>
 
       {/* 5. Submission Time */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{submissionTime}</p>
+      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-100 bg-white text-sm">
+        <p className="text-gray-700">{submissionTime}</p>
       </td>
     </tr>
   );
