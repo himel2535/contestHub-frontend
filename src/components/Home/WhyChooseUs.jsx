@@ -44,7 +44,11 @@ const WhyChooseUs = () => {
   return (
     <Container>
       <section className="py-16 bg-white">
-        <div className="text-center mb-12">
+        <div
+          className="text-center mb-12"
+          data-aos="fade-down"
+          data-aos-duration="800"
+        >
           <h2 className="text-4xl font-extrabold text-gray-800 mb-3">
             Why Choose Us?
           </h2>
@@ -58,6 +62,8 @@ const WhyChooseUs = () => {
           {highlightsData.map((item, index) => (
             <div
               key={index}
+              data-aos="fade-up" 
+              data-aos-delay={index * 150} 
               className="p-6 bg-gray-50 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border-t-4 border-yellow-500"
             >
               <div className={`text-5xl mb-4 ${item.color}`}>

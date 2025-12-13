@@ -11,7 +11,8 @@ const testimonialData = [
       "The platform's fair judging process is truly commendable. I felt completely confident that my work was evaluated impartially. Winning my first contest here was an amazing experience!",
     name: "Abdur Rahman",
     title: "Digital Artist",
-    photo: "https://i.ibb.co.com/VWxBMgZd/oguz-yagiz-kara-MZf0m-I14-RI0-unsplash.jpg",
+    photo:
+      "https://i.ibb.co.com/VWxBMgZd/oguz-yagiz-kara-MZf0m-I14-RI0-unsplash.jpg",
     rating: 5,
   },
   {
@@ -20,7 +21,8 @@ const testimonialData = [
       "Joining contests here connected me with creators globally. The instant payout feature is incredibly fast. Highly recommend for competitive coding enthusiasts.",
     name: "Kabir Khan",
     title: "Software Developer",
-    photo: "https://i.ibb.co.com/5hX16cBz/alex-suprun-ZHv-M3-XIOHo-E-unsplash.jpg",
+    photo:
+      "https://i.ibb.co.com/5hX16cBz/alex-suprun-ZHv-M3-XIOHo-E-unsplash.jpg",
     rating: 5,
   },
   {
@@ -29,7 +31,8 @@ const testimonialData = [
       "I appreciate the secure payment process. The categories are diverse, giving every artist a chance to shine. Great platform for creative expression.",
     name: "Priya Sharma",
     title: "Photographer",
-    photo: "https://i.ibb.co.com/BH7CdddG/michael-dam-m-EZ3-Po-FGs-k-unsplash.jpg",
+    photo:
+      "https://i.ibb.co.com/BH7CdddG/michael-dam-m-EZ3-Po-FGs-k-unsplash.jpg",
     rating: 4,
   },
   {
@@ -61,7 +64,11 @@ const UserTestimonials = () => {
   return (
     <Container>
       <section className="py-16 ">
-        <div className="text-center mb-12">
+        <div
+          data-aos="fade-down"
+          data-aos-duration="1000"
+          className="text-center mb-12"
+        >
           <h2 className="text-4xl font-extrabold text-gray-800 mb-3">
             User Testimonials
           </h2>
@@ -72,9 +79,12 @@ const UserTestimonials = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {testimonialData.map((testimonial) => (
+          {testimonialData.map((testimonial,index) => (
             <div
               key={testimonial.id}
+              data-aos="fade-zoom-in" 
+              data-aos-delay={index * 150} 
+              data-aos-easing="ease-in-out"
               className="bg-white p-6 rounded-lg shadow-xl border-t-4 border-yellow-500 flex flex-col justify-between h-full"
             >
               {/* Quote Icon */}

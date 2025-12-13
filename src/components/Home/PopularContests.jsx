@@ -1,10 +1,13 @@
+
+
 import Container from "../Shared/Container";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 
 import PopularContestCard from "./PopularContestCard";
-import { Link } from "react-router";
+
+import { Link } from "react-router"; 
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 const PopularContests = () => {
@@ -26,23 +29,41 @@ const PopularContests = () => {
 
   return (
     <Container>
-      <div className="flex justify-between items-center mt-10 mb-5">
-        <h1 className="text-3xl font-bold text-yellow-600">
-          🔥 Popular Contests
-        </h1>
+      <div className="py-12">
+        
+        <div className="flex justify-between items-center mb-8">
+            
+   
+            <h1 
+                className="text-4xl font-extrabold text-gray-800 inline-block border-b-4 border-yellow-500"
+                data-aos="fade-right" 
+                data-aos-duration="1000"
+            >
+                🔥 Popular Contests
+            </h1>
 
-        <Link
-          to="/all-contests"
-          className="px-4 py-2 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600"
-        >
-          Show All →
-        </Link>
-      </div>
+            <Link
+                to="/all-contests"
+                className="px-4 py-2 rounded-lg bg-yellow-500 text-white font-semibold hover:bg-yellow-600 transition duration-300 shadow-md"
+                data-aos="fade-left" 
+            >
+                Show All →
+            </Link>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
-        {popular.map((contest) => (
-          <PopularContestCard key={contest._id} contest={contest} />
-        ))}
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+            {popular.map((contest, index) => (
+                <div
+                    key={contest._id}
+                    data-aos="fade-up" 
+                    data-aos-delay={index * 100} 
+                >
+                    <PopularContestCard contest={contest} />
+                </div>
+            ))}
+        </div>
+
       </div>
     </Container>
   );

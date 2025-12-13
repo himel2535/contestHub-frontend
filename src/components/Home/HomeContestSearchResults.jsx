@@ -1,10 +1,9 @@
-
+// src/components/Home/HomeContestSearchResults.jsx (আপডেট করা কোড)
 
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
-
 import { useSearchParams } from "react-router"; 
 import AllContestCard from "../../components/Home/AllContestCard"; 
 import Container from "../../components/Shared/Container"; 
@@ -34,31 +33,47 @@ const HomeContestSearchResults = () => {
   });
 
 
+
   if (!contestType) {
     return null; 
   }
   
 
   if (isPending) {
-
-     if (!contests && !!contestType) {
-         return <LoadingSpinner />;
-     }
+     return <LoadingSpinner />;
   }
 
   if (isError) return <ErrorPage />;
   
   const isNoResults = contests && contests.length === 0;
 
+
+  const headingText = `Category Search Results`;
+  const subTitleText = `Showing all contests matching the category "${contestType}". Refine your search above if needed.`;
+
+
   return (
     <Container>
       <div className="py-12"> 
-          <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-10">
-              Search Results for: <span className="text-yellow-600">"{contestType}"</span>
-          </h2>
+          
+
+          <div className="text-center mb-10">
+            <h2
+                className="text-5xl font-extrabold text-gray-800 pt-4 mb-2 inline-block border-b-4 border-yellow-500"
+                data-aos="fade-down"
+            >
+                {headingText}
+            </h2>
+            <p className="text-gray-500 max-w-2xl mx-auto mt-4 text-lg" data-aos="fade-up">
+                {subTitleText}
+            </p>
+          </div>
           
           {isNoResults && (
-            <div className="text-center py-10 border border-dashed border-gray-300 rounded-lg mx-auto max-w-xl">
+            <div 
+              className="text-center py-10 border border-dashed border-gray-300 rounded-lg mx-auto max-w-xl"
+              data-aos="zoom-in"
+            >
                 <p className="text-xl text-gray-500">
                     Sorry, no contests found matching your search term: <span className="font-semibold">{contestType}</span>.
                 </p>
@@ -68,7 +83,15 @@ const HomeContestSearchResults = () => {
           {!isNoResults && (
               <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
                 {
-                  contests.map(contest=><AllContestCard key={contest._id} contest={contest}/>)
+                  contests.map((contest, index)=>(
+                    <div
+                      key={contest._id}
+                      data-aos="fade-up"
+                      data-aos-delay={index * 50} // Stagger effect
+                    >
+                      <AllContestCard contest={contest}/>
+                    </div>
+                  ))
                 }
               </div>
           )}
