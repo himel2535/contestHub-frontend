@@ -11,7 +11,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddContestForm = () => {
   const { user } = useAuth();
-  const axiosSecure=useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   // react-query mutation
   const {
@@ -45,7 +45,16 @@ const AddContestForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const { name, description, participantsCount, prizeMoney, contestFee, category, image, deadline } = data;
+      const {
+        name,
+        description,
+        participantsCount,
+        prizeMoney,
+        contestFee,
+        category,
+        image,
+        deadline,
+      } = data;
 
       if (!image || image.length === 0) {
         toast.error("Please select an image");
@@ -71,7 +80,7 @@ const AddContestForm = () => {
         prizeMoney: Number(prizeMoney),
         contestFee: Number(contestFee),
         category,
-        status:'pending',
+        status: "pending",
         deadline: new Date(deadline).toISOString(),
         contestCreator: {
           image: user?.photoURL,
@@ -102,11 +111,16 @@ const AddContestForm = () => {
             <div className="space-y-1 text-sm">
               <label className="block text-gray-600">Name</label>
               <input
-                {...register("name", { required: "Name is required", maxLength: 50 })}
+                {...register("name", {
+                  required: "Name is required",
+                  maxLength: 50,
+                })}
                 className="w-full px-4 py-3 border rounded-md bg-white"
                 placeholder="Contest name"
               />
-              {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-xs text-red-500">{errors.name.message}</p>
+              )}
             </div>
 
             {/* Category */}
@@ -121,18 +135,28 @@ const AddContestForm = () => {
                 <option value="Gaming Contest">Gaming Contest</option>
                 <option value="Article Writing">Article Writing</option>
               </select>
-              {errors.category && <p className="text-xs text-red-500">{errors.category.message}</p>}
+              {errors.category && (
+                <p className="text-xs text-red-500">
+                  {errors.category.message}
+                </p>
+              )}
             </div>
 
             {/* Description */}
             <div>
               <label className="block text-gray-600">Description</label>
               <textarea
-                {...register("description", { required: "Description is required" })}
+                {...register("description", {
+                  required: "Description is required",
+                })}
                 className="w-full h-32 p-3 border rounded-md bg-white"
                 placeholder="Describe the contest"
               />
-              {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
+              {errors.description && (
+                <p className="text-xs text-red-500">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
 
             {/* Deadline */}
@@ -143,7 +167,11 @@ const AddContestForm = () => {
                 type="datetime-local"
                 className="w-full px-4 py-3 border rounded-md bg-white"
               />
-              {errors.deadline && <p className="text-xs text-red-500">{errors.deadline.message}</p>}
+              {errors.deadline && (
+                <p className="text-xs text-red-500">
+                  {errors.deadline.message}
+                </p>
+              )}
             </div>
           </div>
 
@@ -152,33 +180,60 @@ const AddContestForm = () => {
             <div className="grid grid-cols-1 gap-4">
               <div>
                 <label className="block text-gray-600">Prize Money</label>
-                <input {...register("prizeMoney", { required: true, min: 0 })} type="number" className="w-full px-4 py-3 border rounded-md bg-white" />
+                <input
+                  {...register("prizeMoney", { required: true, min: 0 })}
+                  type="number"
+                  className="w-full px-4 py-3 border rounded-md bg-white"
+                />
               </div>
 
               <div>
                 <label className="block text-gray-600">Contest Fee</label>
-                <input {...register("contestFee", { required: true, min: 0 })} type="number" className="w-full px-4 py-3 border rounded-md bg-white" />
+                <input
+                  {...register("contestFee", { required: true, min: 0 })}
+                  type="number"
+                  className="w-full px-4 py-3 border rounded-md bg-white"
+                />
               </div>
 
               <div>
-                <label className="block text-gray-600">Participants Count</label>
-                <input {...register("participantsCount", { required: true, min: 0 })} type="number" className="w-full px-4 py-3 border rounded-md bg-white" />
+                <label className="block text-gray-600">
+                  Participants Count
+                </label>
+                <input
+                  {...register("participantsCount", { required: true, min: 0 })}
+                  type="number"
+                  className="w-full px-4 py-3 border rounded-md bg-white"
+                />
               </div>
             </div>
 
             {/* Image upload */}
             <div className="p-4 rounded-lg ">
               <label className="block text-gray-600 mb-2">Banner Image</label>
-              <input {...register("image", { required: "Image is required" })} type="file" accept="image/*" className="cursor-pointer" />
-              {errors.image && <p className="text-xs text-red-500">{errors.image.message}</p>}
+              <input
+                {...register("image", { required: "Image is required" })}
+                type="file"
+                accept="image/*"
+                className="cursor-pointer"
+              />
+              {errors.image && (
+                <p className="text-xs text-red-500">{errors.image.message}</p>
+              )}
             </div>
 
             <button
               type="submit"
               disabled={isPending}
-              className={`w-full p-3 text-white rounded-md cursor-pointer ${isPending ? "bg-gray-400" : "bg-lime-500"}`}
+              className={`w-full p-3 text-white rounded-md cursor-pointer ${
+                isPending ? "bg-gray-400" : "bg-yellow-500"
+              }`}
             >
-              {isPending ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Save & Continue"}
+              {isPending ? (
+                <TbFidgetSpinner className="animate-spin m-auto" />
+              ) : (
+                "Save & Continue"
+              )}
             </button>
           </div>
         </div>

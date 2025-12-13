@@ -43,7 +43,7 @@ const LeaderboardPage = () => {
     <Container>
       <div className="py-12">
         <div className="text-center mb-10">
-          <h1 className="text-5xl font-extrabold text-lime-600 mb-2 flex flex-col md:flex-row items-center justify-center">
+          <h1 className="text-5xl font-extrabold text-yellow-600 mb-2 flex flex-col md:flex-row items-center justify-center">
             <FaCrown className="md:mr-3 text-yellow-500 text-4xl mb-2 md:mb-0" />{" "}
             Global Champions Ranking
           </h1>
@@ -144,7 +144,7 @@ const LeaderboardPage = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-5 py-3 text-lg font-bold text-lime-600">
+                        <td className="px-5 py-3 text-lg font-bold text-yellow-600">
                           {winner.wins}
                         </td>
                       </tr>

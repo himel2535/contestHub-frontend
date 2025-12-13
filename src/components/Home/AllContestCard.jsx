@@ -26,11 +26,10 @@ const AllContestCard = ({ contest }) => {
       </div>
 
       <div className="p-4 space-y-2">
-
         <h2 className="text-xl font-bold">{name}</h2>
 
-        <p className="text-sm font-semibold text-lime-600">{category}</p>
-        
+        <p className="text-sm font-semibold text-yellow-600">{category}</p>
+
         <p className="text-sm font-semibold">
           Participants: {participantsCount}
         </p>
@@ -39,7 +38,7 @@ const AllContestCard = ({ contest }) => {
 
         <button
           onClick={handleDetails}
-          className="w-full mt-3 bg-lime-500 cursor-pointer hover:bg-lime-600 text-white py-2 rounded-lg transition"
+          className="w-full mt-3 bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-white py-2 rounded-lg transition"
         >
           Details →
         </button>

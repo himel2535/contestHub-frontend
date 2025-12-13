@@ -7,8 +7,7 @@ import { useForm } from "react-hook-form";
 import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
-
-  const { signIn, signInWithGoogle, loading,  setLoading } = useAuth();
+  const { signIn, signInWithGoogle, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
@@ -25,9 +24,13 @@ const Login = () => {
     const { email, password } = data;
 
     try {
-      const {user}=await signIn(email, password);
-     // --store user to mongodb--
-     await saveOrUpdateUser({name:user?.displayName,email:user?.email,image:user?.photoURL})
+      const { user } = await signIn(email, password);
+      // --store user to mongodb--
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
       toast.success("Login Successful!");
       navigate(from, { replace: true });
     } catch (error) {
@@ -39,9 +42,13 @@ const Login = () => {
   // Google Sign In
   const handleGoogleSignIn = async () => {
     try {
-     const {user}= await signInWithGoogle();
-     // --store user to mongodb--
-      await saveOrUpdateUser({name:user?.displayName,email:user?.email,image:user?.photoURL})
+      const { user } = await signInWithGoogle();
+      // --store user to mongodb--
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
       toast.success("Login Successful!");
       navigate(from, { replace: true });
     } catch (error) {
@@ -54,16 +61,16 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
-
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Log In</h1>
-          <p className="text-sm text-gray-400">Sign in to access your account</p>
+          <p className="text-sm text-gray-400">
+            Sign in to access your account
+          </p>
         </div>
 
         {/* FORM */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
           {/* Email */}
           <div>
             <label className="block mb-2 text-sm">Email Address</label>
@@ -98,7 +105,7 @@ const Login = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="bg-lime-500 w-full rounded-md py-3 text-white"
+            className="bg-yellow-500 w-full rounded-md py-3 text-white"
           >
             {loading ? (
               <TbFidgetSpinner className="animate-spin m-auto" />
@@ -110,7 +117,7 @@ const Login = () => {
 
         {/* Forgot Password (optional) */}
         <div className="space-y-1 mt-2">
-          <button className="text-xs hover:text-lime-500 hover:underline text-gray-400 cursor-pointer">
+          <button className="text-xs hover:text-yellow-500 hover:underline text-gray-400 cursor-pointer">
             Forgot password?
           </button>
         </div>
@@ -137,7 +144,7 @@ const Login = () => {
           <Link
             to="/signup"
             state={from}
-            className="hover:text-lime-500 text-gray-600"
+            className="hover:text-yellow-500 text-gray-600"
           >
             Sign Up
           </Link>

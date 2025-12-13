@@ -27,11 +27,13 @@ const PopularContests = () => {
   return (
     <Container>
       <div className="flex justify-between items-center mt-10 mb-5">
-        <h1 className="text-3xl font-bold text-lime-600">🔥 Popular Contests</h1>
+        <h1 className="text-3xl font-bold text-yellow-600">
+          🔥 Popular Contests
+        </h1>
 
         <Link
           to="/all-contests"
-          className="px-4 py-2 rounded-lg bg-lime-500 text-white hover:bg-lime-600"
+          className="px-4 py-2 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600"
         >
           Show All →
         </Link>

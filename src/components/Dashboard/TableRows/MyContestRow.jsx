@@ -63,7 +63,7 @@ const MyContestRow = ({ contest }) => {
           <select
             value={status}
             onChange={handleStatusChange}
-            className="p-1 border-2 border-lime-300 rounded-md bg-white text-gray-900"
+            className="p-1 border-2 border-yellow-300 rounded-md bg-white text-gray-900"
           >
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>

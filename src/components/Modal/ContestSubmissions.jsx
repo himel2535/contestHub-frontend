@@ -131,14 +131,14 @@ const ContestSubmissions = () => {
     <div className="container mx-auto px-4 sm:px-8 py-8">
       <Link
         to="/dashboard/my-inventory"
-        className="text-gray-600 hover:text-lime-500 flex items-center mb-6"
+        className="text-gray-600 hover:text-yellow-500 flex items-center mb-6"
       >
         <FaArrowLeft className="mr-2" /> Back to My Contests
       </Link>
 
       <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
         Submissions for Contest:{" "}
-        <span className="text-lime-600">{contestName}</span>
+        <span className="text-yellow-600">{contestName}</span>
       </h2>
 
       {/* 💡 Winner Status Display */}
@@ -223,7 +223,7 @@ const ContestSubmissions = () => {
                                                 ${
                                                   isDisabled
                                                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                                    : "bg-lime-500 text-white hover:bg-lime-600"
+                                                    : "bg-yellow-500 text-white hover:bg-yellow-600"
                                                 }`}
                         >
                           {isProcessing ? "Processing..." : "Declare Winner"}

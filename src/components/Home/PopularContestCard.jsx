@@ -32,13 +32,13 @@ const PopularContestCard = ({ contest }) => {
 
         <p className="text-gray-600 text-sm">{shortDesc}</p>
 
-        <p className="font-semibold mt-1 text-lime-600">
+        <p className="font-semibold mt-1 text-yellow-600">
           Participants: {participantsCount}
         </p>
 
         <button
           onClick={handleDetails}
-          className="mt-3 w-full bg-lime-500 cursor-pointer hover:bg-lime-600 text-white py-2 rounded-lg transition"
+          className="mt-3 w-full bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-white py-2 rounded-lg transition"
         >
           Details →
         </button>

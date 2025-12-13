@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { FaUser, FaTrophy, FaChartPie, FaEdit, FaSave } from "react-icons/fa";
@@ -23,7 +22,7 @@ const WinRateChart = ({ winPercentage }) => {
         <div
           className="w-full h-full rounded-full"
           style={{
-            // 💡 Changed #84cc16 (lime) to a yellow shade or appropriate
+            // 💡 Changed #84cc16 (yellow) to a yellow shade or appropriate
             background: `conic-gradient(#facc15 ${won}%, #d1d5db 0)`,
           }}
         >
@@ -43,13 +42,11 @@ const WinRateChart = ({ winPercentage }) => {
 };
 
 const MyProfile = () => {
-
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm();
   const [isEditing, setIsEditing] = useState(false);
-
 
   const {
     data: statsData,
@@ -67,7 +64,7 @@ const MyProfile = () => {
     },
   });
 
-  // 2. Profile Update Mutation 
+  // 2. Profile Update Mutation
   const updateProfileMutation = useMutation({
     mutationFn: (updatedProfile) => {
       return axiosSecure.patch("/user-profile-update", updatedProfile);

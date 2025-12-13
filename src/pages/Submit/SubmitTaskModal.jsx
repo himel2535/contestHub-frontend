@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { TbFidgetSpinner } from "react-icons/tb";
 
-
 const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
   const { register, handleSubmit, reset } = useForm();
   const { user } = useAuth();
@@ -39,10 +38,9 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
   });
 
   const onSubmit = (data) => {
-
     const taskData = {
       contestId: contestId,
-      task: data.taskContent, 
+      task: data.taskContent,
       email: user?.email,
       name: user?.displayName,
       photoUrl: user?.photoURL,
@@ -77,14 +75,14 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
                 >
                   Submit Your Task Content or Description
                 </label>
-     
+
                 <textarea
                   id="taskContent"
                   rows="6"
                   {...register("taskContent", {
                     required: "Task content is required",
                   })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 sm:text-sm p-2 border"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 sm:text-sm p-2 border"
                   placeholder="Write your submission content or task details here..."
                 />
               </div>
@@ -100,7 +98,7 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
                 </button>
                 <button
                   type="submit"
-                  className="inline-flex justify-center rounded-md border border-transparent bg-lime-500 px-4 py-2 text-sm font-medium text-white hover:bg-lime-600 disabled:opacity-50"
+                  className="inline-flex justify-center rounded-md border border-transparent bg-yellow-500 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-600 disabled:opacity-50"
                   disabled={isPending}
                 >
                   {isPending ? (

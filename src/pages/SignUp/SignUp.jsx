@@ -28,16 +28,14 @@ const SignUp = () => {
       const { name, email, password, image } = data;
 
       const imageFile = image[0];
-      
 
-      const imageURL = await imageUpload(imageFile)
+      const imageURL = await imageUpload(imageFile);
 
       // 1. Create User
       await createUser(email, password);
 
       // --store user to mongodb--
-      await saveOrUpdateUser({name,email,image:imageURL})
-
+      await saveOrUpdateUser({ name, email, image: imageURL });
 
       // 2. Update Profile
       await updateUserProfile(name, imageURL);
@@ -56,10 +54,14 @@ const SignUp = () => {
   // Google Sign In
   const handleGoogleSignIn = async () => {
     try {
-      const {user}=await signInWithGoogle();
+      const { user } = await signInWithGoogle();
 
       // --store user to mongodb--
-      await saveOrUpdateUser({name:user?.displayName,email:user?.email,image:user?.photoURL})
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
 
       toast.success("Signup Successful!");
       navigate(from, { replace: true });
@@ -106,10 +108,10 @@ const SignUp = () => {
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-md file:border-0
                 file:text-sm file:font-semibold
-                file:bg-lime-50 file:text-lime-700
-                hover:file:bg-lime-100
-                bg-gray-100 border border-dashed border-lime-300 rounded-md cursor-pointer
-                focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400
+                file:bg-yellow-50 file:text-yellow-700
+                hover:file:bg-yellow-100
+                bg-gray-100 border border-dashed border-yellow-300 rounded-md cursor-pointer
+                focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400
                 py-2"
               {...register("image")}
             />
@@ -151,7 +153,7 @@ const SignUp = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="bg-lime-500 w-full rounded-md py-3 text-white"
+            className="bg-yellow-500 w-full rounded-md py-3 text-white"
           >
             {loading ? (
               <TbFidgetSpinner className="animate-spin m-auto" />
@@ -180,7 +182,7 @@ const SignUp = () => {
         {/* Footer */}
         <p className="px-6 text-sm text-center text-gray-400">
           Already have an account?{" "}
-          <Link to="/login" className="hover:text-lime-500 text-gray-600">
+          <Link to="/login" className="hover:text-yellow-500 text-gray-600">
             Login
           </Link>
         </p>

@@ -1,5 +1,3 @@
-
-
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Shared/LoadingSpinner";
@@ -53,7 +51,7 @@ const WinnerLeaderboard = () => {
         {/* --- 2. Global Stats Cards (Upgraded Design) --- */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {/* Total Winners */}
-          <div className="bg-gradient-to-r from-lime-500 to-green-500 p-8 rounded-2xl shadow-2xl transform hover:scale-[1.02] transition duration-300 text-white">
+          <div className="bg-gradient-to-r from-yellow-500 to-green-500 p-8 rounded-2xl shadow-2xl transform hover:scale-[1.02] transition duration-300 text-white">
             <FaUsers className="text-5xl mb-3 opacity-80" />
             <p className="text-xl font-medium">Total Champions Crowned</p>
             <p className="text-5xl font-extrabold mt-1">{totalWinners}</p>
@@ -93,7 +91,7 @@ const WinnerLeaderboard = () => {
                   alt={heroWinner.winnerName}
                   className="w-32 h-32 rounded-full object-cover ring-4 ring-yellow-400 mb-4"
                 />
-                <p className="text-2xl font-extrabold text-lime-600 dark:text-lime-400">
+                <p className="text-2xl font-extrabold text-yellow-600 dark:text-yellow-400">
                   {heroWinner.winnerName}
                 </p>
                 <p className="text-lg text-gray-700 dark:text-gray-300 mt-2">
@@ -128,12 +126,12 @@ const WinnerLeaderboard = () => {
                 {recentWinners.slice(1).map((winner, index) => (
                   <div
                     key={index}
-                    className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg flex items-center gap-4 hover:shadow-xl transition duration-300 border-l-4 border-lime-500"
+                    className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg flex items-center gap-4 hover:shadow-xl transition duration-300 border-l-4 border-yellow-500"
                   >
                     <img
                       src={winner.winnerPhoto || "default-user-placeholder.jpg"}
                       alt={winner.winnerName}
-                      className="w-16 h-16 rounded-full object-cover ring-2 ring-lime-400"
+                      className="w-16 h-16 rounded-full object-cover ring-2 ring-yellow-400"
                     />
                     <div className="flex-grow">
                       <p className="text-xl font-bold text-gray-900 dark:text-white">
@@ -144,7 +142,7 @@ const WinnerLeaderboard = () => {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-extrabold text-lime-600 dark:text-lime-400">
+                      <p className="text-lg font-extrabold text-yellow-600 dark:text-yellow-400">
                         ${winner.prize}
                       </p>
                       <p className="text-xs text-gray-500">Prize Money</p>
@@ -157,12 +155,12 @@ const WinnerLeaderboard = () => {
         </div>
 
         {/* --- 4. Call to Action/Inspiring Text --- */}
-        <div className="mt-16 text-center bg-lime-50 dark:bg-lime-900 p-8 rounded-2xl shadow-inner">
-          <p className="text-2xl font-bold text-lime-800 dark:text-lime-200">
+        <div className="mt-16 text-center bg-yellow-50 dark:bg-yellow-900 p-8 rounded-2xl shadow-inner">
+          <p className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">
             "Success isn't final; failure isn't fatal: It is the courage to
             continue that counts."
           </p>
-          <p className="text-lg mt-3 text-lime-700 dark:text-lime-300">
+          <p className="text-lg mt-3 text-yellow-700 dark:text-yellow-300">
             Join a contest today and start your journey to the Hall of Fame!
           </p>
         </div>
