@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import LoadingSpinner from "../../Shared/LoadingSpinner";
 import {
   FaChartBar,
   FaDollarSign,
@@ -96,7 +96,6 @@ const StatusBarChart = ({ stats }) => {
             />
             <Bar
               dataKey="Count"
-
               // eslint-disable-next-line react-hooks/static-components
               shape={<CustomBar />}
               label={{ position: "top", fill: "#555", fontSize: 12 }}
@@ -109,7 +108,7 @@ const StatusBarChart = ({ stats }) => {
 };
 
 // --- Main Component ---
-const SellerStatistics = () => {
+const CreatorStatistics = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
@@ -211,4 +210,4 @@ const SellerStatistics = () => {
   );
 };
 
-export default SellerStatistics;
+export default CreatorStatistics;

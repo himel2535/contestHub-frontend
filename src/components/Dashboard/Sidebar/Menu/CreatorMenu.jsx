@@ -15,11 +15,7 @@ const CreatorMenu = () => {
         label="Manage Submissions"
         address="manage-submissions"
       />
-      {/* <MenuItem
-        icon={MdOutlineManageHistory}
-        label='My created Contests'
-        address='my-created-contests'
-      /> */}
+
     </>
   );
 };

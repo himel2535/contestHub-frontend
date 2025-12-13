@@ -1,6 +1,7 @@
 import AdminStatistics from "../../../components/Dashboard/Statistics/AdminStatistics";
-import CustomerStatistics from "../../../components/Dashboard/Statistics/CustomerStatistics";
-import SellerStatistics from "../../../components/Dashboard/Statistics/SellerStatistics";
+import CreatorStatistics from "../../../components/Dashboard/Statistics/CreatorStatistics";
+import ParticipantStatistics from "../../../components/Dashboard/Statistics/ParticipantStatistics";
+
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useRole from "../../../hooks/useRole";
 const Statistics = () => {
@@ -10,8 +11,8 @@ const Statistics = () => {
   return (
     <div>
       {role === "admin" && <AdminStatistics />}
-      {role === "contestCreator" && <SellerStatistics />}
-      {role === "participant" && <CustomerStatistics />}
+      {role === "contestCreator" && <CreatorStatistics />}
+      {role === "participant" && <ParticipantStatistics />}
     </div>
   );
 };
