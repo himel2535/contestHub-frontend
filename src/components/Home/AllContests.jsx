@@ -1,79 +1,85 @@
-
-
 import Container from "../Shared/Container";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
-import React, { useState } from 'react';
-import { FaSearch } from "react-icons/fa"; 
+import React, { useState } from "react";
+import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-
-import { useSearchParams } from "react-router"; 
+import { useSearchParams } from "react-router";
 
 import AllContestCard from "./AllContestCard";
 
+const ITEMS_PER_PAGE = 10;
+
 const AllContests = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
+  const currentPage = parseInt(searchParams.get("page")) || 1;
 
   const currentContestType = searchParams.get("type") || "";
-  
 
   const [searchInput, setSearchInput] = useState(currentContestType);
 
-
   const { data, isPending, isError } = useQuery({
-    queryKey: ["contests", currentContestType],
+    queryKey: ["contests", currentContestType, currentPage],
     queryFn: async () => {
-
-      const url = `${import.meta.env.VITE_API_URL}/contests${
-        currentContestType ? `?type=${currentContestType}` : ""
+      const url = `${
+        import.meta.env.VITE_API_URL
+      }/contests?limit=${ITEMS_PER_PAGE}&page=${currentPage}${
+        currentContestType ? `&type=${currentContestType}` : ""
       }`;
       const result = await axios(url);
       return result.data;
     },
   });
 
+  const contests = data?.contests || [];
+  const totalPages = data?.totalPages || 1;
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const trimmedQuery = searchInput.trim();
-    
 
     const newSearchParams = new URLSearchParams(searchParams);
 
     if (trimmedQuery) {
-
-        newSearchParams.set('type', trimmedQuery);
+      newSearchParams.set("type", trimmedQuery);
     } else {
-
-        newSearchParams.delete('type'); 
+      newSearchParams.delete("type");
     }
 
-    setSearchParams(newSearchParams); 
+    newSearchParams.set("page", "1");
+
+    setSearchParams(newSearchParams);
   };
 
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", page.toString());
+    setSearchParams(newSearchParams);
+  };
 
   if (isPending) return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
 
-  const isNoResults = data && data.length === 0;
-
+  const isNoResults = contests.length === 0;
 
   const headingText = currentContestType
     ? `Category Results for: "${currentContestType}"`
     : "Explore All Available Contests";
-    
+
   const subTitleText = currentContestType
-    ? `Showing all contests matching the category "${currentContestType}".`
-    : "Dive into our full list of competitions and find your next creative challenge.";
+    ? `Showing contests matching the category "${currentContestType}" (Page ${currentPage} of ${totalPages}).`
+    : `Dive into our full list of competitions (Page ${currentPage} of ${totalPages}) and find your next creative challenge.`;
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <Container>
-      <div className="py-12">
-        
-
+      <div className="py-8">
         <div className="text-center mb-10">
           <h2
             className="text-5xl font-extrabold text-gray-800 pt-4 mb-2 inline-block border-b-4 border-yellow-500"
@@ -81,12 +87,19 @@ const AllContests = () => {
           >
             {headingText}
           </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto mt-4 text-lg" data-aos="fade-up">
+          <p
+            className="text-gray-500 max-w-2xl mx-auto mt-4 text-lg"
+            data-aos="fade-up"
+          >
             {subTitleText}
           </p>
-          
- 
-          <form onSubmit={handleSearchSubmit} className="w-full max-w-xl mx-auto mt-8" data-aos="fade-up" data-aos-delay="200">
+
+          <form
+            onSubmit={handleSearchSubmit}
+            className="w-full max-w-xl mx-auto mt-8"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <div className="relative flex items-center bg-white border border-gray-300 rounded-full shadow-lg overflow-hidden">
               <input
                 type="text"
@@ -108,19 +121,19 @@ const AllContests = () => {
 
           {currentContestType && (
             <button
-                onClick={() => {
-                    setSearchInput("");
-                    handleSearchSubmit({ preventDefault: () => {} }); 
-                }}
-                className="mt-3 text-sm text-red-500 hover:underline"
+              onClick={() => {
+                setSearchInput("");
+                const newSearchParams = new URLSearchParams();
+                newSearchParams.set("page", "1");
+                setSearchParams(newSearchParams);
+              }}
+              className="mt-3 text-sm text-red-500 hover:underline"
             >
-                Clear Search Filter
+              Clear Search Filter
             </button>
           )}
-
         </div>
-        
-   
+
         {isNoResults && (
           <div
             className="text-center py-20 bg-gray-50 border border-dashed border-gray-300 rounded-lg mx-auto max-w-4xl"
@@ -129,22 +142,69 @@ const AllContests = () => {
             <p className="text-2xl text-gray-600">
               Sorry, no contests found matching your criteria.
             </p>
-            {currentContestType && <p className="text-lg text-gray-500 mt-2">Category: <span className="font-semibold text-red-500">"{currentContestType}"</span></p>}
+            {currentContestType && (
+              <p className="text-lg text-gray-500 mt-2">
+                Category:{" "}
+                <span className="font-semibold text-red-500">
+                  "{currentContestType}"
+                </span>
+              </p>
+            )}
           </div>
         )}
 
-        {/*  Contest Cards Animation */}
+        {/* Contest Cards Animation */}
         {!isNoResults && (
           <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-            {data.map((contest, index) => (
-              <div
-                key={contest._id}
-                data-aos="fade-up"
-                data-aos-delay={index * 50} 
+            {contests.map(
+              (
+                contest,
+                index // contests ব্যবহার করা হয়েছে
+              ) => (
+                <div
+                  key={contest._id}
+                  data-aos="fade-up"
+                  data-aos-delay={index * 50}
+                >
+                  <AllContestCard contest={contest} />
+                </div>
+              )
+            )}
+          </div>
+        )}
+
+        {/* 💡 নতুন: Pagination Controls */}
+        {!isNoResults && totalPages > 1 && (
+          <div className="flex justify-center items-center space-x-2 mt-12">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 transition duration-150"
+            >
+              <FaChevronLeft className="inline mr-1" /> Previous
+            </button>
+
+            {pageNumbers.map((page) => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-150 ${
+                  currentPage === page
+                    ? "bg-yellow-500 text-white"
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+                }`}
               >
-                <AllContestCard contest={contest} />
-              </div>
+                {page}
+              </button>
             ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 transition duration-150"
+            >
+              Next <FaChevronRight className="inline ml-1" />
+            </button>
           </div>
         )}
       </div>

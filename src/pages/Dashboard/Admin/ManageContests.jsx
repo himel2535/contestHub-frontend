@@ -2,7 +2,12 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { FaCheckCircle, FaTimesCircle, FaTrashAlt, FaClipboardList } from "react-icons/fa"; // 💡 FaClipboardList যোগ করা হয়েছে
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaTrashAlt,
+  FaClipboardList,
+} from "react-icons/fa"; // 💡 FaClipboardList যোগ করা হয়েছে
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useState } from "react";
@@ -129,35 +134,34 @@ const ManageContests = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 pt-8">
-      
       {/* 💡 ফিক্সড: প্রধান হেডিং - ছোট ডিভাইসে আইকন উপরে, টেক্সট সেন্টারে */}
-      <div 
-        className="w-full mb-4 text-center" 
+      <div
+        className="w-full mb-4 text-center"
         data-aos="fade-down"
         data-aos-duration="800"
       >
         <div className="inline-flex flex-col md:flex-row md:items-center border-b-4 border-yellow-500 pb-2">
-            
-            <FaClipboardList className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
-            
-            <h2 className="text-4xl font-extrabold text-gray-900">
-                Manage All Contests ({contests.length})
-            </h2>
+          <FaClipboardList className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
+
+          <h2 className="text-4xl font-extrabold text-gray-900">
+            Manage All Contests ({contests.length})
+          </h2>
         </div>
       </div>
 
       {/* 💡 প্যারাগ্রাফ যোগ করা হলো */}
-      <p 
+      <p
         className="text-center text-gray-600 mb-10 max-w-3xl mx-auto text-lg font-medium"
         data-aos="fade-up"
         data-aos-delay="300"
       >
-        Review all pending contest submissions. Approve them to make them live or reject them 
-        if they violate community guidelines. Deletion is permanent.
+        Review all pending contest submissions. Approve them to make them live
+        or reject them if they violate community guidelines. Deletion is
+        permanent.
       </p>
 
       {/* Table Container */}
-      <div 
+      <div
         className="overflow-x-auto bg-white shadow-2xl rounded-xl border border-gray-100"
         data-aos="fade-up"
         data-aos-duration="1000"
@@ -193,26 +197,32 @@ const ManageContests = () => {
               </tr>
             ) : (
               contests.map((contest, index) => (
-                <tr 
-                    key={contest._id} 
-                    className="hover:bg-yellow-50 transition duration-150"
-                    data-aos="fade-up"
-                    data-aos-delay={index * 50}
+                <tr
+                  key={contest._id}
+                  className="hover:bg-yellow-50 transition duration-150"
+                  data-aos="fade-up"
+                  data-aos-delay={index * 50}
                 >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {contest.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span className="text-gray-900 font-medium">{contest.contestCreator?.name || "N/A"}</span>
+                    <span className="text-gray-900 font-medium">
+                      {contest.contestCreator?.name || "N/A"}
+                    </span>
                     <br />
                     <span className="text-xs text-gray-500">
                       {contest.contestCreator?.email}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span className="font-semibold text-yellow-600">Fee: ${contest.contestFee}</span>
+                    <span className="font-semibold text-yellow-600">
+                      Fee: ${contest.contestFee}
+                    </span>
                     <br />
-                    <span className="font-semibold text-green-600">Prize: ${contest.prizeMoney}</span>
+                    <span className="font-semibold text-green-600">
+                      Prize: ${contest.prizeMoney}
+                    </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
@@ -230,7 +240,6 @@ const ManageContests = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                    
                     {/* Confirm Button */}
                     <button
                       onClick={() => handleActionClick(contest._id, "confirm")}

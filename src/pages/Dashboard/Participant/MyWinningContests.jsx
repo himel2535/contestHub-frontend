@@ -1,5 +1,3 @@
-
-
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -50,7 +48,7 @@ const MyWinningContests = () => {
     <div className="container mx-auto px-4 sm:px-8 pt-8">
      
       <div
-        className="text-center mb-10" 
+        className="text-center mb-4" // mb-10 থেকে mb-4 করা হয়েছে যেন প্যারাগ্রাফ কাছে থাকে
         data-aos="fade-down"
         data-aos-duration="800"
       >
@@ -69,6 +67,16 @@ const MyWinningContests = () => {
           </h2>
         </div>
       </div>
+
+      {/* 💡 ভূমিকা প্যারাগ্রাফ: হেডিং-এর ঠিক নিচে স্থাপন করা হয়েছে */}
+      <p className="text-gray-600 mb-10 text-center max-w-3xl mx-auto leading-relaxed">
+        This dedicated section showcases all the contests where you have been
+        officially declared the winner. Each entry below represents a successful
+        achievement, detailing the contest name, category, the prize money
+        awarded, and the date of victory. This is your personal hall of fame, a
+        testament to your skill and dedication in conquering various challenges
+        on our platform.
+      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {winningContests.map((contest, index) => (
@@ -125,6 +133,16 @@ const MyWinningContests = () => {
             </div>
           </div>
         ))}
+      </div>
+      
+      {/* 💡 উপসংহার প্যারাগ্রাফ */}
+      <div className="mt-12 pt-6 border-t border-gray-200">
+        <p className="text-sm text-gray-500 text-center max-w-xl mx-auto">
+          Congratulations on your outstanding performance! As a valued winner,
+          you may proceed to your profile or dashboard to manage any pending prize
+          collections or to explore more exciting contests to participate in and
+          conquer.
+        </p>
       </div>
     </div>
   );

@@ -5,17 +5,16 @@ import SignUp from "../pages/SignUp/SignUp";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
-// import AddContest from "../pages/Dashboard/Seller/AddContest";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import Profile from "../pages/Dashboard/Common/Profile";
 import Statistics from "../pages/Dashboard/Common/Statistics";
 import MainLayout from "../layouts/MainLayout";
-import MyInventory from "../pages/Dashboard/Seller/MyInventory";
+import MyInventory from "../pages/Dashboard/ContestCreator/MyInventory";
 import { createBrowserRouter } from "react-router";
 import AllContests from "../components/Home/AllContests";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import ErrorPage from "../components/Shared/ErrorPage/ErrorPage";
-import MyCreatedContests from "../pages/Dashboard/Seller/MyCreatedContests";
+import MyCreatedContests from "../pages/Dashboard/ContestCreator/MyCreatedContests";
 import ContestSubmissions from "../components/Modal/ContestSubmissions";
 import LeaderboardPage from "../pages/LeaderBoard/LeaderBoardPage";
 import CreatorRequests from "../pages/Dashboard/Admin/CreatorRequests";
@@ -23,11 +22,14 @@ import ContestCreatorRoute from "./ContestCreatorRoute";
 import AdminRoute from "./AdminRoute";
 import ParticipantRoute from "./ParticipantRoute";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
-import ManageOrders from "../pages/Dashboard/Seller/ManageSubmissions";
-import MyParticipatedContests from "../pages/Dashboard/Customer/MyParticipatedContests";
-import MyWinningContests from "../pages/Dashboard/Customer/MyWinningContests";
-import MyProfile from "../pages/Dashboard/Customer/MyProfile";
-import AddContest from "../pages/Dashboard/Seller/AddContest";
+import ManageOrders from "../pages/Dashboard/ContestCreator/ManageSubmissions";
+import MyParticipatedContests from "../pages/Dashboard/Participant/MyParticipatedContests";
+import MyWinningContests from "../pages/Dashboard/Participant/MyWinningContests";
+import MyProfile from "../pages/Dashboard/Participant/MyProfile";
+import AddContest from "../pages/Dashboard/ContestCreator/AddContest";
+import AboutUs from "../pages/AboutUs/AboutUs";
+import ContactUs from "../pages/ContactUs/ContactUs";
+import AdminContactMessages from "../pages/Dashboard/Admin/AdminContactMessages";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,14 @@ export const router = createBrowserRouter([
       {
         path: "/leaderboard",
         element: <LeaderboardPage />,
+      },
+      {
+        path: "/aboutUs",
+        element: <AboutUs />,
+      },
+      {
+        path: "/contactUs",
+        element: <ContactUs />,
       },
       {
         path: "/contest/:id",
@@ -111,6 +121,16 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <AdminRoute>
               <ManageContests />
+            </AdminRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "contact-messages",
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <AdminContactMessages />
             </AdminRoute>
           </PrivateRoute>
         ),

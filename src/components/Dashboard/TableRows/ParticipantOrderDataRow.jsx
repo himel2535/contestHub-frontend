@@ -1,7 +1,6 @@
-
 import { format } from "date-fns";
 
-const CustomerOrderDataRow = ({ contest }) => {
+const ParticipantOrderDataRow = ({ contest }) => {
   // Determine badge color based on status
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
@@ -21,8 +20,7 @@ const CustomerOrderDataRow = ({ contest }) => {
     : "N/A"; // If deadline field is missing, show 'N/A'
 
   return (
-
-    <> 
+    <>
       {/* 1. Image */}
       <td className="px-6 py-4 border-b border-gray-200 bg-white text-sm text-center">
         <div className="flex items-center justify-content-center">
@@ -72,4 +70,4 @@ const CustomerOrderDataRow = ({ contest }) => {
   );
 };
 
-export default CustomerOrderDataRow;
+export default ParticipantOrderDataRow;

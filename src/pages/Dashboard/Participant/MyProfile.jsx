@@ -1,4 +1,4 @@
-// src/pages/Dashboard/Customer/MyProfile.jsx (আপডেট করা কোড)
+// src/pages/Dashboard/Participant/MyProfile.jsx (আপডেট করা কোড)
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ const WinRateChart = ({ winPercentage }) => {
   const participated = 100 - won;
 
   return (
-    <div 
+    <div
       className="flex flex-col items-center p-6 bg-white rounded-xl shadow-lg border-t-4 border-yellow-500"
       data-aos="fade-right" // চার্টের অ্যানিমেশন
       data-aos-duration="800"
@@ -100,40 +100,34 @@ const MyProfile = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
-      
       {/* 💡 রেসপনসিভ হেডিং সেকশন */}
-      <div 
+      <div
         className="text-center mb-10" // পুরো সেকশনটিকে সেন্টারে রাখার জন্য
         data-aos="fade-down"
         data-aos-duration="800"
       >
         <div className="inline-block border-b-4 border-yellow-500 pb-2">
-            
-            {/* ছোট স্ক্রিনের জন্য: আইকন একাই উপরে, সেন্টারে থাকবে */}
-            <div className="mb-2 block md:hidden">
-                <FaUser className="text-5xl text-yellow-600 mx-auto" />
-            </div>
+          {/* ছোট স্ক্রিনের জন্য: আইকন একাই উপরে, সেন্টারে থাকবে */}
+          <div className="mb-2 block md:hidden">
+            <FaUser className="text-5xl text-yellow-600 mx-auto" />
+          </div>
 
-            <h2 
-                className="text-4xl font-extrabold text-gray-900 inline-flex items-center"
-            >
-                {/* বড় স্ক্রিনের জন্য: আইকন এবং লেখা এক লাইনে */}
-                <span className="hidden md:inline-flex items-center justify-center">
-                    <FaUser className="mr-3 text-yellow-600 text-4xl" />
-                </span>
-                My Profile & Stats
-            </h2>
+          <h2 className="text-4xl font-extrabold text-gray-900 inline-flex items-center">
+            {/* বড় স্ক্রিনের জন্য: আইকন এবং লেখা এক লাইনে */}
+            <span className="hidden md:inline-flex items-center justify-center">
+              <FaUser className="mr-3 text-yellow-600 text-4xl" />
+            </span>
+            My Profile & Stats
+          </h2>
         </div>
       </div>
 
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
         {/* 1. Stats and Win Chart Column (Left) */}
         <div className="lg:col-span-1 space-y-8">
           <WinRateChart winPercentage={winPercentage} />
 
-          <div 
+          <div
             className="p-6 bg-white rounded-xl shadow-lg border-t-4 border-yellow-500"
             data-aos="fade-up" // ওভারভিউ কার্ডের অ্যানিমেশন
             data-aos-delay="200"
@@ -159,7 +153,7 @@ const MyProfile = () => {
         </div>
 
         {/* 2. Profile Details and Update Form (Right) */}
-        <div 
+        <div
           className="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-500"
           data-aos="fade-left" // ফর্ম কন্টেইনারের অ্যানিমেশন
           data-aos-duration="800"
@@ -204,7 +198,11 @@ const MyProfile = () => {
             </div>
 
             {/* Form Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="300">
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
               {/* 1. Name */}
               <div data-aos="fade-up" data-aos-delay="400">
                 <label className="block text-gray-700 font-medium mb-2">
@@ -240,7 +238,11 @@ const MyProfile = () => {
               </div>
 
               {/* 3. Bio (Extra Field) */}
-              <div className="md:col-span-2" data-aos="fade-up" data-aos-delay="600">
+              <div
+                className="md:col-span-2"
+                data-aos="fade-up"
+                data-aos-delay="600"
+              >
                 <label className="block text-gray-700 font-medium mb-2">
                   Bio / Short Address
                 </label>

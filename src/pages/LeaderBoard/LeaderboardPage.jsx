@@ -39,21 +39,18 @@ const LeaderboardPage = () => {
 
   return (
     <Container>
-      <div className="py-12">
+      <div className="py-8">
         <div
           className="text-center mb-10"
           data-aos="fade-down"
           data-aos-duration="800"
         >
           <div className="inline-block border-b-4 border-yellow-500 pb-2">
-            {/* ছোট স্ক্রিনের জন্য: আইকন একাই উপরে, সেন্টারে থাকবে */}
-            {/* বড় স্ক্রিনের জন্য: ডিসপ্লে হবে না (hidden md:block) */}
             <div className="mb-2 block md:hidden">
               <FaCrown className="text-5xl text-yellow-500 mx-auto" />
             </div>
 
             <h1 className="text-5xl font-extrabold text-gray-800">
-    
               <span className="hidden md:inline-flex items-center justify-center">
                 <FaCrown className="mr-3 text-yellow-500 text-4xl" />
               </span>
@@ -88,7 +85,7 @@ const LeaderboardPage = () => {
                   icon={<FaMedal />}
                   size="h-72"
                   order="order-2 md:order-1"
-                  delay="100" 
+                  delay="100"
                 />
               )}
 
@@ -102,7 +99,7 @@ const LeaderboardPage = () => {
                   size="h-80"
                   hero={true}
                   order="order-1"
-                  delay="0" 
+                  delay="0"
                 />
               )}
 
@@ -115,7 +112,7 @@ const LeaderboardPage = () => {
                   icon={<FaMedal />}
                   size="h-64"
                   order="order-3 md:order-3"
-                  delay="200" 
+                  delay="200"
                 />
               )}
             </div>
@@ -124,7 +121,7 @@ const LeaderboardPage = () => {
             {restWinners.length > 0 && (
               <div
                 className="bg-white p-6 rounded-xl shadow-lg mt-8 overflow-x-auto"
-                data-aos="fade-up" 
+                data-aos="fade-up"
                 data-aos-duration="1000"
               >
                 <h3 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
@@ -183,7 +180,6 @@ const LeaderboardPage = () => {
   );
 };
 
-
 const RankingCard = ({
   winner,
   rank,
@@ -195,8 +191,8 @@ const RankingCard = ({
   delay,
 }) => (
   <div
-    data-aos="zoom-in-up" 
-    data-aos-delay={delay} 
+    data-aos="zoom-in-up"
+    data-aos-delay={delay}
     className={`flex flex-col items-center p-4 rounded-xl shadow-xl transition duration-300 transform hover:scale-105 ${size} relative text-white ${color} w-full max-w-xs ${order} ${
       hero ? "mt-0" : "mt-6 md:mt-0"
     }`}

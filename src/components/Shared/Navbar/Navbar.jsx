@@ -15,7 +15,6 @@ const Navbar = () => {
       <div className="py-4">
         <Container>
           <div className="flex items-center justify-between">
-
             {/* LEFT — Logo */}
             <Link to="/">
               <img src={logo4} alt="logo" width="100" height="100" />
@@ -23,11 +22,27 @@ const Navbar = () => {
 
             {/* CENTER — Routes (desktop only) */}
             <div className="hidden md:flex gap-6 text-sm font-semibold">
-              <Link to="/" className="hover:text-blue-600 transition">Home</Link>
-              <Link to="/all-contests" className="hover:text-blue-600 transition">All Contests</Link>
-              <Link to="/leaderboard" className="hover:text-blue-600 transition">Leaderboard</Link>
-              <Link to="/about" className="hover:text-blue-600 transition">About Us</Link>
-              <Link to="/contact" className="hover:text-blue-600 transition">Contact Us</Link>
+              <Link to="/" className="hover:text-blue-600 transition">
+                Home
+              </Link>
+              <Link
+                to="/all-contests"
+                className="hover:text-blue-600 transition"
+              >
+                All Contests
+              </Link>
+              <Link
+                to="/leaderboard"
+                className="hover:text-blue-600 transition"
+              >
+                Leaderboard
+              </Link>
+              <Link to="/aboutUs" className="hover:text-blue-600 transition">
+                About Us
+              </Link>
+              <Link to="/contactUs" className="hover:text-blue-600 transition">
+                Contact Us
+              </Link>
             </div>
 
             {/* RIGHT — Avatar + Dropdown */}
@@ -52,16 +67,36 @@ const Navbar = () => {
               {/* DROPDOWN MENU */}
               {isOpen && (
                 <div className="absolute rounded-xl shadow-md w-[60vw] md:w-[12vw] bg-white overflow-hidden right-0 top-12 text-sm">
-
                   <div className="flex flex-col cursor-pointer">
-
                     {/* Mobile routes */}
                     <div className="md:hidden flex flex-col cursor-pointer">
-                      <Link to="/" className="px-4 py-3 hover:bg-neutral-100">Home</Link>
-                      <Link to="/all-contests" className="px-4 py-3 hover:bg-neutral-100">All Contests</Link>
-                      <Link to="/leaderboard" className="px-4 py-3 hover:bg-neutral-100">Leaderboard</Link>
-                      <Link to="/about" className="px-4 py-3 hover:bg-neutral-100">About Us</Link>
-                      <Link to="/contact" className="px-4 py-3 hover:bg-neutral-100">Contact Us</Link>
+                      <Link to="/" className="px-4 py-3 hover:bg-neutral-100">
+                        Home
+                      </Link>
+                      <Link
+                        to="/all-contests"
+                        className="px-4 py-3 hover:bg-neutral-100"
+                      >
+                        All Contests
+                      </Link>
+                      <Link
+                        to="/leaderboard"
+                        className="px-4 py-3 hover:bg-neutral-100"
+                      >
+                        Leaderboard
+                      </Link>
+                      <Link
+                        to="/aboutUs"
+                        className="px-4 py-3 hover:bg-neutral-100"
+                      >
+                        About Us
+                      </Link>
+                      <Link
+                        to="/contactUs"
+                        className="px-4 py-3 hover:bg-neutral-100"
+                      >
+                        Contact Us
+                      </Link>
                     </div>
 
                     {user ? (
@@ -69,7 +104,10 @@ const Navbar = () => {
                         <Link to="/" className="px-4 py-3 hover:bg-neutral-100">
                           {user?.displayName}
                         </Link>
-                        <Link to="/dashboard" className="px-4 py-3 hover:bg-neutral-100">
+                        <Link
+                          to="/dashboard"
+                          className="px-4 py-3 hover:bg-neutral-100"
+                        >
                           Dashboard
                         </Link>
                         <div
@@ -81,15 +119,23 @@ const Navbar = () => {
                       </>
                     ) : (
                       <>
-                        <Link to="/login" className="px-4 py-3 hover:bg-neutral-100">Login</Link>
-                        <Link to="/signup" className="px-4 py-3 hover:bg-neutral-100">Sign Up</Link>
+                        <Link
+                          to="/login"
+                          className="px-4 py-3 hover:bg-neutral-100"
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          to="/signup"
+                          className="px-4 py-3 hover:bg-neutral-100"
+                        >
+                          Sign Up
+                        </Link>
                       </>
                     )}
                   </div>
-
                 </div>
               )}
-
             </div>
           </div>
         </Container>

@@ -1,12 +1,10 @@
-
-
 import { useQuery } from "@tanstack/react-query";
-import CustomerOrderDataRow from "../../../components/Dashboard/TableRows/CustomerOrderDataRow";
+import ParticipantOrderDataRow from "../../../components/Dashboard/TableRows/ParticipantOrderDataRow";
 import useAuth from "../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { FaListAlt } from "react-icons/fa"; 
+import { FaListAlt } from "react-icons/fa";
 
 const MyParticipatedContests = () => {
   const { user } = useAuth();
@@ -55,7 +53,6 @@ const MyParticipatedContests = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 pt-8">
-     
       <h2
         className="text-4xl font-extrabold text-gray-900 mb-10 inline-flex items-center border-b-4 border-yellow-500 pb-2"
         data-aos="fade-down"
@@ -67,7 +64,7 @@ const MyParticipatedContests = () => {
 
       <div
         className="bg-white shadow-xl rounded-xl overflow-hidden"
-        data-aos="fade-up" 
+        data-aos="fade-up"
       >
         <div className="p-4 overflow-x-auto">
           <div className="inline-block min-w-full">
@@ -75,7 +72,6 @@ const MyParticipatedContests = () => {
               <thead>
                 <tr className="bg-yellow-50">
                   {" "}
-                  
                   <th
                     scope="col"
                     className="px-6 py-3 text-center text-xs font-semibold text-gray-800 uppercase tracking-wider"
@@ -119,11 +115,11 @@ const MyParticipatedContests = () => {
                 {sortedContests.map((contest, index) => (
                   <tr
                     key={contest._id}
-                    data-aos="fade-up" 
+                    data-aos="fade-up"
                     data-aos-delay={index * 50}
                     className="hover:bg-gray-50"
                   >
-                    <CustomerOrderDataRow
+                    <ParticipantOrderDataRow
                       contest={contest}
                       showAction={false}
                     />

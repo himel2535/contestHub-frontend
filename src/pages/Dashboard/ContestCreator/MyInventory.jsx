@@ -1,5 +1,4 @@
 import { FaClipboardList } from "react-icons/fa";
-import PlantDataRow from "../../../components/Dashboard/TableRows/ContestDataRow";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
@@ -45,17 +44,20 @@ const MyInventory = () => {
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
+      {/* 1. Primary Heading (Small device fix) */}
       <div
-        className="text-center mb-10"
+        className="text-center mb-4" // Reduced mb to mb-4
         data-aos="fade-down"
         data-aos-duration="800"
       >
         <div className="inline-block border-b-4 border-yellow-500 pb-2">
+          {/* Small Screen Icon */}
           <div className="mb-2 block md:hidden">
             <FaClipboardList className="text-5xl text-yellow-600 mx-auto" />
           </div>
 
           <h2 className="text-4xl font-extrabold text-gray-900 inline-flex items-center">
+            {/* Large Screen Icon */}
             <span className="hidden md:inline-flex items-center justify-center">
               <FaClipboardList className="mr-3 text-yellow-600 text-4xl" />
             </span>
@@ -64,6 +66,17 @@ const MyInventory = () => {
         </div>
       </div>
 
+      <p
+        className="text-center text-gray-600 mb-10 max-w-3xl mx-auto text-lg font-medium"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        Manage all the contests you have created. View their current status,
+        monitor participant submissions, and update or delete your contests as
+        needed.
+      </p>
+
+      {/* Table Container */}
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div
           className="inline-block min-w-full shadow-2xl rounded-lg overflow-hidden border border-gray-100"
@@ -115,11 +128,12 @@ const MyInventory = () => {
               </tr>
             </thead>
             <tbody>
-              {contests.map((contest) => (
+              {contests.map((contest, index) => (
                 <ContestDataRow
                   key={contest._id}
                   contest={contest}
                   refetch={refetch}
+                  delay={index * 50}
                 />
               ))}
             </tbody>
