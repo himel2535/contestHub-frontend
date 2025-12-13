@@ -1,52 +1,52 @@
+/* eslint-disable no-undef */
+
 import React from "react";
-// import { useState } from "react";
-// import UpdateUserRoleModal from "../../Modal/UpdateUserRoleModal";
-// import UpdateCreatorRequestModal from "../../Modal/UpdateCreatorRequestModal";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { toast } from "react-hot-toast";
+import { FaUserEdit } from "react-icons/fa";
 
-const CreatorRequestsDataRow = ({ request,refetch }) => {
-  //   let [isOpen, setIsOpen] = useState(false);
-  //   const closeModal = () => setIsOpen(false);
-
+const CreatorRequestsDataRow = ({ request, refetch, delay }) => {
   const axiosSecure = useAxiosSecure();
 
   const handleRoleUpdate = async () => {
     try {
-      await axiosSecure.patch("/update-role", { email: request?.email ,role:"contestCreator"});
-      toast.success("Successfully Role Updated");
-      refetch()
+      const loadingToastId = toast.loading(
+        `Updating role for ${request?.email}...`
+      );
+
+      await axiosSecure.patch("/update-role", {
+        email: request?.email,
+        role: "contestCreator",
+      });
+
+      toast.success("User successfully promoted to Contest Creator!", {
+        id: loadingToastId,
+      });
+      refetch();
     } catch (error) {
       console.log(error);
-      toast.error(error?.response?.data?.message);
+
+      toast.error(error?.response?.data?.message || "Failed to update role.", {
+        id: loadingToastId,
+      });
     }
   };
-  // 
 
   return (
-    <tr>
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 ">{request?.email}</p>
-      </td>
-
-      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <tr
+      className="hover:bg-yellow-50 transition duration-150 ease-in-out"
+      data-aos="fade-up"
+      data-aos-delay={delay}
+    >
+      <td className="px-5 py-4 border-b border-gray-100 bg-white text-sm text-center">
         <span
-          //   onClick={() => setIsOpen(true)}
           onClick={handleRoleUpdate}
-          className="relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
+          className="relative cursor-pointer inline-flex items-center px-4 py-2 font-semibold text-white leading-tight transition duration-150 transform hover:scale-105 shadow-md rounded-full bg-yellow-600 hover:bg-yellow-700"
+          title={`Promote ${request?.email} to Contest Creator`}
         >
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-          ></span>
-          <span className="relative">Make Creator</span>
+          <FaUserEdit className="mr-2 text-sm" />
+          <span>Make Creator</span>
         </span>
-        {/* Modal */}
-        {/* <UpdateCreatorRequestModal
-          isOpen={isOpen}
-          closeModal={closeModal}
-          role="customer"
-        /> */}
       </td>
     </tr>
   );

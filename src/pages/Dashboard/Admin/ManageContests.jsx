@@ -2,11 +2,10 @@
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { FaCheckCircle, FaTimesCircle, FaTrashAlt } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle, FaTrashAlt, FaClipboardList } from "react-icons/fa"; // 💡 FaClipboardList যোগ করা হয়েছে
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useState } from "react";
-// 💡 Modals (assuming these components are correctly defined)
 import DeleteModal from "../../../components/Modal/DeleteModal";
 import ConfirmModal from "../../../components/Modal/ConfirmModal";
 import RejectModal from "../../../components/Modal/RejectModal";
@@ -129,34 +128,63 @@ const ManageContests = () => {
   const isActionPending = isUpdating || isDeleting;
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-4xl font-extrabold mb-8 text-center text-gray-900">
-        Manage All Contests
-      </h2>
-      <div className="overflow-x-auto bg-white shadow-2xl rounded-xl">
+    <div className="container mx-auto px-4 sm:px-8 pt-8">
+      
+      {/* 💡 ফিক্সড: প্রধান হেডিং - ছোট ডিভাইসে আইকন উপরে, টেক্সট সেন্টারে */}
+      <div 
+        className="w-full mb-4 text-center" 
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
+        <div className="inline-flex flex-col md:flex-row md:items-center border-b-4 border-yellow-500 pb-2">
+            
+            <FaClipboardList className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
+            
+            <h2 className="text-4xl font-extrabold text-gray-900">
+                Manage All Contests ({contests.length})
+            </h2>
+        </div>
+      </div>
+
+      {/* 💡 প্যারাগ্রাফ যোগ করা হলো */}
+      <p 
+        className="text-center text-gray-600 mb-10 max-w-3xl mx-auto text-lg font-medium"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        Review all pending contest submissions. Approve them to make them live or reject them 
+        if they violate community guidelines. Deletion is permanent.
+      </p>
+
+      {/* Table Container */}
+      <div 
+        className="overflow-x-auto bg-white shadow-2xl rounded-xl border border-gray-100"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
         <table className="min-w-full divide-y divide-gray-200">
-          {/* Table Head */}
-          <thead className="bg-gray-50">
+          {/* Table Head - 💡 হলুদ থিম */}
+          <thead className="bg-yellow-500">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                 Contest Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Creator
+              <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                Creator Info
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                 Fee / Prize
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-center text-xs font-semibold text-white uppercase tracking-wider">
                 Actions
               </th>
             </tr>
           </thead>
           {/* Table Body */}
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-100">
             {contests.length === 0 ? (
               <tr>
                 <td colSpan="5" className="py-8 text-center text-gray-500">
@@ -164,26 +192,31 @@ const ManageContests = () => {
                 </td>
               </tr>
             ) : (
-              contests.map((contest) => (
-                <tr key={contest._id} className="hover:bg-gray-50">
+              contests.map((contest, index) => (
+                <tr 
+                    key={contest._id} 
+                    className="hover:bg-yellow-50 transition duration-150"
+                    data-aos="fade-up"
+                    data-aos-delay={index * 50}
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {contest.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {contest.contestCreator?.name || "N/A"}
+                    <span className="text-gray-900 font-medium">{contest.contestCreator?.name || "N/A"}</span>
                     <br />
-                    <span className="text-xs">
+                    <span className="text-xs text-gray-500">
                       {contest.contestCreator?.email}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    Fee: ${contest.contestFee}
+                    <span className="font-semibold text-yellow-600">Fee: ${contest.contestFee}</span>
                     <br />
-                    Prize: ${contest.prizeMoney}
+                    <span className="font-semibold text-green-600">Prize: ${contest.prizeMoney}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                      className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${
                         contest.status === "Confirmed"
                           ? "bg-green-100 text-green-800"
                           : contest.status === "Pending"
@@ -197,46 +230,47 @@ const ManageContests = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                    {/* Confirm Button (Only enabled for Pending) */}
+                    
+                    {/* Confirm Button */}
                     <button
                       onClick={() => handleActionClick(contest._id, "confirm")}
                       disabled={contest.status !== "Pending" || isActionPending}
-                      className={`mx-2 p-2 rounded transition duration-150 transform hover:scale-110 focus:outline-none ${
+                      className={`mx-1 p-2 rounded-full transition duration-150 transform hover:scale-110 focus:outline-none ${
                         contest.status === "Pending"
-                          ? "cursor-pointer text-green-600 hover:text-green-900 hover:bg-green-100"
-                          : "opacity-50 cursor-not-allowed text-gray-400"
+                          ? "cursor-pointer text-green-600 hover:text-white hover:bg-green-500 shadow-md"
+                          : "opacity-40 cursor-not-allowed text-gray-400"
                       }`}
                       title="Confirm Contest"
                     >
                       <FaCheckCircle className="inline text-2xl" />
                     </button>
 
-                    {/* Reject Button (Only enabled for Pending) */}
+                    {/* Reject Button */}
                     <button
                       onClick={() => handleActionClick(contest._id, "reject")}
                       disabled={contest.status !== "Pending" || isActionPending}
-                      className={`mx-2 p-2 rounded transition duration-150 transform hover:scale-110 focus:outline-none ${
+                      className={`mx-1 p-2 rounded-full transition duration-150 transform hover:scale-110 focus:outline-none ${
                         contest.status === "Pending"
-                          ? "cursor-pointer text-red-600 hover:text-red-900 hover:bg-red-100"
-                          : "opacity-50 cursor-not-allowed text-gray-400"
+                          ? "cursor-pointer text-red-600 hover:text-white hover:bg-red-500 shadow-md"
+                          : "opacity-40 cursor-not-allowed text-gray-400"
                       }`}
                       title="Reject Contest"
                     >
                       <FaTimesCircle className="inline text-2xl" />
                     </button>
 
-                    {/* Delete Button (Always enabled, but protected by modal/auth) */}
+                    {/* Delete Button */}
                     <button
                       onClick={() => handleActionClick(contest._id, "delete")}
                       disabled={isActionPending}
-                      className={`mx-2 p-2 rounded transition duration-150 transform hover:scale-110 focus:outline-none ${
+                      className={`mx-1 p-2 rounded-full transition duration-150 transform hover:scale-110 focus:outline-none ${
                         !isActionPending
-                          ? "cursor-pointer text-gray-600 hover:text-red-900 hover:bg-red-100"
-                          : "opacity-50 cursor-not-allowed text-gray-400"
+                          ? "cursor-pointer text-red-700 hover:text-white hover:bg-red-600 shadow-md"
+                          : "opacity-40 cursor-not-allowed text-gray-400"
                       }`}
                       title="Permanently Delete Contest"
                     >
-                      <FaTrashAlt className="inline text-2xl" />
+                      <FaTrashAlt className="inline text-xl" />
                     </button>
                   </td>
                 </tr>
@@ -247,27 +281,22 @@ const ManageContests = () => {
       </div>
 
       {/* --- Action Modals --- */}
-
-      {/* Confirm Modal */}
       <ConfirmModal
         isOpen={isConfirmOpen}
         closeModal={closeModal}
         handleAction={() => handleConfirmedAction("confirm")}
       />
-
-      {/* Reject Modal */}
       <RejectModal
         isOpen={isRejectOpen}
         closeModal={closeModal}
         handleAction={() => handleConfirmedAction("reject")}
       />
-
-      {/* Delete Modal (Reusable for permanent delete) */}
+      {/* Assuming DeleteModal is themed correctly */}
       <DeleteModal
         isOpen={isDeleteOpen}
         closeModal={closeModal}
         handleDelete={() => handleConfirmedAction("delete")}
-        actionType="delete" 
+        actionType="delete"
         message="Are you sure you want to permanently delete this contest from the database? This action is irreversible."
       />
     </div>
