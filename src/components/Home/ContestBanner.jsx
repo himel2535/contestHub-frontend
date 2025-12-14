@@ -3,7 +3,10 @@ import { FaSearch } from 'react-icons/fa';
 
 import { useSearchParams } from 'react-router'; 
 
-const BANNER_IMAGE = 'https://i.ibb.co.com/N6M71CdW/banner.jpg'; 
+
+// const BANNER_IMAGE = 'https://i.ibb.co.com/xKVrfWmg/Screen-Shot-2025-12-15-at-4-11-38-AM.png'; 
+
+const BANNER_IMAGE = 'https://i.ibb.co.com/TqmycGR8/IMG-20251215-WA0002.jpg'; 
 
 const ContestBanner = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,19 +32,19 @@ const ContestBanner = () => {
   
   return (
 
-    <div className="relative -mt-16 h-[60vh] md:h-[70vh] w-full overflow-hidden z-0 "> 
+    <div className="relative -mt-16 h-[60vh] md:h-[75vh] w-full overflow-hidden z-0 "> 
       
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out hover:scale-105"
+        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out hover:scale-105 "
         style={{ backgroundImage: `url(${BANNER_IMAGE})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-60"></div> {/* ব্যাকগ্রাউন্ডের অপাসিটি কমানো হয়েছে */}
+        <div className="absolute inset-0 bg-black opacity-60"></div> 
       </div>
 
 
       <div className="relative flex flex-col items-center justify-center h-full text-white px-4"> 
         
-        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-4 text-white leading-tight"> {/* হেডিং সাদা করা হয়েছে যাতে ব্যাকগ্রাউন্ডের উপর স্পষ্ট হয় */}
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-4 text-white leading-tight">
           Unleash Your <span className="text-yellow-400">Creativity</span>
         </h1>
         <p className="text-lg md:text-xl text-center max-w-2xl mb-10 font-light opacity-80">
@@ -50,14 +53,13 @@ const ContestBanner = () => {
 
         <form onSubmit={handleSearch} className="w-full max-w-xl">
           <div className="relative flex items-center bg-white rounded-full p-1 shadow-2xl transition-all duration-300 focus-within:ring-4 focus-within:ring-yellow-500/50">
-            {/* 💡 ফিক্স: এখানে পরিবর্তন করা হয়েছে */}
+
             <input
               type="text"
               placeholder="Search by Contest Type (e.g., Photography, Coding, Design)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              // ❌ আগের ক্লাস: text-white placeholder-gray-300 bg-transparent
-              // 🟢 নতুন ক্লাস: text-gray-900 (কালো) এবং placeholder-gray-500 
+          
               className="w-full py-3 pl-6 pr-14 text-gray-900 placeholder-gray-500 bg-transparent focus:outline-none text-base md:text-lg"
               aria-label="Search contests"
             />
