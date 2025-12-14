@@ -12,9 +12,13 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+
+// import LoadingSpinner from "../../components/Shared/LoadingSpinner"; 
 
 const ContactUs = () => {
   const [lastSubmittedMessage, setLastSubmittedMessage] = useState(null);
+  const [isSending, setIsSending] = useState(false); 
   const { user } = useAuth();
 
   const {
@@ -25,15 +29,19 @@ const ContactUs = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const loadingToast = toast.loading("Sending message...");
-
+    setIsSending(true); 
+    const loadingToast = toast.loading("Sending message..."); 
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/contact`,
         data
       );
 
-      toast.success(res.data.message, { id: loadingToast });
+
+      toast.success(res.data.message || "Message sent successfully!", {
+        id: loadingToast,
+      });
+
 
       setLastSubmittedMessage({
         name: data.name,
@@ -46,12 +54,27 @@ const ContactUs = () => {
     } catch (error) {
       console.error("Contact Form Submission Error:", error);
       const errorMessage =
-        error.response?.data?.error ||
+        error.response?.data?.message || 
+        error.response?.data?.error ||  
         "Failed to send message. Please try again.";
+
+
       toast.error(errorMessage, { id: loadingToast });
-      toast.dismiss(loadingToast);
+    } finally {
+      setIsSending(false); 
     }
   };
+
+  if (isSending) {
+
+    return (
+      <Container>
+        <div className="flex justify-center items-center py-24 min-h-[50vh]">
+          <LoadingSpinner />
+        </div>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -153,6 +176,8 @@ const ContactUs = () => {
                   Send a Message
                 </h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  {/* ... বাকি ফর্ম ইনপুটগুলো অপরিবর্তিত ... */}
+
                   {/* Name Input */}
                   <div>
                     <label
@@ -231,11 +256,22 @@ const ContactUs = () => {
                   {/* Submit Button */}
                   <button
                     type="submit"
+                    // 💡 লোডিং অবস্থায় বাটন disabled থাকবে
+                    disabled={isSending}
                     className="
                     cursor-pointer
-                    w-full flex justify-center items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-lg text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-150 ease-in-out"
+                    w-full flex justify-center items-center gap-2 px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-lg text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-150 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed"
                   >
-                    <FaPaperPlane /> Send Message
+                    {isSending ? (
+                      <span className="flex items-center gap-2">
+                        <span className="loading loading-spinner loading-sm"></span>
+                        Sending...
+                      </span>
+                    ) : (
+                      <>
+                        <FaPaperPlane /> Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               </>

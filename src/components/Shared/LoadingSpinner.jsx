@@ -1,4 +1,5 @@
-import { ScaleLoader } from "react-spinners";
+// import { ScaleLoader } from "react-spinners";
+import { Audio, RotatingLines } from "react-loader-spinner";
 
 const LoadingSpinner = ({ smallHeight }) => {
   return (
@@ -9,7 +10,19 @@ const LoadingSpinner = ({ smallHeight }) => {
       justify-center 
       items-center `}
     >
-      <ScaleLoader size={100} color="yellow" />
+     
+      <RotatingLines
+        visible={true}
+        height="60"
+        width="60"
+        color="yellow"
+        strokeWidth="5"
+        animationDuration="0.75"
+        ariaLabel="rotating-lines-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+      />
+      
     </div>
   );
 };
