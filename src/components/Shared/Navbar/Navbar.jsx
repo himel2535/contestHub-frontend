@@ -29,7 +29,7 @@ const Navbar = () => {
     }`;
   return (
     <div className="fixed w-full bg-white dark:bg-gray-900 z-10 shadow-md transition-colors duration-300 ">
-      <div className="py-4 ">
+      <div className="py-4">
         <Container>
           <div className="flex items-center justify-between text-gray-800 dark:text-gray-200">
             {/* LEFT — Logo */}

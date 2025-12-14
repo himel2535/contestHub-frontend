@@ -31,19 +31,19 @@ const ContestBanner = () => {
   
   return (
 
-    <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden z-0"> 
+    <div className="relative -mt-16 h-[60vh] md:h-[70vh] w-full overflow-hidden z-0 "> 
       
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out hover:scale-105"
         style={{ backgroundImage: `url(${BANNER_IMAGE})` }}
       >
-        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="absolute inset-0  opacity-60"></div>
       </div>
 
 
       <div className="relative flex flex-col items-center justify-center h-full text-white px-4"> 
         
-        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-4 leading-tight">
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-4 text-black leading-tight">
           Unleash Your <span className="text-yellow-400">Creativity</span>
         </h1>
         <p className="text-lg md:text-xl text-center max-w-2xl mb-10 font-light opacity-80">

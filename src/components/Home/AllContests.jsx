@@ -5,20 +5,15 @@ import LoadingSpinner from "../Shared/LoadingSpinner";
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 import React, { useState } from "react";
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
 import { useSearchParams } from "react-router";
-
 import AllContestCard from "./AllContestCard";
 
 const ITEMS_PER_PAGE = 10;
 
 const AllContests = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const currentPage = parseInt(searchParams.get("page")) || 1;
-
   const currentContestType = searchParams.get("type") || "";
-
   const [searchInput, setSearchInput] = useState(currentContestType);
 
   const { data, isPending, isError } = useQuery({
@@ -29,7 +24,7 @@ const AllContests = () => {
       }/contests?limit=${ITEMS_PER_PAGE}&page=${currentPage}${
         currentContestType ? `&type=${currentContestType}` : ""
       }`;
-      const result = await axios(url);
+      const result = await axios.get(url);
       return result.data;
     },
   });
@@ -40,23 +35,17 @@ const AllContests = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const trimmedQuery = searchInput.trim();
-
     const newSearchParams = new URLSearchParams(searchParams);
 
-    if (trimmedQuery) {
-      newSearchParams.set("type", trimmedQuery);
-    } else {
-      newSearchParams.delete("type");
-    }
+    if (trimmedQuery) newSearchParams.set("type", trimmedQuery);
+    else newSearchParams.delete("type");
 
     newSearchParams.set("page", "1");
-
     setSearchParams(newSearchParams);
   };
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("page", page.toString());
     setSearchParams(newSearchParams);
@@ -66,7 +55,6 @@ const AllContests = () => {
   if (isError) return <ErrorPage />;
 
   const isNoResults = contests.length === 0;
-
   const headingText = currentContestType
     ? `Category Results for: "${currentContestType}"`
     : "Explore All Available Contests";
@@ -79,16 +67,16 @@ const AllContests = () => {
 
   return (
     <Container>
-      <div className="py-8">
+      <div className="py-8 ">
         <div className="text-center mb-10">
           <h2
-            className="text-5xl font-extrabold text-gray-800 pt-4 mb-2 inline-block border-b-4 border-yellow-500"
+            className="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-200 pt-4 mb-2 inline-block border-b-4 border-yellow-500"
             data-aos="fade-down"
           >
             {headingText}
           </h2>
           <p
-            className="text-gray-500 max-w-2xl mx-auto mt-4 text-lg"
+            className="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mt-4 text-base sm:text-lg"
             data-aos="fade-up"
           >
             {subTitleText}
@@ -96,17 +84,17 @@ const AllContests = () => {
 
           <form
             onSubmit={handleSearchSubmit}
-            className="w-full max-w-xl mx-auto mt-8"
+            className="w-full max-w-xl mx-auto mt-6"
             data-aos="fade-up"
             data-aos-delay="200"
           >
-            <div className="relative flex items-center bg-white border border-gray-300 rounded-full shadow-lg overflow-hidden">
+            <div className="relative flex items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full shadow-lg overflow-hidden">
               <input
                 type="text"
                 placeholder="Search by Contest Category (e.g., Design, Coding)"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full py-3 pl-6 pr-14 text-gray-700 focus:outline-none text-base"
+                className="w-full py-3 pl-6 pr-14 text-gray-700 dark:text-gray-200 bg-transparent focus:outline-none text-sm sm:text-base"
                 aria-label="Search contests by category"
               />
               <button
@@ -114,7 +102,7 @@ const AllContests = () => {
                 className="absolute right-0 top-0 bottom-0 w-14 bg-yellow-500 hover:bg-yellow-600 text-white flex items-center justify-center transition-colors duration-200"
                 aria-label="Start category search"
               >
-                <FaSearch className="text-xl" />
+                <FaSearch className="text-lg sm:text-xl" />
               </button>
             </div>
           </form>
@@ -127,23 +115,24 @@ const AllContests = () => {
                 newSearchParams.set("page", "1");
                 setSearchParams(newSearchParams);
               }}
-              className="mt-3 text-sm text-red-500 hover:underline"
+              className="mt-2 text-sm text-red-500 hover:underline"
             >
               Clear Search Filter
             </button>
           )}
         </div>
 
+        {/* No Results */}
         {isNoResults && (
           <div
-            className="text-center py-20 bg-gray-50 border border-dashed border-gray-300 rounded-lg mx-auto max-w-4xl"
+            className="text-center py-20 bg-gray-50 dark:bg-gray-900 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg mx-auto max-w-4xl"
             data-aos="zoom-in"
           >
-            <p className="text-2xl text-gray-600">
+            <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300">
               Sorry, no contests found matching your criteria.
             </p>
             {currentContestType && (
-              <p className="text-lg text-gray-500 mt-2">
+              <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">
                 Category:{" "}
                 <span className="font-semibold text-red-500">
                   "{currentContestType}"
@@ -153,33 +142,28 @@ const AllContests = () => {
           </div>
         )}
 
-        {/* Contest Cards Animation */}
+        {/* Contest Cards */}
         {!isNoResults && (
-          <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-            {contests.map(
-              (
-                contest,
-                index // contests ব্যবহার করা হয়েছে
-              ) => (
-                <div
-                  key={contest._id}
-                  data-aos="fade-up"
-                  data-aos-delay={index * 50}
-                >
-                  <AllContestCard contest={contest} />
-                </div>
-              )
-            )}
+          <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {contests.map((contest, index) => (
+              <div
+                key={contest._id}
+                data-aos="fade-up"
+                data-aos-delay={index * 50}
+              >
+                <AllContestCard contest={contest} />
+              </div>
+            ))}
           </div>
         )}
 
-        {/* 💡 নতুন: Pagination Controls */}
+        {/* Pagination */}
         {!isNoResults && totalPages > 1 && (
-          <div className="flex justify-center items-center space-x-2 mt-12">
+          <div className="flex flex-wrap justify-center items-center gap-2 mt-10">
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 transition duration-150"
+              className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 transition"
             >
               <FaChevronLeft className="inline mr-1" /> Previous
             </button>
@@ -188,10 +172,10 @@ const AllContests = () => {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition duration-150 ${
+                className={`px-3 py-2 text-sm font-medium rounded-lg transition ${
                   currentPage === page
                     ? "bg-yellow-500 text-white"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100"
+                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
                 }`}
               >
                 {page}
@@ -201,7 +185,7 @@ const AllContests = () => {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 transition duration-150"
+              className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 transition"
             >
               Next <FaChevronRight className="inline ml-1" />
             </button>

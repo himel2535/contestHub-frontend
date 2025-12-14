@@ -10,7 +10,14 @@ import { useParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
-import { FaTrophy, FaUserFriends, FaRegClock, FaDollarSign, FaCrown, FaCodeBranch } from "react-icons/fa"; 
+import {
+  FaTrophy,
+  FaUserFriends,
+  FaRegClock,
+  FaDollarSign,
+  FaCrown,
+  FaCodeBranch,
+} from "react-icons/fa";
 
 const ContestDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +29,7 @@ const ContestDetails = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
 
-  // 1. Fetch contest data
+  // Fetch contest data
   const {
     data: contest,
     isLoading: isContestLoading,
@@ -36,17 +43,18 @@ const ContestDetails = () => {
       return res.data;
     },
     refetchOnWindowFocus: false,
-    enabled: !!id, 
+    enabled: !!id,
   });
 
-  // 2. Fetch Submission Status
-  const { data: submissionStatus, isLoading: isSubmissionLoading } = useQuery({
+  // Fetch submission status
+  const {
+    data: submissionStatus,
+    isLoading: isSubmissionLoading,
+  } = useQuery({
     queryKey: ["submissionStatus", id, user?.email],
     queryFn: async () => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/contest-submission-status/${id}/${
-          user.email
-        }`
+        `${import.meta.env.VITE_API_URL}/contest-submission-status/${id}/${user.email}`
       );
       return res.data;
     },
@@ -54,7 +62,7 @@ const ContestDetails = () => {
     refetchOnWindowFocus: false,
   });
 
-  // Countdown logic
+  // Countdown
   useEffect(() => {
     if (!contest?.deadline) return;
 
@@ -72,7 +80,6 @@ const ContestDetails = () => {
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((diff / (1000 * 60)) % 60);
         const seconds = Math.floor((diff / 1000) % 60);
-
         setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
         setIsContestEnded(false);
       }
@@ -81,7 +88,7 @@ const ContestDetails = () => {
     return () => clearInterval(interval);
   }, [contest?.deadline]);
 
-  // Handle Loading and Error States
+  // Loading & error states
   if (isContestLoading || isSubmissionLoading || authLoading)
     return <LoadingSpinner />;
   if (isError) return <ErrorPage />;
@@ -99,164 +106,166 @@ const ContestDetails = () => {
     participants = [],
     winner,
     taskInstruction,
-  } = contest || {};
+  } = contest;
 
   const isRegistered = participants.includes(user?.email);
   const isSubmitted = submissionStatus?.submitted;
-  
-  const isFinalized = !!winner?.name || isContestEnded; 
+  const isFinalized = !!winner?.name || isContestEnded;
 
   const handleRegistered = () => {
     queryClient.invalidateQueries(["contest", id]);
   };
-  
-  const handleSubmitted = () => {
-      queryClient.invalidateQueries({ queryKey: ["submissionStatus", id, user?.email] });
-  }
 
-  // Determine button state and label
+  const handleSubmitted = () => {
+    queryClient.invalidateQueries({
+      queryKey: ["submissionStatus", id, user?.email],
+    });
+  };
+
   const getButtonState = () => {
     if (isFinalized) return { label: "Contest Closed", disabled: true };
     if (isRegistered) return { label: "Already Registered", disabled: true };
     if (!user) return { label: "Login to Register", disabled: true };
     return { label: "Pay & Register", disabled: false };
-  }
+  };
 
   const registerButton = getButtonState();
 
   return (
     <Container>
-      <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-10 py-12">
-        
-        {/* Left Side: Image, Details and Description (The Main Content) */}
-        <div className="flex-1 space-y-8">
-          
-          {/* Main Image Card with fixed height */}
-          <div 
-            className="rounded-xl overflow-hidden shadow-2xl border border-gray-100 h-[400px]" // 💡 height ফিক্সড করা হয়েছে
-            data-aos="fade-up"
-            data-aos-duration="1000"
-          >
+      <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-8 py-8 px-4 sm:px-6 overflow-x-hidden">
+        {/* Left Content */}
+        <div className="flex-1 space-y-6">
+          {/* Main Image */}
+          <div className="rounded-xl overflow-hidden shadow-2xl border border-gray-100 h-[400px]">
             <img
-              className="w-full h-full object-cover" // 💡 ইমেজটিকে div এর সাথে ফিট করার জন্য h-full
               src={image}
               alt={name}
+              className="w-full h-full object-cover"
             />
           </div>
 
-          {/* Winner Display - Light Style (Yellow) */}
+          {/* Winner Card */}
           {winner && winner.name && (
-            <div 
-                className="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-5 rounded-lg shadow-md flex items-center gap-4"
-                data-aos="zoom-in"
-                data-aos-delay="300"
-            >
-                <FaCrown className="text-4xl text-yellow-600 flex-shrink-0" />
-                <div className="leading-tight">
-                    <span className="font-bold text-xl text-yellow-700 block">🏆 WINNER DECLARED!</span>
-                    <span className="text-lg font-semibold">{winner.name}</span>
-                </div>
-                <img src={winner.photo} className="w-16 h-16 rounded-full object-cover border-4 border-yellow-500 ml-auto" />
+            <div className="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-lg shadow-md flex items-center gap-4">
+              <FaCrown className="text-4xl text-yellow-600 flex-shrink-0" />
+              <div className="leading-tight">
+                <span className="font-bold text-lg text-yellow-700 block">
+                  🏆 WINNER DECLARED!
+                </span>
+                <span className="text-md font-semibold">{winner.name}</span>
+              </div>
+              <img
+                src={winner.photo}
+                className="w-14 h-14 rounded-full object-cover border-2 border-yellow-500 ml-auto"
+              />
             </div>
           )}
-          
-          {/* Contest Description Card with Animation */}
-          <div 
-            className="bg-white p-6 rounded-xl shadow-lg border border-gray-200"
-            data-aos="fade-right"
-            data-aos-duration="1000"
-            data-aos-delay="200"
-          >
-            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b-2 pb-2 border-yellow-500/50">
-                <FaCodeBranch className="text-yellow-500" /> About Contest
+
+          {/* Contest Description */}
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2 border-b-2 pb-2 border-yellow-500/50">
+              <FaCodeBranch className="text-yellow-500" /> About Contest
             </h3>
-            <p className="text-gray-600 leading-relaxed whitespace-pre-line">{description}</p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+              {description}
+            </p>
           </div>
 
-          {/* Task Instructions Card with Animation */}
-          <div 
-            className="bg-white p-6 rounded-xl shadow-lg border border-gray-200"
-            data-aos="fade-right"
-            data-aos-duration="1000"
-            data-aos-delay="300"
-          >
-            <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2 border-b-2 pb-2 border-yellow-500/50">
-                <FaTrophy className="text-yellow-500" /> Submission Guidelines
+          {/* Task Instructions */}
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2 border-b-2 pb-2 border-yellow-500/50">
+              <FaTrophy className="text-yellow-500" /> Submission Guidelines
             </h3>
-            <p className="text-gray-600 leading-relaxed whitespace-pre-line">{taskInstruction}</p>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+              {taskInstruction}
+            </p>
           </div>
         </div>
 
-        {/* Right Side: Action Panel (Sticky) */}
-        <div 
-          className="w-full lg:w-[380px] bg-white p-6 rounded-xl shadow-2xl sticky top-20 h-fit border border-yellow-500/50"
-          data-aos="fade-left"
-          data-aos-duration="1000"
-        >
-          
-          {/* Header */}
+        {/* Right Panel */}
+        <div className="w-full lg:w-[380px] bg-white dark:bg-gray-800 p-6 rounded-xl shadow-2xl sticky top-20 h-fit border border-yellow-500/50">
           <Heading title={name} subtitle={`Category: ${category}`} />
-          
-          <hr className="my-5 border-gray-200" />
-          
-          {/* Key Stats Grid */}
-          <div className="grid grid-cols-2 gap-4 mb-5">
-              
-              {/* Prize Money (Green) */}
-              <div className="p-3 bg-green-50 rounded-lg text-center shadow-inner border border-green-200">
-                  <p className="text-xs uppercase text-green-600 font-medium">Prize Money</p> {/* 💡 Prize Pool পরিবর্তিত */}
-                  <p className="text-2xl font-extrabold text-gray-800 flex items-center justify-center gap-1">
-                      <FaDollarSign className="text-xl text-green-600" /> {prizeMoney}
-                  </p>
-              </div>
+          <hr className="my-4 border-gray-200 dark:border-gray-700" />
 
-              {/* Contest Fee (Green - Prize Money এর মতো) */}
-              <div className="p-3 bg-green-50 rounded-lg text-center shadow-inner border border-green-200"> {/* 💡 BG & Border Green করা হয়েছে */}
-                  <p className="text-xs uppercase text-green-600 font-medium">Contest Fee</p> {/* 💡 Text কালার Green করা হয়েছে */}
-                  <p className="text-2xl font-extrabold text-gray-800 flex items-center justify-center gap-1">
-                      <FaDollarSign className="text-xl text-green-600" /> {/* 💡 Icon কালার Green করা হয়েছে */}
-                      {contestFee}
-                  </p>
-              </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="p-3 bg-green-50 dark:bg-green-900 rounded-lg text-center shadow-inner border border-green-200 dark:border-green-700">
+              <p className="text-xs uppercase text-green-600 dark:text-green-400 font-medium">
+                Prize Money
+              </p>
+              <p className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 flex items-center justify-center gap-1">
+                <FaDollarSign className="text-green-600 dark:text-green-400" />{" "}
+                {prizeMoney}
+              </p>
+            </div>
 
-              {/* Deadline Remaining (Red/Indigo - Fee থেকে কালার এখানে এসেছে) */}
-              <div className="p-3 bg-red-50 rounded-lg col-span-2 shadow-inner border border-red-200"> {/* 💡 BG & Border Red করা হয়েছে */}
-                  <p className="text-xs uppercase text-red-600 font-medium text-center">Deadline Remaining</p> {/* 💡 Text কালার Red করা হয়েছে */}
-                  <div className="flex items-center justify-center gap-2 mt-1">
-                      <FaRegClock className="text-xl text-red-600" /> {/* 💡 Icon কালার Red করা হয়েছে */}
-                      <p className={`text-xl font-extrabold ${isContestEnded ? 'text-red-700' : 'text-gray-800'}`}>{timeLeft}</p>
-                  </div>
-              </div>
+            <div className="p-3 bg-green-50 dark:bg-green-900 rounded-lg text-center shadow-inner border border-green-200 dark:border-green-700">
+              <p className="text-xs uppercase text-green-600 dark:text-green-400 font-medium">
+                Contest Fee
+              </p>
+              <p className="text-2xl font-extrabold text-gray-800 dark:text-gray-200 flex items-center justify-center gap-1">
+                <FaDollarSign className="text-green-600 dark:text-green-400" />{" "}
+                {contestFee}
+              </p>
+            </div>
 
-              {/* Participants Count (Gray) */}
-              <div className="p-3 bg-gray-50 rounded-lg col-span-2 shadow-inner border border-gray-200">
-                  <p className="text-xs uppercase text-gray-600 font-medium text-center">Total Participants</p>
-                  <div className="flex items-center justify-center gap-2 mt-1">
-                      <FaUserFriends className="text-xl text-gray-600" />
-                      <p className="text-xl font-extrabold text-gray-800">{participantsCount}</p>
-                  </div>
+            <div className="p-3 bg-red-50 dark:bg-red-900 rounded-lg col-span-2 shadow-inner border border-red-200 dark:border-red-700">
+              <p className="text-xs uppercase text-red-600 dark:text-red-400 font-medium text-center">
+                Deadline Remaining
+              </p>
+              <div className="flex items-center justify-center gap-2 mt-1">
+                <FaRegClock className="text-red-600 dark:text-red-400" />
+                <p
+                  className={`text-xl font-extrabold ${
+                    isContestEnded
+                      ? "text-red-700 dark:text-red-300"
+                      : "text-gray-800 dark:text-gray-200"
+                  }`}
+                >
+                  {timeLeft}
+                </p>
               </div>
+            </div>
+
+            <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg col-span-2 shadow-inner border border-gray-200 dark:border-gray-700">
+              <p className="text-xs uppercase text-gray-600 dark:text-gray-400 font-medium text-center">
+                Total Participants
+              </p>
+              <div className="flex items-center justify-center gap-2 mt-1">
+                <FaUserFriends className="text-gray-600 dark:text-gray-400" />
+                <p className="text-xl font-extrabold text-gray-800 dark:text-gray-200">
+                  {participantsCount}
+                </p>
+              </div>
+            </div>
           </div>
-          
-          <hr className="my-5 border-gray-200" />
-          
-          {/* Creator Info */}
-          <p className="text-base font-semibold mb-3 text-gray-700">Contest Creator:</p>
-          <div className="flex items-center gap-4 p-3 border border-gray-300 rounded-lg bg-gray-50">
+
+          <hr className="my-4 border-gray-200 dark:border-gray-700" />
+
+          {/* Creator */}
+          <p className="text-base font-semibold mb-2 text-gray-700 dark:text-gray-300">
+            Contest Creator:
+          </p>
+          <div className="flex items-center gap-4 p-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
             <img
               src={contestCreator?.image}
               className="w-14 h-14 rounded-full object-cover border-2 border-yellow-500"
               alt={contestCreator?.name}
             />
             <div>
-              <p className="font-bold text-gray-800 text-lg">{contestCreator?.name}</p>
-              <p className="text-sm text-neutral-500">{contestCreator?.email}</p>
+              <p className="font-bold text-gray-800 dark:text-gray-200">
+                {contestCreator?.name}
+              </p>
+              <p className="text-sm text-neutral-500 dark:text-gray-400">
+                {contestCreator?.email}
+              </p>
             </div>
           </div>
-          
-          <hr className="my-6 border-gray-200" />
 
-          {/* Button logic */}
+          <hr className="my-4 border-gray-200 dark:border-gray-700" />
+
+          {/* Buttons */}
           <div className="flex flex-col gap-3">
             <Button
               label={registerButton.label}
@@ -269,17 +278,16 @@ const ContestDetails = () => {
                 label={isSubmitted ? "Task Submitted" : "Submit Task"}
                 onClick={() => setTaskOpen(true)}
                 disabled={isFinalized || isSubmitted}
-                // Custom style for the submit button
                 className={`bg-indigo-600 hover:bg-indigo-700 ${
-                    isFinalized || isSubmitted ? 'opacity-60 cursor-not-allowed' : ''
+                  isFinalized || isSubmitted ? "opacity-60 cursor-not-allowed" : ""
                 }`}
               />
             )}
-            
+
             {!user && (
-                <p className="text-center text-sm text-red-500 mt-2">
-                    Please log in to participate in the contest.
-                </p>
+              <p className="text-center text-sm text-red-500 mt-2">
+                Please log in to participate in the contest.
+              </p>
             )}
           </div>
 
@@ -290,7 +298,6 @@ const ContestDetails = () => {
             closeModal={() => setIsOpen(false)}
             onSuccess={handleRegistered}
           />
-
           <SubmitTaskModal
             contestId={id}
             isOpen={taskOpen}

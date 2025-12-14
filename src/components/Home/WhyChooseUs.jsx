@@ -7,7 +7,7 @@ import {
   FaGlobe,
   FaMoneyBillAlt,
 } from "react-icons/fa";
-import Container from "../Shared/Container"; // Import your Container component
+import Container from "../Shared/Container";
 
 const highlightsData = [
   {
@@ -42,42 +42,49 @@ const highlightsData = [
 
 const WhyChooseUs = () => {
   return (
-    <Container>
-      <section className="py-16 bg-white">
-        <div
-          className="text-center mb-12"
-          data-aos="fade-down"
-          data-aos-duration="800"
-        >
-          <h2 className="text-4xl font-extrabold text-gray-800 mb-3">
-            Why Choose Us?
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We make contest hosting and participation safe, transparent, and
-            rewarding.
-          </p>
-        </div>
+    <section className="py-12 bg-white dark:bg-gray-900">
+      <Container>
+        <section className="">
+          {/* Header */}
+          <div
+            className="text-center mb-12"
+            data-aos="fade-down"
+            data-aos-duration="800"
+          >
+            <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-100 mb-3 inline-block border-b-4 border-yellow-500 pb-2">
+              Why Choose Us?
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              We make contest hosting and participation safe, transparent, and
+              rewarding. Experience a platform that celebrates talent and
+              ensures fairness every step of the way.
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {highlightsData.map((item, index) => (
-            <div
-              key={index}
-              data-aos="fade-up" 
-              data-aos-delay={index * 150} 
-              className="p-6 bg-gray-50 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border-t-4 border-yellow-500"
-            >
-              <div className={`text-5xl mb-4 ${item.color}`}>
-                <item.icon className="mx-auto lg:mx-0" />
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {highlightsData.map((item, index) => (
+              <div
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={index * 150}
+                className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 border-t-4 border-yellow-500"
+              >
+                <div className={`text-5xl mb-4 ${item.color}`}>
+                  <item.icon className="mx-auto lg:mx-0" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {item.description}
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-3">
-                {item.title}
-              </h3>
-              <p className="text-gray-600">{item.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </Container>
+            ))}
+          </div>
+        </section>
+      </Container>
+    </section>
   );
 };
 
