@@ -1,10 +1,9 @@
-
-
+// src/pages/Dashboard/Profile.jsx (আপডেট করা কোড)
 import useAuth from "../../../hooks/useAuth";
 import coverImg from "../../../assets/images/cover.jpg";
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
-import { FaUser, FaEnvelope, FaIdCardAlt, FaEdit, FaKey } from "react-icons/fa"; 
+import { FaUser, FaEnvelope, FaIdCardAlt, FaKey, FaCrown } from "react-icons/fa";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -19,11 +18,31 @@ const Profile = () => {
   const userEmail = user?.email || "N/A";
   const userPhoto = user?.photoURL || "https://via.placeholder.com/150";
 
+  const HeadingIcon = FaUser;
+
   return (
-    <div className="flex justify-center items-center py-12 md:py-20 px-4 min-h-screen">
+    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড যোগ করা হয়েছে
+    <div className="flex flex-col items-center py-8 md:py-12 px-4 min-h-screen dark:bg-gray-900">
+      
+      {/* 👑 কাস্টম হেডিং সেকশন */}
+      <div
+        className="text-center mb-10"
+        data-aos="fade-down"
+        data-aos-duration="800"
+      >
+        <h2
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2"
+        >
+          <HeadingIcon className="mr-2 text-yellow-600 text-2xl sm:text-3xl flex-shrink-0" />
+          <span className="">
+            <span>My Account Profile</span>
+          </span>
+        </h2>
+      </div>
+
       {/* 💡 Profile Card with AOS Animation */}
       <div
-        className="bg-white shadow-2xl rounded-2xl w-full max-w-4xl overflow-hidden"
+        className="bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-700/50 rounded-2xl w-full max-w-4xl overflow-hidden"
         data-aos="fade-up"
         data-aos-duration="1000"
       >
@@ -34,15 +53,12 @@ const Profile = () => {
             src={coverImg}
             className="w-full h-48 md:h-64 object-cover"
           />
-          {/* Role Badge on Cover */}
-          <p className="absolute top-4 right-4 p-2 px-4 text-sm font-semibold text-white bg-yellow-600 rounded-full shadow-lg capitalize">
-            {role}
-          </p>
         </div>
 
         {/* Profile Content */}
         <div className="flex flex-col items-center justify-center p-6 md:p-8 -mt-16">
-          {/* Profile Picture */}
+          
+          {/* 1. Profile Picture */}
           <div
             className="relative block"
             data-aos="zoom-in"
@@ -51,86 +67,75 @@ const Profile = () => {
             <img
               alt="profile"
               src={userPhoto}
-              className="mx-auto object-cover rounded-full h-32 w-32 border-4 border-white shadow-xl"
+              className="mx-auto object-cover rounded-full h-32 w-32 border-4 border-white dark:border-gray-800 shadow-xl"
             />
           </div>
 
-          {/* User ID */}
+          {/* 2. নতুন রোল ব্যাজ (ছবির নিচে) */}
           <p
-            className="mt-4 text-lg font-medium text-gray-700 flex items-center"
+            className="mt-4 p-2 px-6 text-base font-bold text-white bg-yellow-600 rounded-full shadow-lg capitalize"
             data-aos="fade-down"
             data-aos-delay="300"
           >
-            <FaIdCardAlt className="mr-2 text-yellow-600" />
-            User ID:{" "}
-            <span className="font-semibold text-gray-900 ml-1">
-              {user?.uid.substring(0, 15)}...
-            </span>
+            <FaCrown className="inline-block mr-2 text-xl" />
+            {role}
           </p>
 
-          {/* Info Grid */}
+          {/* 3. Info Grid */}
           <div className="w-full p-2 mt-8 md:mt-10 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-sm text-gray-600 border-b pb-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
+              
               {/* Name */}
+              {/* 💡 ফিক্স: md:items-start নিশ্চিত করা হলো */}
               <div
                 className="flex flex-col items-center md:items-start"
                 data-aos="fade-right"
                 data-aos-delay="400"
               >
-                <p className="text-sm font-medium text-gray-500 mb-1 flex items-center">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 flex items-center">
                   <FaUser className="mr-2 text-yellow-600" /> Name
                 </p>
-                <span className="font-bold text-lg text-gray-900 ">
+                <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
                   {userDisplayName}
                 </span>
               </div>
 
               {/* Email */}
+              {/* 💡 ফিক্স: md:items-start নিশ্চিত করা হলো */}
               <div
                 className="flex flex-col items-center md:items-start"
                 data-aos="fade-up"
                 data-aos-delay="500"
               >
-                <p className="text-sm font-medium text-gray-500 mb-1 flex items-center">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 flex items-center">
                   <FaEnvelope className="mr-2 text-yellow-600" /> Email
                 </p>
-                <span className="font-bold text-lg text-gray-900 ">
+                <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
                   {userEmail}
                 </span>
               </div>
 
-              {/* Role (for mobile view, already on cover for desktop) */}
+              {/* User ID */}
+              {/* 💡 ফিক্স: md:items-start নিশ্চিত করা হলো */}
               <div
-                className="flex flex-col items-center md:items-start md:hidden"
+                className="flex flex-col items-center md:items-start"
                 data-aos="fade-left"
                 data-aos-delay="600"
               >
-                <p className="text-sm font-medium text-gray-500 mb-1 flex items-center">
-                  <FaIdCardAlt className="mr-2 text-yellow-600" /> Role
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 flex items-center">
+                  <FaIdCardAlt className="mr-2 text-yellow-600" /> User ID
                 </p>
-                <span className="font-bold text-lg text-gray-900 capitalize">
-                  {role}
+                {/* User ID ছোট করার জন্য break-all ব্যবহার করা হয়েছে */}
+                <span className="font-bold text-lg text-gray-900 dark:text-gray-100 break-all">
+                  {user?.uid.substring(0, 15)}...
                 </span>
               </div>
+
             </div>
 
-            {/* Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <button
-                className="w-full sm:w-auto bg-yellow-600 px-8 py-3 rounded-lg text-white font-semibold cursor-pointer hover:bg-yellow-700 transition duration-300 flex items-center justify-center shadow-md"
-                data-aos="zoom-in"
-                data-aos-delay="700"
-              >
-                <FaEdit className="mr-2" /> Update Profile
-              </button>
-
-              <button
-                className="w-full sm:w-auto bg-gray-700 px-8 py-3 rounded-lg text-white font-semibold cursor-pointer hover:bg-gray-800 transition duration-300 flex items-center justify-center shadow-md"
-                data-aos="zoom-in"
-                data-aos-delay="800"
-              >
-                <FaKey className="mr-2" /> Change Password
-              </button>
+            {/* 💡 নতুন সেকশন: Role (এখন যেহেতু Role উপরে চলে গেছে, এই সেকশনটি সরানো হলো বা ফাঁকা রাখা হলো) */}
+            <div className="mt-6">
+                 {/* This section can be used for extra information if needed, or left empty */}
             </div>
           </div>
         </div>

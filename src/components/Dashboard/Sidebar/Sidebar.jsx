@@ -50,7 +50,7 @@ const Sidebar = ({ currentTheme }) => {
       </div>
 
       {/*  Sidebar */}
-      <div className={`z-40 md:fixed flex flex-col justify-between ${baseBg} w-64 h-full px-3 py-4 space-y-6
+      <div className={`z-40 md:fixed flex flex-col justify-between ${baseBg} w-64 h-full px-2 py-4 space-y-6
         absolute inset-y-0 left-0 transform ${isActive ? '-translate-x-full' : 'translate-x-0'} md:translate-x-0 transition-transform duration-200 ease-in-out`}>
 
         {/* Logo */}
