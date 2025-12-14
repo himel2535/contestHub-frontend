@@ -9,6 +9,7 @@ import { GrLogout } from 'react-icons/gr';
 import { FcSettings } from 'react-icons/fc';
 import { AiOutlineBars } from 'react-icons/ai';
 import { BsGraphUp } from 'react-icons/bs';
+import { FaSun, FaMoon } from 'react-icons/fa'; // 💡 থিম টগল আইকন
 
 // Menu Components
 import MenuItem from './Menu/MenuItem';
@@ -19,12 +20,15 @@ import ParticipantMenu from './Menu/ParticipantMenu';
 // Hooks and Shared Components
 import useRole from '../../../hooks/useRole';
 import LoadingSpinner from '../../Shared/LoadingSpinner';
-
-const Sidebar = ({ currentTheme }) => { 
+import useTheme from '../../../hooks/useTheme'; 
+const Sidebar = () => { 
   const { logOut } = useAuth();
   const [isActive, setIsActive] = useState(false);
   const [role, isRoleLoading] = useRole();
   const [mounted, setMounted] = useState(false);
+  
+
+  const { theme, toggleTheme } = useTheme(); 
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
@@ -34,29 +38,30 @@ const Sidebar = ({ currentTheme }) => {
 
   const handleToggle = () => setIsActive(!isActive);
 
-
-  const baseBg = currentTheme === 'dark' ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-800';
+  const resolvedTheme = theme; 
+  // 💡 থিম অনুযায়ী ব্যাকগ্রাউন্ড নির্ধারণ
+  const baseBg = resolvedTheme === 'dark' ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-800';
 
   return (
     <>
       {/* 🧭 Mobile Top Bar */}
       <div className={`flex justify-between items-center md:hidden ${baseBg} shadow-md`}>
         <Link to="/" className="p-4">
-          <img src={logo4} alt="logo" width="100" height="100" />
+          <img src={logo4} alt="logo" width="100" height="100" className="filter dark:brightness-100" />
         </Link>
         <button onClick={handleToggle} className="p-4 focus:outline-none">
           <AiOutlineBars className="h-6 w-6" />
         </button>
       </div>
 
-      {/*  Sidebar */}
+      {/* Main Sidebar */}
       <div className={`z-40 md:fixed flex flex-col justify-between ${baseBg} w-64 h-full px-2 py-4 space-y-6
         absolute inset-y-0 left-0 transform ${isActive ? '-translate-x-full' : 'translate-x-0'} md:translate-x-0 transition-transform duration-200 ease-in-out`}>
 
         {/* Logo */}
         <div className="hidden md:flex justify-center items-center py-3 bg-yellow-100 dark:bg-gray-800 rounded-lg shadow">
           <Link to="/">
-            <img src={logo4} alt="logo" width="100" height="100" />
+            <img src={logo4} alt="logo" width="100" height="100" className="filter dark:brightness-100" />
           </Link>
         </div>
 
@@ -66,25 +71,48 @@ const Sidebar = ({ currentTheme }) => {
             icon={BsGraphUp} 
             label="Statistics" 
             address="/dashboard" 
-            resolvedTheme={currentTheme} 
+            resolvedTheme={resolvedTheme} 
           />
-          {role === 'participant' && <ParticipantMenu resolvedTheme={currentTheme} />} 
-          {role === 'contestCreator' && <CreatorMenu resolvedTheme={currentTheme} />}    
-          {role === 'admin' && <AdminMenu resolvedTheme={currentTheme} />}             
+          {role === 'participant' && <ParticipantMenu resolvedTheme={resolvedTheme} />} 
+          {role === 'contestCreator' && <CreatorMenu resolvedTheme={resolvedTheme} />}    
+          {role === 'admin' && <AdminMenu resolvedTheme={resolvedTheme} />}             
         </nav>
 
-        {/* Bottom Section (Profile and Logout) */}
+        {/* Bottom Section (Profile, Theme Toggle, and Logout) */}
         <div className="border-t border-gray-300 dark:border-gray-700 pt-4 space-y-2">
+          
+          {/* 💡 Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle Dark/Light Theme"
+            className={`flex items-center justify-start w-full px-4 py-2 rounded-lg transition-colors duration-200 shadow-sm cursor-pointer
+              ${resolvedTheme === 'dark' 
+                ? 'bg-gray-700 text-yellow-400 hover:bg-gray-600' 
+                : 'bg-white text-gray-800 hover:bg-gray-200'
+              }`}
+          >
+            {theme === "dark" ? (
+              <FaSun className="w-5 h-5 mr-3 text-yellow-400" />
+            ) : (
+              <FaMoon className="w-5 h-5 mr-3 text-gray-600" />
+            )}
+            <span className="font-medium">
+              {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            </span>
+          </button>
+          {/* ------------------------------------- */}
+
+
           <MenuItem 
             icon={FcSettings} 
             label="Profile" 
             address="/dashboard/profile" 
-            resolvedTheme={currentTheme} 
+            resolvedTheme={resolvedTheme} 
           />
           <button
             onClick={logOut}
             className={`flex items-center w-full px-4 py-2 rounded-lg transition-colors duration-200
-              ${currentTheme === 'dark' ? 'text-gray-200 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-200 hover:text-gray-900'}`}>
+              ${resolvedTheme === 'dark' ? 'text-gray-200 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-200 hover:text-gray-900'}`}>
             <GrLogout className="w-5 h-5" />
             <span className="ml-3 font-medium">Logout</span>
           </button>

@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
+import useTheme from "../../../hooks/useTheme"; // 💡 useTheme আমদানি করা হলো
 import {
   FaChartBar,
   FaDollarSign,
   FaUsers,
   FaClipboardList,
-  FaCrown, // 💡 কাস্টম হেডিং স্টাইলের জন্য FaCrown আমদানি করা হলো
+  FaCrown, 
 } from "react-icons/fa";
 
 // 💡 IMPORTS FOR BAR CHART
@@ -22,12 +23,16 @@ import {
 } from "recharts";
 
 // --- Custom Tooltip Component for Bar Chart ---
-const CustomTooltip = ({ active, payload, label }) => {
+// 💡 resolvedTheme prop গ্রহণ করছে
+const CustomTooltip = ({ active, payload, label, resolvedTheme }) => { 
   if (active && payload && payload.length) {
     return (
-      // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট কালার যোগ করা হয়েছে
-      <div className="p-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-md text-sm">
-        <p className="font-semibold text-gray-800 dark:text-gray-100">{`${label} Contests`}</p>
+      <div className={`p-2 border rounded-lg shadow-md text-sm ${
+          resolvedTheme === 'dark' 
+            ? 'bg-gray-700 border-gray-600' 
+            : 'bg-white border-gray-300'
+        }`}>
+        <p className={`font-semibold ${resolvedTheme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>{`${label} Contests`}</p>
         {/* payload[0] is the 'Count' Bar data */}
         <p className="text-green-600">{`Count: ${payload[0].value}`}</p>
       </div>
@@ -37,7 +42,8 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 // --- Sub-Component: Contest Status Bar Chart  ---
-const StatusBarChart = ({ stats }) => {
+// 💡 resolvedTheme prop গ্রহণ করছে
+const StatusBarChart = ({ stats, resolvedTheme }) => { 
   const chartData = [
     {
       name: "Completed",
@@ -58,10 +64,15 @@ const StatusBarChart = ({ stats }) => {
 
   const totalCount = chartData.reduce((sum, item) => sum + item.Count, 0);
 
+  // Define chart colors based on theme
+  const axisColor = resolvedTheme === 'dark' ? "#9ca3af" : "#555";
+  const tickFill = resolvedTheme === 'dark' ? "#e5e7eb" : "#1f2937";
+  const gridStroke = resolvedTheme === 'dark' ? "#4b5563" : "#e0e0e0";
+
   if (totalCount === 0) {
     return (
       <div
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
         className="flex flex-col p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl border-t-4 border-yellow-500 w-full h-full items-center justify-center min-h-[350px]"
         data-aos="fade-up"
       >
@@ -78,10 +89,7 @@ const StatusBarChart = ({ stats }) => {
   // Custom Bar component to apply dynamic color
   const CustomBar = (props) => {
     const { x, y, width, height, payload } = props;
-
-    // Fallback color if color property is missing
     const barColor = payload && payload.color ? payload.color : "#ccc"; 
-
     return (
       <rect x={x} y={y} width={width} height={height} fill={barColor} rx={5} />
     );
@@ -89,7 +97,7 @@ const StatusBarChart = ({ stats }) => {
   
   return (
     <div
-      // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
+      // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
       className="flex flex-col p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl border-t-4 border-yellow-500 w-full h-full"
       data-aos="fade-right"
     >
@@ -106,19 +114,41 @@ const StatusBarChart = ({ stats }) => {
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#e0e0e0" // 💡 লাইট গ্রে
+              stroke={gridStroke} 
               vertical={false}
             />
-            {/* 💡 ডার্ক মোডে Axis টেক্সট কালার ফিক্সড */}
-            <XAxis dataKey="name" stroke="#555" tick={{ fill: 'var(--color-text-primary)' }} /> 
-            <YAxis allowDecimals={false} stroke="#555" tick={{ fill: 'var(--color-text-primary)' }} />
-            <Tooltip content={<CustomTooltip />} />
+            
+            {/* 💡 ফিক্সড: XAxis - Tick এবং Line Color পরিবর্তন */}
+            <XAxis 
+              dataKey="name" 
+              stroke={axisColor}
+              tick={{ fill: tickFill }}
+              axisLine={{ stroke: axisColor }}
+              tickLine={{ stroke: axisColor }}
+            /> 
+            
+            {/* 💡 ফিক্সড: YAxis - Tick এবং Line Color পরিবর্তন */}
+            <YAxis 
+              allowDecimals={false} 
+              stroke={axisColor}
+              tick={{ fill: tickFill }}
+              axisLine={{ stroke: axisColor }}
+              tickLine={{ stroke: axisColor }}
+            />
+            
+            {/* 💡 CustomTooltip-এ theme prop পাস করা হলো */}
+            <Tooltip content={<CustomTooltip resolvedTheme={resolvedTheme} />} /> 
+            
             <Bar
               dataKey="Count"
               // eslint-disable-next-line react-hooks/static-components
               shape={<CustomBar />}
-              // 💡 ডার্ক মোডে লেবেল টেক্সট কালার ফিক্সড
-              label={{ position: "top", fill: "var(--color-text-secondary)", fontSize: 12 }} 
+              // 💡 ফিক্সড: Bar Label Color
+              label={{ 
+                position: "top", 
+                fill: tickFill, 
+                fontSize: 12 
+              }} 
             />
           </BarChart>
         </ResponsiveContainer>
@@ -127,10 +157,13 @@ const StatusBarChart = ({ stats }) => {
   );
 };
 
+
 // --- Main Component ---
 const CreatorStatistics = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
+  // 💡 থিম স্টেট সরাসরি এখানে নেওয়া হলো
+  const { theme } = useTheme();
 
   // Fetch Creator Statistics
   const {
@@ -150,7 +183,6 @@ const CreatorStatistics = () => {
   
   if (isError)
     return (
-
       <div className="text-red-500 dark:text-red-400 text-center py-10 text-xl font-semibold">
         Failed to load statistics. Please check server connection.
       </div>
@@ -168,7 +200,10 @@ const CreatorStatistics = () => {
 
   return (
 
-    <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900">
+    // 💡 Main container এ ডার্ক মোড ব্যাকগ্রাউন্ড নিশ্চিত করা হলো
+    // (যদি আপনি চান এটি DashboardLayout এর ব্যাকগ্রাউন্ডের উপর আলাদা একটি বক্স হিসেবে থাকুক, 
+    // তাহলে bg-white dark:bg-gray-900 ব্যবহার করুন, যা এখানে ব্যবহার করা হয়েছে।)
+    <div className="container mx-auto px-4 sm:px-8 py-8 bg-white dark:bg-gray-900 min-h-screen">
       
 
       <div
@@ -202,7 +237,7 @@ const CreatorStatistics = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
         {/* Total Contests Created */}
         <div
-          // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
+          // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg dark:shadow-md border-l-4 border-yellow-500 flex items-center justify-between"
           data-aos="zoom-in"
           data-aos-delay="0"
@@ -220,7 +255,7 @@ const CreatorStatistics = () => {
 
         {/* Total Participants */}
         <div
-
+          // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg dark:shadow-md border-l-4 border-yellow-500 flex items-center justify-between"
           data-aos="zoom-in"
           data-aos-delay="200"
@@ -238,7 +273,7 @@ const CreatorStatistics = () => {
 
         {/* Total Revenue */}
         <div
-
+          // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
           className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg dark:shadow-md border-l-4 border-yellow-500 flex items-center justify-between"
           data-aos="zoom-in"
           data-aos-delay="400"
@@ -255,14 +290,15 @@ const CreatorStatistics = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Contest Status Bar Chart (StatusBarChart sub-component already updated) */}
+        {/* Contest Status Bar Chart */}
         <div className="lg:col-span-1">
-          <StatusBarChart stats={statusStats} />
+          {/* 💡 StatusBarChart-এ theme prop পাস করা হলো */}
+          <StatusBarChart stats={statusStats} resolvedTheme={theme} /> 
         </div>
 
         {/* Placeholder for future charts (e.g., Monthly Revenue Chart) */}
         <div
-     
+          // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো যোগ করা হয়েছে
           className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl border-t-4 border-yellow-500 flex items-center justify-center min-h-[350px]"
           data-aos="fade-left"
           data-aos-duration="1000"

@@ -1,3 +1,5 @@
+
+
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
@@ -50,50 +52,65 @@ const PurchaseModal = ({ closeModal, isOpen, contest }) => {
     <Dialog
       open={isOpen}
       as="div"
-      className="relative z-10 focus:outline-none "
+      className="relative z-10 focus:outline-none"
       onClose={closeModal}
     >
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
-            className="w-full max-w-md bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl rounded-2xl"
+            // মডাল কন্টেইনার: ব্যাকগ্রাউন্ড, শ্যাডো এবং টেক্সট কালার ডার্ক মোড ফ্রেন্ডলি
+            className="w-full max-w-md bg-white dark:bg-gray-800 p-6 backdrop-blur-2xl duration-300 ease-out 
+                       data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl dark:shadow-2xl dark:shadow-yellow-500/20 rounded-2xl"
           >
             <DialogTitle
               as="h3"
-              className="text-lg font-medium text-center leading-6 text-gray-900"
+              // হেডিং টেক্সট কালার ডার্ক মোড ফ্রেন্ডলি
+              className="text-lg font-medium text-center leading-6 text-gray-900 dark:text-gray-100"
             >
               Review Info Before Payment
             </DialogTitle>
+            
+            {/* কন্টেন্ট এরিয়া: টেক্সট কালার ডার্ক মোড ফ্রেন্ডলি */}
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Contest: {name}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-300">Contest: {name}</p>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Category: {category}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-300">Category: {category}</p>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-300">
                 {" "}
                 Participant : {user?.displayName}
               </p>
             </div>
 
             <div className="mt-2">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-300">
                 Contest Fee: $ {contestFee}
               </p>
             </div>
-            <div className="flex mt-2 justify-around">
+            
+            {/* বাটন সেকশন */}
+            <div className="flex mt-6 justify-around border-t border-gray-200 dark:border-gray-700 pt-4">
               <button
                 onClick={handlePayment}
                 type="button"
-                className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                // 💡 Pay বাটন: হলুদ রং (Yellow-500/600) ব্যবহার করা হলো
+                className="cursor-pointer inline-flex justify-center rounded-md border border-transparent 
+                           bg-yellow-500 dark:bg-yellow-600 px-4 py-2 text-sm font-medium 
+                           text-white hover:bg-yellow-600 dark:hover:bg-yellow-700 
+                           focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
               >
                 Pay
               </button>
               <button
                 type="button"
-                className="cursor-pointer inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                // 💡 Cancel বাটন: হলুদ থিমের সাথে মানানসই গ্রে ব্যাকগ্রাউন্ড
+                className="cursor-pointer inline-flex justify-center rounded-md border border-transparent 
+                           bg-gray-100 dark:bg-gray-700 px-4 py-2 text-sm font-medium 
+                           text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 
+                           focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
                 onClick={closeModal}
               >
                 Cancel

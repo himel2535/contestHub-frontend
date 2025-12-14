@@ -59,11 +59,13 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
-            className="w-full max-w-md bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl rounded-2xl"
+            // 💡 মডাল কন্টেইনারের ব্যাকগ্রাউন্ড, টেক্সট এবং শ্যাডো ডার্ক মোড ফ্রেন্ডলি করা হলো
+            className="w-full max-w-md bg-white dark:bg-gray-800 p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-xl dark:shadow-2xl dark:shadow-yellow-500/20 rounded-2xl"
           >
             <DialogTitle
               as="h3"
-              className="text-lg font-medium text-center leading-6 text-gray-900"
+              // 💡 হেডিং টেক্সট কালার ডার্ক মোড ফ্রেন্ডলি করা হলো
+              className="text-lg font-medium text-center leading-6 text-gray-900 dark:text-gray-100"
             >
               Submit Your Task
             </DialogTitle>
@@ -71,7 +73,8 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
               <div className="mb-4">
                 <label
                   htmlFor="taskContent"
-                  className="block text-sm font-medium text-gray-700"
+                  // 💡 লেবেল টেক্সট কালার ডার্ক মোড ফ্রেন্ডলি করা হলো
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Submit Your Task Content or Description
                 </label>
@@ -82,7 +85,9 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
                   {...register("taskContent", {
                     required: "Task content is required",
                   })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 sm:text-sm p-2 border"
+                  // 💡 টেক্সট এরিয়া: ব্যাকগ্রাউন্ড, বর্ডার এবং টেক্সট কালার ডার্ক মোড ফ্রেন্ডলি করা হলো
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 sm:text-sm p-2 border
+                           bg-white dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 placeholder:dark:text-gray-400"
                   placeholder="Write your submission content or task details here..."
                 />
               </div>
@@ -91,7 +96,10 @@ const SubmitTaskModal = ({ contestId, closeModal, isOpen, onSuccess }) => {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
+                  // 💡 Cancel বাটন: ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট কালার
+                  className="inline-flex justify-center rounded-md border border-transparent 
+                           bg-gray-100 dark:bg-gray-600 px-4 py-2 text-sm font-medium 
+                           text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
                   disabled={isPending}
                 >
                   Cancel
