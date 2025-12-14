@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { imageUpload } from "../../utils";
 import useAuth from "../../hooks/useAuth";
 import { TbFidgetSpinner } from "react-icons/tb";
-import { FaPlusCircle, FaSave } from "react-icons/fa";
+import { FaPlusCircle, FaSave, FaCrown } from "react-icons/fa";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
@@ -109,27 +109,29 @@ const AddContestForm = () => {
   const isDisabled = isSubmitting || isMutationPending;
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 py-8">
+    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
+    <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900 min-h-screen">
+      
+      {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
       <div
         className="text-center mb-10"
         data-aos="fade-down"
         data-aos-duration="800"
       >
-        <div className="inline-block border-b-4 border-yellow-500 pb-2">
-          <div className="mb-2 block md:hidden">
-            <FaPlusCircle className="text-5xl text-yellow-600 mx-auto" />
-          </div>
-
-          <h2 className="text-4xl font-extrabold text-gray-900 inline-flex items-center">
-            <span className="hidden md:inline-flex items-center justify-center">
-              <FaPlusCircle className="mr-3 text-yellow-600 text-4xl" />
-            </span>
-            Add A New Contest
-          </h2>
-        </div>
+        <h2
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2"
+        >
+          <FaPlusCircle className="mr-2 text-yellow-600 text-2xl sm:text-3xl flex-shrink-0" />
+          <span className="">
+            <span>Add A New Contest</span>
+          </span>
+        </h2>
       </div>
 
-      <div className="w-full max-w-6xl mx-auto rounded-xl bg-white shadow-2xl p-6 lg:p-10 border-t-4 border-yellow-500">
+      <div 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং বর্ডার
+        className="w-full max-w-6xl mx-auto rounded-xl bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-700/50 p-6 lg:p-10 border-t-4 border-yellow-500"
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Left Column - Contest Details (3 Fields + Description) */}
@@ -140,7 +142,8 @@ const AddContestForm = () => {
             >
               {/* Name */}
               <div className="space-y-1 text-sm">
-                <label className="block text-gray-700 font-medium">
+                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                <label className="block text-gray-700 dark:text-gray-300 font-medium">
                   Contest Name
                 </label>
                 <input
@@ -151,7 +154,8 @@ const AddContestForm = () => {
                       message: "Name cannot exceed 50 characters",
                     },
                   })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white transition duration-150"
+                  // 💡 ডার্ক মোড ইনপুট স্টাইল
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                   placeholder="e.g., Frontend Design Challenge"
                 />
                 {errors.name && (
@@ -163,24 +167,26 @@ const AddContestForm = () => {
 
               {/* Category */}
               <div className="space-y-1 text-sm">
-                <label className="block text-gray-700 font-medium">
+                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                <label className="block text-gray-700 dark:text-gray-300 font-medium">
                   Category
                 </label>
                 <select
                   {...register("category", {
                     required: "Category is required",
                   })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white transition duration-150"
+                  // 💡 ডার্ক মোড সিলেক্ট স্টাইল
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                 >
-                  <option value="">Select a Category</option>
-                  <option value="Programming Contest">
+                  <option className="dark:bg-gray-800" value="">Select a Category</option>
+                  <option className="dark:bg-gray-800" value="Programming Contest">
                     Programming Contest
                   </option>
-                  <option value="Design Contest">Design Contest</option>
-                  <option value="Gaming Contest">Gaming Contest</option>
-                  <option value="Article Writing">Article Writing</option>
-                  <option value="Photography">Photography Contest</option>
-                  <option value="Video Editing">Video Editing Contest</option>
+                  <option className="dark:bg-gray-800" value="Design Contest">Design Contest</option>
+                  <option className="dark:bg-gray-800" value="Gaming Contest">Gaming Contest</option>
+                  <option className="dark:bg-gray-800" value="Article Writing">Article Writing</option>
+                  <option className="dark:bg-gray-800" value="Photography">Photography Contest</option>
+                  <option className="dark:bg-gray-800" value="Video Editing">Video Editing Contest</option>
                 </select>
                 {errors.category && (
                   <p className="text-xs text-red-500 mt-1">
@@ -191,14 +197,16 @@ const AddContestForm = () => {
 
               {/* Description */}
               <div>
-                <label className="block text-gray-700 font-medium">
+                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                <label className="block text-gray-700 dark:text-gray-300 font-medium">
                   Description
                 </label>
                 <textarea
                   {...register("description", {
                     required: "Description is required",
                   })}
-                  className="w-full h-[150px] p-3 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white transition duration-150"
+                  // 💡 ডার্ক মোড টেক্সটএরিয়া স্টাইল
+                  className="w-full h-[150px] p-3 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                   placeholder="Describe the contest objectives, rules, and eligibility."
                 />
                 {errors.description && (
@@ -218,7 +226,8 @@ const AddContestForm = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Prize Money */}
                 <div>
-                  <label className="block text-gray-700 font-medium">
+                  {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                  <label className="block text-gray-700 dark:text-gray-300 font-medium">
                     Prize Money ($){" "}
                   </label>
                   <input
@@ -228,7 +237,8 @@ const AddContestForm = () => {
                     })}
                     type="number"
                     step="0.01"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white"
+                    // 💡 ডার্ক মোড ইনপুট স্টাইল
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100"
                   />
                   {errors.prizeMoney && (
                     <p className="text-xs text-red-500 mt-1">
@@ -239,7 +249,8 @@ const AddContestForm = () => {
 
                 {/* Contest Fee */}
                 <div>
-                  <label className="block text-gray-700 font-medium">
+                  {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                  <label className="block text-gray-700 dark:text-gray-300 font-medium">
                     Entry Fee ($)
                   </label>
                   <input
@@ -249,7 +260,8 @@ const AddContestForm = () => {
                     })}
                     type="number"
                     step="0.01"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white"
+                    // 💡 ডার্ক মোড ইনপুট স্টাইল
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100"
                   />
                   {errors.contestFee && (
                     <p className="text-xs text-red-500 mt-1">
@@ -260,7 +272,8 @@ const AddContestForm = () => {
 
                 {/* Participants Count */}
                 <div>
-                  <label className="block text-gray-700 font-medium">
+                  {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                  <label className="block text-gray-700 dark:text-gray-300 font-medium">
                     Participants
                   </label>
                   <input
@@ -269,7 +282,8 @@ const AddContestForm = () => {
                       min: { value: 1, message: "Must be at least 1" },
                     })}
                     type="number"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white"
+                    // 💡 ডার্ক মোড ইনপুট স্টাইল
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100"
                   />
                   {errors.participantsCount && (
                     <p className="text-xs text-red-500 mt-1">
@@ -281,7 +295,8 @@ const AddContestForm = () => {
 
               {/* Deadline */}
               <div>
-                <label className="block text-gray-700 font-medium">
+                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                <label className="block text-gray-700 dark:text-gray-300 font-medium">
                   Deadline
                 </label>
                 <input
@@ -289,7 +304,8 @@ const AddContestForm = () => {
                     required: "Deadline is required",
                   })}
                   type="datetime-local"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white transition duration-150"
+                  // 💡 ডার্ক মোড ইনপুট স্টাইল
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                 />
                 {errors.deadline && (
                   <p className="text-xs text-red-500 mt-1">
@@ -299,8 +315,12 @@ const AddContestForm = () => {
               </div>
 
               {/* Image upload */}
-              <div className="p-4 rounded-lg border border-gray-200 bg-gray-50">
-                <label className="block text-gray-700 font-medium mb-2">
+              <div 
+                // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+                className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700"
+              >
+                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+                <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
                   Banner Image Upload
                 </label>
                 <input
@@ -309,7 +329,8 @@ const AddContestForm = () => {
                   })}
                   type="file"
                   accept="image/*"
-                  className="cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-100 file:text-yellow-700 hover:file:bg-yellow-200"
+                  // 💡 ডার্ক মোড ফাইল ইনপুট স্টাইল
+                  className="cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-100 file:text-yellow-700 hover:file:bg-yellow-200 dark:file:bg-yellow-800 dark:file:text-white dark:hover:file:bg-yellow-700"
                 />
                 {errors.image && (
                   <p className="text-xs text-red-500 mt-1">
@@ -318,7 +339,7 @@ const AddContestForm = () => {
                 )}
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button (কালার ঠিক আছে, ডার্ক মোডেও একই থাকবে) */}
               <button
                 type="submit"
                 disabled={isDisabled}

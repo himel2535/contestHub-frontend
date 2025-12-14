@@ -1,7 +1,7 @@
 // src/components/Dashboard/TableRows/SimpleSubmissionDataRow.jsx
+import { Link } from "react-router"; // Link আমদানি করা হলো, কারণ Submission Button টি লিঙ্ক হতে পারে
 
 const SimpleSubmissionDataRow = ({ submission }) => {
-
   // Data extraction based on the provided DB structure
   const participantPhoto = submission?.photo || 'https://i.ibb.co/L8GqX61/user.png'; 
   const participantName = submission?.name || 'N/A';
@@ -22,13 +22,17 @@ const SimpleSubmissionDataRow = ({ submission }) => {
 
   return (
     <tr 
-        className="hover:bg-yellow-50 transition duration-150 ease-in-out"
+        // 💡 ডার্ক মোড হোভার ফিক্স
+        className="hover:bg-yellow-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out"
         data-aos="fade-up" 
         data-aos-duration="600"
     >
       
       {/* 1. Participant Image */}
-      <td className="px-6 py-4 whitespace-nowrap text-center border-b border-gray-100 bg-white text-sm">
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+        className="px-6 py-4 whitespace-nowrap text-center border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+      >
         <div className="flex items-center justify-center">
             <img 
                 className="w-10 h-10 rounded-full object-cover border-2 border-yellow-400 shadow-sm" 
@@ -39,36 +43,49 @@ const SimpleSubmissionDataRow = ({ submission }) => {
       </td>
       
       {/* 2. Participant Name */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-100 bg-white text-sm">
-        <p className="text-gray-900 font-medium">{participantName}</p>
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট
+        className="px-6 py-4 whitespace-nowrap border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+      >
+        <p className="text-gray-900 dark:text-gray-100 font-medium">{participantName}</p>
       </td>
       
       {/* 3. Participant Email */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-100 bg-white text-sm">
-        <p className="text-gray-600 font-light">{participantEmail}</p>
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট
+        className="px-6 py-4 whitespace-nowrap border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+      >
+        <p className="text-gray-600 dark:text-gray-400 font-light">{participantEmail}</p>
       </td>
       
       {/* 4. Task/Submission Link/Text */}
-      <td className="px-6 py-4 border-b border-gray-100 bg-white text-sm">
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+        className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+      >
         {isLink ? (
             <a 
                 href={taskData} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-           
-                className="text-yellow-600 hover:text-yellow-800 underline transition duration-150 break-all font-medium"
+                // 💡 ডার্ক মোড লিঙ্ক কালার
+                className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 underline transition duration-150 break-all font-medium"
             >
                 {/* Shorten text for better table fit */}
                 {taskData.length > 40 ? `${taskData.substring(0, 40)}... [View Link]` : taskData} 
             </a>
         ) : (
-            <p className="text-gray-900 break-words max-w-xs">{taskData}</p>
+            // 💡 ডার্ক মোড টেক্সট কালার
+            <p className="text-gray-900 dark:text-gray-100 break-words max-w-xs">{taskData}</p>
         )}
       </td>
 
       {/* 5. Submission Time */}
-      <td className="px-6 py-4 whitespace-nowrap border-b border-gray-100 bg-white text-sm">
-        <p className="text-gray-700">{submissionTime}</p>
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট
+        className="px-6 py-4 whitespace-nowrap border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
+      >
+        <p className="text-gray-700 dark:text-gray-300">{submissionTime}</p>
       </td>
     </tr>
   );
