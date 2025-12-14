@@ -1,6 +1,7 @@
 // MenuItem.jsx
 import { NavLink } from 'react-router';
 
+// eslint-disable-next-line no-unused-vars
 const MenuItem = ({ label, address, icon: Icon, resolvedTheme }) => {
   return (
     <NavLink

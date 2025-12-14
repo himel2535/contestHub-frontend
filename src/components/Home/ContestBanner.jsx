@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
@@ -37,13 +35,13 @@ const ContestBanner = () => {
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out hover:scale-105"
         style={{ backgroundImage: `url(${BANNER_IMAGE})` }}
       >
-        <div className="absolute inset-0  opacity-60"></div>
+        <div className="absolute inset-0 bg-black opacity-60"></div> {/* ব্যাকগ্রাউন্ডের অপাসিটি কমানো হয়েছে */}
       </div>
 
 
       <div className="relative flex flex-col items-center justify-center h-full text-white px-4"> 
         
-        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-4 text-black leading-tight">
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-4 text-white leading-tight"> {/* হেডিং সাদা করা হয়েছে যাতে ব্যাকগ্রাউন্ডের উপর স্পষ্ট হয় */}
           Unleash Your <span className="text-yellow-400">Creativity</span>
         </h1>
         <p className="text-lg md:text-xl text-center max-w-2xl mb-10 font-light opacity-80">
@@ -51,14 +49,16 @@ const ContestBanner = () => {
         </p>
 
         <form onSubmit={handleSearch} className="w-full max-w-xl">
-          <div className="relative flex items-center bg-white/20 backdrop-blur-sm rounded-full p-1 shadow-2xl transition-all duration-300 focus-within:ring-4 focus-within:ring-yellow-500/50">
-
+          <div className="relative flex items-center bg-white rounded-full p-1 shadow-2xl transition-all duration-300 focus-within:ring-4 focus-within:ring-yellow-500/50">
+            {/* 💡 ফিক্স: এখানে পরিবর্তন করা হয়েছে */}
             <input
               type="text"
               placeholder="Search by Contest Type (e.g., Photography, Coding, Design)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-3 pl-6 pr-14 text-white placeholder-gray-300 bg-transparent focus:outline-none text-base md:text-lg"
+              // ❌ আগের ক্লাস: text-white placeholder-gray-300 bg-transparent
+              // 🟢 নতুন ক্লাস: text-gray-900 (কালো) এবং placeholder-gray-500 
+              className="w-full py-3 pl-6 pr-14 text-gray-900 placeholder-gray-500 bg-transparent focus:outline-none text-base md:text-lg"
               aria-label="Search contests"
             />
             
