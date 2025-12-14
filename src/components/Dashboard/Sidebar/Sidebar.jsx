@@ -1,105 +1,76 @@
-import { useState } from "react";
-import { Link } from "react-router";
-import useAuth from "../../../hooks/useAuth";
-import logo4 from "../../../assets/images/logo4.png";
-// Icons
-import { GrLogout } from "react-icons/gr";
-import { FcSettings } from "react-icons/fc";
-import { AiOutlineBars } from "react-icons/ai";
-import { BsGraphUp } from "react-icons/bs";
+// Sidebar.jsx
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
+import useAuth from '../../../hooks/useAuth';
+import logo4 from '../../../assets/images/logo4.png';
 
-// User Menu
-import MenuItem from "./Menu/MenuItem";
-import AdminMenu from "./Menu/AdminMenu";
-import useRole from "../../../hooks/useRole";
-import LoadingSpinner from "../../Shared/LoadingSpinner";
-import CreatorMenu from "./Menu/CreatorMenu";
-import ParticipantMenu from "./Menu/ParticipantMenu";
+import { GrLogout } from 'react-icons/gr';
+import { FcSettings } from 'react-icons/fc';
+import { AiOutlineBars } from 'react-icons/ai';
+import { BsGraphUp } from 'react-icons/bs';
 
-const Sidebar = () => {
+import MenuItem from './Menu/MenuItem';
+import AdminMenu from './Menu/AdminMenu';
+import CreatorMenu from './Menu/CreatorMenu';
+import ParticipantMenu from './Menu/ParticipantMenu';
+import useRole from '../../../hooks/useRole';
+import LoadingSpinner from '../../Shared/LoadingSpinner';
+
+const Sidebar = ({ resolvedTheme }) => {
   const { logOut } = useAuth();
-  const [isActive, setActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [role, isRoleLoading] = useRole();
+  const [mounted, setMounted] = useState(false);
 
-  // Sidebar Responsive Handler
-  const handleToggle = () => {
-    setActive(!isActive);
-  };
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  if (isRoleLoading) return <LoadingSpinner />;
 
-  if (isRoleLoading) return <LoadingSpinner></LoadingSpinner>;
+  const handleToggle = () => setIsActive(!isActive);
+
+  const baseBg = resolvedTheme === 'dark' ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-800';
 
   return (
     <>
-      {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className="bg-gray-100 text-gray-800 flex justify-between md:hidden">
-        <div>
-          <div className="block cursor-pointer p-4 font-bold">
-            <Link to="/">
-              <img src={logo4} alt="logo" width="100" height="100" />
-            </Link>
-          </div>
-        </div>
-
-        <button
-          onClick={handleToggle}
-          className="mobile-menu-button p-4 focus:outline-none focus:bg-gray-200"
-        >
-          <AiOutlineBars className="h-5 w-5" />
+      {/* Mobile Top Bar */}
+      <div className={`flex justify-between items-center md:hidden ${baseBg} shadow-md`}>
+        <Link to="/" className="p-4">
+          <img src={logo4} alt="logo" width="100" height="100" />
+        </Link>
+        <button onClick={handleToggle} className="p-4 focus:outline-none">
+          <AiOutlineBars className="h-6 w-6" />
         </button>
       </div>
 
       {/* Sidebar */}
-      <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && "-translate-x-full"
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
-      >
-        <div className="flex flex-col h-full">
-          {/* Top Content */}
-          <div>
-            {/* Logo */}
-            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-yellow-100 mx-auto">
-              <Link to="/">
-                <img src={logo4} alt="logo" width="100" height="100" />
-              </Link>
-            </div>
-          </div>
+      <div className={`z-40 md:fixed flex flex-col justify-between ${baseBg} w-64 h-full px-3 py-4 space-y-6
+        absolute inset-y-0 left-0 transform ${isActive ? '-translate-x-full' : 'translate-x-0'} md:translate-x-0 transition-transform duration-200 ease-in-out`}>
 
-          {/* Middle Content */}
-          <div className="flex flex-col justify-between flex-1 mt-6">
-            {/*  Menu Items */}
-            <nav>
-              {/* Common Menu */}
-              <MenuItem
-                icon={BsGraphUp}
-                label="Statistics"
-                address="/dashboard"
-              />
-              {/* Role-Based Menu */}
-              {role === "participant" && <ParticipantMenu />}
-              {role === "contestCreator" && <CreatorMenu />}
-              {role === "admin" && <AdminMenu />}
-            </nav>
-          </div>
+        {/* Logo */}
+        <div className="hidden md:flex justify-center items-center py-3 bg-yellow-100 dark:bg-gray-800 rounded-lg shadow">
+          <Link to="/">
+            <img src={logo4} alt="logo" width="100" height="100" />
+          </Link>
+        </div>
 
-          {/* Bottom Content */}
-          <div>
-            <hr />
+        {/* Menu */}
+        <nav className="flex-1 mt-6 space-y-1">
+          <MenuItem icon={BsGraphUp} label="Statistics" address="/dashboard" resolvedTheme={resolvedTheme} />
+          {role === 'participant' && <ParticipantMenu resolvedTheme={resolvedTheme} />}
+          {role === 'contestCreator' && <CreatorMenu resolvedTheme={resolvedTheme} />}
+          {role === 'admin' && <AdminMenu resolvedTheme={resolvedTheme} />}
+        </nav>
 
-            <MenuItem
-              icon={FcSettings}
-              label="Profile"
-              address="/dashboard/profile"
-            />
-            <button
-              onClick={logOut}
-              className="flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
-            >
-              <GrLogout className="w-5 h-5" />
-
-              <span className="mx-4 font-medium">Logout</span>
-            </button>
-          </div>
+        {/* Bottom Section */}
+        <div className="border-t border-gray-300 dark:border-gray-700 pt-4 space-y-2">
+          <MenuItem icon={FcSettings} label="Profile" address="/dashboard/profile" resolvedTheme={resolvedTheme} />
+          <button
+            onClick={logOut}
+            className={`flex items-center w-full px-4 py-2 rounded-lg transition-colors duration-200
+              ${resolvedTheme === 'dark' ? 'text-gray-200 hover:bg-gray-700 hover:text-white' : 'text-gray-800 hover:bg-gray-200 hover:text-gray-900'}`}>
+            <GrLogout className="w-5 h-5" />
+            <span className="ml-3 font-medium">Logout</span>
+          </button>
         </div>
       </div>
     </>

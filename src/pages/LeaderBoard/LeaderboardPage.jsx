@@ -36,7 +36,7 @@ const LeaderboardPage = () => {
 
   return (
     <Container>
-      <div className="py-8">
+      <div className="py-12">
         {/* --- Heading --- */}
         <div
           className="text-center mb-10"

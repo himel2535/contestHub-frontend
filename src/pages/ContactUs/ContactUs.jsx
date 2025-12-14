@@ -72,7 +72,7 @@ const ContactUs = () => {
 
   return (
     <Container>
-      <div className="py-8 ">
+      <div className="py-12 ">
         {/* Header Section */}
         <div className="text-center mb-12" data-aos="fade-down">
           <h2 className="text-2xl sm:text-2xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-200 inline-block border-b-4 border-yellow-500 pb-2">

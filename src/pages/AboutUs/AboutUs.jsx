@@ -5,7 +5,7 @@ import Container from "../../components/Shared/Container";
 const AboutUs = () => {
   return (
     <Container>
-      <div className="py-8 overflow-hidden">
+      <div className="py-12 overflow-hidden">
 
         {/* --- Page Heading --- */}
         <div className="text-center mb-16" data-aos="fade-down">

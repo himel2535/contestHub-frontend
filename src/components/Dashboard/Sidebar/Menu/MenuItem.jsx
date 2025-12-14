@@ -1,22 +1,26 @@
-/* eslint-disable no-unused-vars */
-import { NavLink } from 'react-router'
+// MenuItem.jsx
+import { NavLink } from 'react-router';
 
-const MenuItem = ({ label, address, icon: Icon }) => {
+const MenuItem = ({ label, address, icon: Icon, resolvedTheme }) => {
   return (
     <NavLink
       to={address}
       end
-      className={({ isActive }) =>
-        `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-          isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
-        }`
-      }
+      className={({ isActive }) => `
+        flex items-center px-4 py-2 my-2 rounded-lg transition-colors duration-300
+        ${isActive
+          ? resolvedTheme === 'dark'
+            ? 'bg-gray-700 text-white'
+            : 'bg-gray-300 text-gray-900'
+          : resolvedTheme === 'dark'
+            ? 'text-gray-200 hover:bg-gray-700 hover:text-white'
+            : 'text-gray-800 hover:bg-gray-200 hover:text-gray-900'
+        }`}
     >
-      <Icon className='w-5 h-5' />
-
-      <span className='mx-4 font-medium'>{label}</span>
+      <Icon className="w-5 h-5" />
+      <span className="ml-3 font-medium">{label}</span>
     </NavLink>
-  )
-}
+  );
+};
 
-export default MenuItem
+export default MenuItem;
