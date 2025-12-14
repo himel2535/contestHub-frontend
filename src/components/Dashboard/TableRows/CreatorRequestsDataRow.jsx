@@ -34,14 +34,29 @@ const CreatorRequestsDataRow = ({ request, refetch, delay }) => {
 
   return (
     <tr
-      className="hover:bg-yellow-50 transition duration-150 ease-in-out"
+      // 💡 ডার্ক মোড হোভার ফিক্স
+      className="bg-white dark:bg-gray-800 hover:bg-yellow-50 dark:hover:bg-gray-700 transition duration-150 ease-in-out"
       data-aos="fade-up"
       data-aos-delay={delay}
     >
-      <td className="px-5 py-4 border-b border-gray-100 bg-white text-sm text-center">
+      {/* 1. Email */}
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, বর্ডার এবং টেক্সট
+        className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-left"
+      >
+        <p className="text-gray-900 dark:text-gray-100 font-medium">
+            {request?.email}
+        </p>
+      </td>
+      
+      {/* 2. Action Button */}
+      <td 
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+        className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-center"
+      >
         <span
           onClick={handleRoleUpdate}
-          className="relative cursor-pointer inline-flex items-center px-4 py-2 font-semibold text-white leading-tight transition duration-150 transform hover:scale-105 shadow-md rounded-full bg-yellow-600 hover:bg-yellow-700"
+          className="relative cursor-pointer inline-flex items-center px-4 py-2 font-semibold text-white leading-tight transition duration-150 transform hover:scale-105 shadow-md rounded-full bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           title={`Promote ${request?.email} to Contest Creator`}
         >
           <FaUserEdit className="mr-2 text-sm" />

@@ -7,7 +7,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaCrown } from "react-icons/fa"; // FaCrown আমদানি করা হলো
 
 const CreatorRequests = () => {
   const { user } = useAuth();
@@ -27,26 +27,31 @@ const CreatorRequests = () => {
 
   if (isPending) return <LoadingSpinner />;
 
+  // 💡 ডার্ক মোড ফিক্সড
   if (isError) return <ErrorPage />;
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 pt-8">
+    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
+    <div className="container mx-auto px-4 sm:px-8 pt-8 dark:bg-gray-900 min-h-screen">
       <div
-        className="w-full mb-4 text-center"
+        className="w-full mb-10 text-center"
         data-aos="fade-down"
         data-aos-duration="800"
       >
-        <div className="inline-flex flex-col md:flex-row md:items-center border-b-4 border-yellow-500 pb-2">
-          <FaUserPlus className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
-
-          <h2 className="text-4xl font-extrabold text-gray-900">
-            Creator Requests ({requests.length})
-          </h2>
-        </div>
+        {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+        <h2
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2"
+        >
+          <FaUserPlus className="mr-2 text-yellow-600 text-2xl sm:text-3xl flex-shrink-0" />
+          <span className="">
+            <span>Creator Requests ({requests.length})</span>
+          </span>
+        </h2>
       </div>
 
       <p
-        className="text-center text-gray-600 mb-10 max-w-3xl mx-auto text-lg font-medium"
+        // 💡 ডার্ক মোড টেক্সট কালার
+        className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-3xl mx-auto text-lg font-medium"
         data-aos="fade-up"
         data-aos-delay="300"
       >
@@ -58,12 +63,14 @@ const CreatorRequests = () => {
       <div className="pb-8 ">
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div
-            className="inline-block min-w-full shadow-2xl rounded-xl overflow-hidden border border-gray-100"
+            // 💡 ডার্ক মোড শ্যাডো এবং বর্ডার
+            className="inline-block min-w-full shadow-2xl dark:shadow-gray-700/50 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700"
             data-aos="fade-up"
             data-aos-duration="1000"
           >
-            <table className="min-w-full leading-normal divide-y divide-gray-200">
+            <table className="min-w-full leading-normal divide-y divide-gray-200 dark:divide-gray-700">
               <thead>
+                {/* Table Headers (Yellow BG is fine) */}
                 <tr className="bg-yellow-500">
                   <th
                     scope="col"
@@ -80,15 +87,20 @@ const CreatorRequests = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                 {requests.length === 0 ? (
                   <tr>
-                    <td colSpan="2" className="py-8 text-center text-gray-500">
+                    {/* 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট */}
+                    <td 
+                      colSpan="2" 
+                      className="py-8 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800"
+                    >
                       No pending creator requests found.
                     </td>
                   </tr>
                 ) : (
                   requests.map((request, index) => (
+                    // CreatorRequestsDataRow কম্পোনেন্টটিকে ডার্ক মোডের জন্য আলাদাভাবে আপডেট করতে হবে
                     <CreatorRequestsDataRow
                       refetch={refetch}
                       key={request._id}

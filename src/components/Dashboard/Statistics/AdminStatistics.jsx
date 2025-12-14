@@ -4,10 +4,10 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 
-import { FaUserAlt, FaDollarSign, FaListAlt, FaChartBar } from "react-icons/fa";
+import { FaUserAlt, FaDollarSign, FaListAlt, FaChartBar, FaCrown } from "react-icons/fa";
 import { BsFillCartPlusFill } from "react-icons/bs";
 
-// --- Sub-Component: StatusBarChart (Fixed for small screens) ---
+// --- Sub-Component: StatusBarChart (Fixed for small screens and Dark Mode) ---
 const StatusBarChart = ({ stats }) => {
   const data = [
     {
@@ -39,8 +39,9 @@ const StatusBarChart = ({ stats }) => {
   const totalCount = data.reduce((sum, item) => sum + item.value, 0);
 
   if (totalCount === 0) {
+    // 💡 ডার্ক মোড টেক্সট কালার
     return (
-      <p className="text-gray-500 text-center mt-5">No contests created yet.</p>
+      <p className="text-gray-500 dark:text-gray-400 text-center mt-5">No contests created yet.</p>
     );
   }
 
@@ -48,11 +49,12 @@ const StatusBarChart = ({ stats }) => {
 
   return (
     <div
-      className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-xl border border-gray-100 p-8 w-full max-w-4xl"
+      // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো, বর্ডার এবং টেক্সট কালার
+      className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 shadow-xl dark:shadow-gray-700/50 border border-gray-100 dark:border-gray-700 p-8 w-full max-w-4xl"
       data-aos="zoom-in"
       data-aos-duration="1000"
     >
-      <h3 className="text-2xl font-semibold text-gray-800 mb-8 border-b pb-4 text-center">
+      <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-8 border-b dark:border-gray-700 pb-4 text-center">
         <div className="inline-flex flex-col md:flex-row md:items-center">
           <FaChartBar className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
           Contest Status Breakdown (Bar Chart)
@@ -74,22 +76,23 @@ const StatusBarChart = ({ stats }) => {
               data-aos-delay={index * 150}
             >
               <div className="flex justify-between items-center mb-1">
-                <span className="text-gray-700 font-medium flex items-center">
+                <span className="text-gray-700 dark:text-gray-300 font-medium flex items-center">
                   <span
                     className={`w-3 h-3 rounded-full mr-2 ${item.color}`}
                   ></span>
                   {item.label}
                 </span>
-                <span className="font-bold text-gray-800">
+                <span className="font-bold text-gray-800 dark:text-gray-100">
                   {item.value}
-                  <span className="text-sm font-normal text-gray-500 ml-1">
+                  <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-1">
                     ({valuePercentage}%)
                   </span>
                 </span>
               </div>
 
               {/* Bar */}
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
+              {/* 💡 ডার্ক মোড প্রগ্রেস বার ব্যাকগ্রাউন্ড */}
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
                 <div
                   className={`h-2.5 rounded-full transition-all duration-1000 ease-out ${item.progressColor}`}
                   style={{ width: `${widthPercentage}%` }}
@@ -100,7 +103,8 @@ const StatusBarChart = ({ stats }) => {
         })}
 
         {/* Total Count */}
-        <div className="pt-4 border-t border-gray-200 text-right text-lg font-bold text-gray-700">
+        {/* 💡 ডার্ক মোড বর্ডার এবং টেক্সট */}
+        <div className="pt-4 border-t border-gray-200 dark:border-gray-700 text-right text-lg font-bold text-gray-700 dark:text-gray-200">
           Total Contests: {totalCount}
         </div>
       </div>
@@ -108,7 +112,7 @@ const StatusBarChart = ({ stats }) => {
   );
 };
 
-// --- Main Component (Only header part reviewed for context) ---
+// --- Main Component ---
 const AdminStatistics = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -127,6 +131,7 @@ const AdminStatistics = () => {
   });
 
   if (isLoading || loading) return <LoadingSpinner />;
+  // 💡 ডার্ক মোড ফিক্সড
   if (isError) return <ErrorPage />;
 
   const {
@@ -180,20 +185,23 @@ const AdminStatistics = () => {
   ];
 
   return (
-    <div className="py-8 px-4 sm:px-0">
+    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
+    <div className="py-8 px-4 sm:px-0 dark:bg-gray-900 min-h-screen">
       {/* Main Header */}
       <div
         className="w-full mb-10 text-center"
         data-aos="fade-down"
         data-aos-duration="800"
       >
-        <div className="inline-flex flex-col md:flex-row md:items-center border-b-4 border-yellow-500 pb-2">
-          <FaChartBar className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
-
-          <h2 className="text-4xl font-extrabold text-gray-900">
-            Admin Global Statistics
-          </h2>
-        </div>
+        {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+        <h2
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2"
+        >
+          <FaChartBar className="mr-2 text-yellow-600 text-2xl sm:text-3xl flex-shrink-0" />
+          <span className="">
+            <span>Admin Global Statistics</span>
+          </span>
+        </h2>
       </div>
 
       {/* small cards */}
@@ -201,10 +209,12 @@ const AdminStatistics = () => {
         {cardData.map((card) => (
           <div
             key={card.title}
-            className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-xl transform hover:scale-[1.02] transition duration-300 border-b-4 border-yellow-500/50"
+            // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং শ্যাডো
+            className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 shadow-xl dark:shadow-gray-700/50 transform hover:scale-[1.02] transition duration-300 border-b-4 border-yellow-500/50"
             data-aos="zoom-in"
             data-aos-delay={card.delay}
           >
+            {/* Icon is gradient, remains colorful */}
             <div
               className={`bg-clip-border mx-4 rounded-xl overflow-hidden shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center text-white`}
               style={{
@@ -213,11 +223,14 @@ const AdminStatistics = () => {
             >
               <card.icon className="w-6 h-6 text-white" />
             </div>
+            
             <div className="p-4 text-right">
-              <p className="block antialiased font-sans text-sm leading-normal font-normal text-gray-600">
+              {/* 💡 ডার্ক মোড টেক্সট কালার */}
+              <p className="block antialiased font-sans text-sm leading-normal font-normal text-gray-600 dark:text-gray-400">
                 {card.title}
               </p>
-              <h4 className="block antialiased tracking-normal font-sans text-3xl font-bold leading-snug text-gray-900">
+              {/* 💡 ডার্ক মোড টেক্সট কালার */}
+              <h4 className="block antialiased tracking-normal font-sans text-3xl font-bold leading-snug text-gray-900 dark:text-gray-100">
                 {card.value}
               </h4>
             </div>
@@ -225,7 +238,7 @@ const AdminStatistics = () => {
         ))}
       </div>
 
-      {/* Chart Section: Used flex to ensure centering */}
+      {/* Chart Section: StatusBarChart sub-component already updated */}
       <div className="mb-4 flex justify-center w-full">
         <StatusBarChart stats={statusBreakdown} />
       </div>

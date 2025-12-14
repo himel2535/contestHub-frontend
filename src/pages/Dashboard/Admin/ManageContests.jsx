@@ -7,7 +7,8 @@ import {
   FaTimesCircle,
   FaTrashAlt,
   FaClipboardList,
-} from "react-icons/fa"; // 💡 FaClipboardList যোগ করা হয়েছে
+  FaCrown, // 💡 কাস্টম হেডিং এর জন্য
+} from "react-icons/fa";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useState } from "react";
@@ -123,35 +124,51 @@ const ManageContests = () => {
   // --- Render Logic ---
 
   if (isLoading) return <LoadingSpinner />;
+  
+  // 💡 ডার্ক মোড ফিক্সড
   if (isError)
     return (
-      <div className="text-red-500 text-center p-8">
+      <div className="text-red-500 text-center p-8 dark:bg-gray-900 min-h-screen">
         Failed to load contests.
       </div>
     );
 
   const isActionPending = isUpdating || isDeleting;
 
+  // Status Class Mapping for UI (Dark Mode Integrated)
+  const statusClasses = {
+    Confirmed: "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200",
+    Pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200",
+    Rejected: "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200",
+    // Assuming 'Completed' or others might exist
+    default: "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200", 
+  };
+  
+
   return (
-    <div className="container mx-auto px-4 sm:px-8 pt-8">
-      {/* 💡 ফিক্সড: প্রধান হেডিং - ছোট ডিভাইসে আইকন উপরে, টেক্সট সেন্টারে */}
+    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
+    <div className="container mx-auto px-4 sm:px-8 pt-8 dark:bg-gray-900 min-h-screen">
+      
+      {/* 1. Primary Heading (Custom Heading) */}
       <div
-        className="w-full mb-4 text-center"
+        className="w-full mb-10 text-center"
         data-aos="fade-down"
         data-aos-duration="800"
       >
-        <div className="inline-flex flex-col md:flex-row md:items-center border-b-4 border-yellow-500 pb-2">
-          <FaClipboardList className="mx-auto md:mr-3 text-yellow-600 text-4xl mb-2 md:mb-0" />
-
-          <h2 className="text-4xl font-extrabold text-gray-900">
-            Manage All Contests ({contests.length})
-          </h2>
-        </div>
+        {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+        <h2
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2"
+        >
+          <FaClipboardList className="mr-2 text-yellow-600 text-2xl sm:text-3xl flex-shrink-0" />
+          <span className="">
+            <span>Manage All Contests ({contests.length})</span>
+          </span>
+        </h2>
       </div>
 
-      {/* 💡 প্যারাগ্রাফ যোগ করা হলো */}
+      {/* 💡 প্যারাগ্রাফ ডার্ক মোড ফিক্সড */}
       <p
-        className="text-center text-gray-600 mb-10 max-w-3xl mx-auto text-lg font-medium"
+        className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-3xl mx-auto text-lg font-medium"
         data-aos="fade-up"
         data-aos-delay="300"
       >
@@ -162,11 +179,12 @@ const ManageContests = () => {
 
       {/* Table Container */}
       <div
-        className="overflow-x-auto bg-white shadow-2xl rounded-xl border border-gray-100"
+        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং বর্ডার
+        className="overflow-x-auto bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-700"
         data-aos="fade-up"
         data-aos-duration="1000"
       >
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           {/* Table Head - 💡 হলুদ থিম */}
           <thead className="bg-yellow-500">
             <tr>
@@ -188,10 +206,11 @@ const ManageContests = () => {
             </tr>
           </thead>
           {/* Table Body */}
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
             {contests.length === 0 ? (
               <tr>
-                <td colSpan="5" className="py-8 text-center text-gray-500">
+                {/* 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট */}
+                <td colSpan="5" className="py-8 text-center text-gray-500 dark:text-gray-400 dark:bg-gray-800">
                   No contests found for management.
                 </td>
               </tr>
@@ -199,46 +218,46 @@ const ManageContests = () => {
               contests.map((contest, index) => (
                 <tr
                   key={contest._id}
-                  className="hover:bg-yellow-50 transition duration-150"
+                  // 💡 ডার্ক মোড হোভার ফিক্স
+                  className="bg-white dark:bg-gray-800 hover:bg-yellow-50 dark:hover:bg-gray-700 transition duration-150"
                   data-aos="fade-up"
                   data-aos-delay={index * 50}
                 >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {/* Contest Name */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                     {contest.name}
                   </td>
+                  {/* Creator Info */}
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span className="text-gray-900 font-medium">
+                    <span className="text-gray-900 dark:text-gray-100 font-medium">
                       {contest.contestCreator?.name || "N/A"}
                     </span>
                     <br />
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       {contest.contestCreator?.email}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span className="font-semibold text-yellow-600">
+                  {/* Fee / Prize */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold text-yellow-600 dark:text-yellow-400">
                       Fee: ${contest.contestFee}
                     </span>
                     <br />
-                    <span className="font-semibold text-green-600">
+                    <span className="font-semibold text-green-600 dark:text-green-400">
                       Prize: ${contest.prizeMoney}
                     </span>
                   </td>
+                  {/* Status */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${
-                        contest.status === "Confirmed"
-                          ? "bg-green-100 text-green-800"
-                          : contest.status === "Pending"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : contest.status === "Rejected"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-blue-100 text-blue-800"
+                        statusClasses[contest.status] || statusClasses.default
                       }`}
                     >
                       {contest.status}
                     </span>
                   </td>
+                  {/* Actions */}
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                     {/* Confirm Button */}
                     <button
@@ -289,7 +308,7 @@ const ManageContests = () => {
         </table>
       </div>
 
-      {/* --- Action Modals --- */}
+      {/* --- Action Modals (Assuming Modals are already dark mode friendly or need separate update) --- */}
       <ConfirmModal
         isOpen={isConfirmOpen}
         closeModal={closeModal}
@@ -300,7 +319,6 @@ const ManageContests = () => {
         closeModal={closeModal}
         handleAction={() => handleConfirmedAction("reject")}
       />
-      {/* Assuming DeleteModal is themed correctly */}
       <DeleteModal
         isOpen={isDeleteOpen}
         closeModal={closeModal}

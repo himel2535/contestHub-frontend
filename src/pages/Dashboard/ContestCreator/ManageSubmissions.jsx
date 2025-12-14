@@ -4,7 +4,7 @@ import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../../components/Shared/ErrorPage/ErrorPage";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import SimpleSubmissionDataRow from "../../../components/Dashboard/TableRows/SimpleSubmissionDataRow";
-import { FaTasks, FaCrown } from "react-icons/fa"; // FaCrown আমদানি করা হলো
+import { FaTasks, FaCrown } from "react-icons/fa"; 
 
 const ManageSubmissions = () => {
   const { user } = useAuth();
@@ -28,13 +28,13 @@ const ManageSubmissions = () => {
 
   if (isPending) return <LoadingSpinner />;
   
-  // 💡 ডার্ক মোড ফিক্সড
+
   if (isError) return <ErrorPage />;
 
   if (submissions.length === 0) {
     return (
       <div
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং টেক্সট
+ 
         className="text-center py-20 bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-700/50 rounded-xl mx-auto max-w-lg border-t-4 border-yellow-500"
         data-aos="fade-up"
       >
@@ -50,10 +50,10 @@ const ManageSubmissions = () => {
   }
 
   return (
-    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
+
     <div className="container mx-auto px-4 sm:px-8 pt-8 dark:bg-gray-900 min-h-screen">
       
-      {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+
       <div
         className="text-center mb-10"
         data-aos="fade-down"
@@ -71,7 +71,7 @@ const ManageSubmissions = () => {
 
 
       <p
-        // 💡 ডার্ক মোড টেক্সট কালার
+
         className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-4xl mx-auto text-lg font-medium"
         data-aos="fade-up"
         data-aos-delay="300"
@@ -82,7 +82,7 @@ const ManageSubmissions = () => {
       </p>
 
       <div 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং বর্ডার
+
         className="bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-700/50 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700"
       >
         <div className="p-4 overflow-x-auto">
