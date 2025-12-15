@@ -7,7 +7,7 @@ import { FaUser, FaEnvelope, FaIdCardAlt, FaKey, FaCrown } from "react-icons/fa"
 
 const Profile = () => {
   const { user } = useAuth();
-  const [role, isRoleLoading] = useRole();
+  const [role, isRoleLoading] = useRole(); 
 
   if (isRoleLoading) {
     return <LoadingSpinner />;

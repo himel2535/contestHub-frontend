@@ -18,10 +18,10 @@ const ContestDataRow = ({ contest, refetch }) => {
 
   // Status Class Mapping for UI
   const statusClasses = {
-    Pending: "bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200", // 💡 ডার্ক মোড ফিক্সড
-    Confirmed: "bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-200", // 💡 ডার্ক মোড ফিক্সড
-    Rejected: "bg-red-200 text-red-800 dark:bg-red-800 dark:text-red-200", // 💡 ডার্ক মোড ফিক্সড
-    Completed: "bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200", // 💡 ডার্ক মোড ফিক্সড
+    Pending: "bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200", 
+    Confirmed: "bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-200", 
+    Rejected: "bg-red-200 text-red-800 dark:bg-red-800 dark:text-red-200", 
+    Completed: "bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200", 
   };
   const currentStatusClass =
     statusClasses[contest.status] || "bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200";
@@ -57,12 +57,12 @@ const ContestDataRow = ({ contest, refetch }) => {
   }
 
   return (
-    // 💡 ডার্ক মোড হোভার ফিক্স
-    <tr className="transition duration-150 hover:bg-gray-50 dark:hover:bg-gray-700" data-aos="fade-up" data-aos-delay="50">
+
+    <tr className="transition duration-150 hover:bg-gray-50 dark:hover:bg-gray-700 overflow-hidden" data-aos="fade-up" data-aos-delay="50">
       
       {/* Image */}
       <td 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+
         className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
       >
         <div className="flex items-center">
@@ -80,7 +80,7 @@ const ContestDataRow = ({ contest, refetch }) => {
 
       {/* Name */}
       <td 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, বর্ডার এবং টেক্সট
+   
         className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
       >
         <p className="text-gray-900 dark:text-gray-100 font-medium">{contest.name}</p>
@@ -88,7 +88,7 @@ const ContestDataRow = ({ contest, refetch }) => {
 
       {/* Status */}
       <td 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+    
         className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
       >
         <span
@@ -100,7 +100,7 @@ const ContestDataRow = ({ contest, refetch }) => {
 
       {/* Submissions Button */}
       <td 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+
         className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
       >
         <Link
@@ -109,19 +109,19 @@ const ContestDataRow = ({ contest, refetch }) => {
         >
           <span
             aria-hidden="true"
-            // 💡 ডার্ক মোড হোভার ফিক্স
+       
             className="absolute inset-0 bg-yellow-200 opacity-70 rounded-full transition duration-150 group-hover:bg-yellow-300 dark:bg-yellow-800 dark:opacity-50 dark:group-hover:bg-yellow-700"
           ></span>
-          {/* 💡 ডার্ক মোড টেক্সট */}
+        
           <span className="relative text-yellow-900 dark:text-yellow-200 group-hover:text-yellow-800 dark:group-hover:text-yellow-100">
-            Submissions ({contest.submissionCount || 0})
+            Submissions
           </span>
         </Link>
       </td>
 
       {/* Update/Edit Button (Disabled if not Pending) */}
       <td 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+        
         className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
       >
         <button
@@ -129,8 +129,8 @@ const ContestDataRow = ({ contest, refetch }) => {
           disabled={!isPending}
           className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full transition duration-150 ${
             isPending
-              ? "cursor-pointer text-green-900 dark:text-green-200 group" // 💡 ডার্ক মোড টেক্সট
-              : "cursor-not-allowed text-gray-500 dark:text-gray-400 opacity-70" // 💡 ডার্ক মোড টেক্সট
+              ? "cursor-pointer text-green-900 dark:text-green-200 group" 
+              : "cursor-not-allowed text-gray-500 dark:text-gray-400 opacity-70" 
           }`}
           title={
             isPending
@@ -142,8 +142,8 @@ const ContestDataRow = ({ contest, refetch }) => {
             aria-hidden="true"
             className={`absolute inset-0 rounded-full transition duration-150 ${
               isPending
-                ? "bg-green-200 opacity-70 group-hover:bg-green-300 dark:bg-green-800 dark:opacity-50 dark:group-hover:bg-green-700" // 💡 ডার্ক মোড ফিক্সড
-                : "bg-gray-200 dark:bg-gray-700 opacity-50" // 💡 ডার্ক মোড ফিক্সড
+                ? "bg-green-200 opacity-70 group-hover:bg-green-300 dark:bg-green-800 dark:opacity-50 dark:group-hover:bg-green-700" 
+                : "bg-gray-200 dark:bg-gray-700 opacity-50" 
             }`}
           ></span>
           <span className="relative">Edit</span>
@@ -160,7 +160,7 @@ const ContestDataRow = ({ contest, refetch }) => {
 
       {/* Delete Button (Disabled if not Pending) */}
       <td 
-        // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+       
         className="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm"
       >
         <button
@@ -168,8 +168,8 @@ const ContestDataRow = ({ contest, refetch }) => {
           disabled={!isPending}
           className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full transition duration-150 ${
             isPending
-              ? "cursor-pointer text-red-900 dark:text-red-200 group" // 💡 ডার্ক মোড টেক্সট
-              : "cursor-not-allowed text-gray-500 dark:text-gray-400 opacity-70" // 💡 ডার্ক মোড টেক্সট
+              ? "cursor-pointer text-red-900 dark:text-red-200 group" 
+              : "cursor-not-allowed text-gray-500 dark:text-gray-400 opacity-70" 
           }`}
           title={
             isPending
@@ -181,8 +181,8 @@ const ContestDataRow = ({ contest, refetch }) => {
             aria-hidden="true"
             className={`absolute inset-0 rounded-full transition duration-150 ${
               isPending
-                ? "bg-red-200 opacity-70 group-hover:bg-red-300 dark:bg-red-800 dark:opacity-50 dark:group-hover:bg-red-700" // 💡 ডার্ক মোড ফিক্সড
-                : "bg-gray-200 dark:bg-gray-700 opacity-50" // 💡 ডার্ক মোড ফিক্সড
+                ? "bg-red-200 opacity-70 group-hover:bg-red-300 dark:bg-red-800 dark:opacity-50 dark:group-hover:bg-red-700" 
+                : "bg-gray-200 dark:bg-gray-700 opacity-50" 
             }`}
           ></span>
           <span className="relative">Delete</span>

@@ -26,13 +26,12 @@ const MyInventory = () => {
 
   if (isPending) return <LoadingSpinner />;
 
-  // 💡 ডার্ক মোড ফিক্সড
   if (isError) return <ErrorPage />;
 
   // No contest message
   if (contests.length === 0) {
     return (
-      // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং টেক্সট
+
       <div className="text-center py-20 dark:bg-gray-900 min-h-screen" data-aos="fade-up">
         <h2 className="text-3xl font-bold text-yellow-600 mb-4">
           Contest Inventory
@@ -45,10 +44,10 @@ const MyInventory = () => {
   }
 
   return (
-    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
+
     <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900 min-h-screen">
       
-      {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+  
       <div
         className="text-center mb-10"
         data-aos="fade-down"
@@ -65,7 +64,7 @@ const MyInventory = () => {
       </div>
 
       <p
-        // 💡 ডার্ক মোড টেক্সট কালার
+
         className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-3xl mx-auto text-lg font-medium"
         data-aos="fade-up"
         data-aos-delay="300"
@@ -78,7 +77,7 @@ const MyInventory = () => {
       {/* Table Container */}
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
         <div
-          // 💡 ডার্ক মোড শ্যাডো এবং বর্ডার
+   
           className="inline-block min-w-full shadow-2xl dark:shadow-gray-700/50 rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700"
           data-aos="fade-up"
           data-aos-duration="1000"
