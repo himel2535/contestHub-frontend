@@ -1,6 +1,7 @@
-// Sidebar.jsx
+
+
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router"; 
 import useAuth from "../../../hooks/useAuth";
 import logo from "../../../assets/images/Screen_Shot_2025-12-15_at_3.48.31_PM-removebg-preview.png";
 
@@ -9,34 +10,44 @@ import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
 import { BsGraphUp } from "react-icons/bs";
-import { FaSun, FaMoon } from "react-icons/fa"; // 💡 থিম টগল আইকন
 
-// Menu Components
 import MenuItem from "./Menu/MenuItem";
 import AdminMenu from "./Menu/AdminMenu";
 import CreatorMenu from "./Menu/CreatorMenu";
 import ParticipantMenu from "./Menu/ParticipantMenu";
-
-// Hooks and Shared Components
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
+
+// 💡 SidebarThemeToggle এবং useTheme ইম্পোর্ট
+import SidebarThemeToggle from "../../Shared/SidebarThemeToggle";
 import useTheme from "../../../hooks/useTheme";
+
 const Sidebar = () => {
+  // ------------------------------------------------------------------
+  // ✅ HOOK CALLS: সব Hook এখানে, কোনো শর্তের আগে
+  // ------------------------------------------------------------------
   const { logOut } = useAuth();
   const [isActive, setIsActive] = useState(false);
   const [role, isRoleLoading] = useRole();
   const [mounted, setMounted] = useState(false);
 
-  const { theme, toggleTheme } = useTheme();
+  // থিম টগল কম্পোনেন্ট ব্যবহার করা হলেও, সাইডবারের ব্যাকগ্রাউন্ডের জন্য
+  // থিমের মান দরকার, তাই useTheme এখানে কল করতেই হবে।
+  const { theme } = useTheme();
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
+  // ------------------------------------------------------------------
+
+  // 🛑 EARLY RETURNS (Hook কলের পরে)
   if (!mounted) return null;
 
   if (isRoleLoading) return <LoadingSpinner />;
 
+  // ------------------------------------------------------------------
+  // ✅ বাকি লজিক
+  // ------------------------------------------------------------------
   const handleToggle = () => setIsActive(!isActive);
-
   const resolvedTheme = theme;
 
   const baseBg =
@@ -103,26 +114,8 @@ const Sidebar = () => {
 
         {/* Bottom Section (Profile, Theme Toggle, and Logout) */}
         <div className="border-t border-gray-300 dark:border-gray-700 pt-4 space-y-2">
-          {/* 💡 Theme Toggle Button */}
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle Dark/Light Theme"
-            className={`flex items-center justify-start w-full px-4 py-2 rounded-lg transition-colors duration-200 shadow-sm cursor-pointer
-              ${
-                resolvedTheme === "dark"
-                  ? "bg-gray-700 text-yellow-400 hover:bg-gray-600"
-                  : "bg-white text-gray-800 hover:bg-gray-200"
-              }`}
-          >
-            {theme === "dark" ? (
-              <FaSun className="w-5 h-5 mr-3 text-yellow-400" />
-            ) : (
-              <FaMoon className="w-5 h-5 mr-3 text-gray-600" />
-            )}
-            <span className="font-medium">
-              {theme === "dark" ? "Light Mode" : "Dark Mode"}
-            </span>
-          </button>
+          {/* 💡 Reusable Sidebar Theme Toggle Component */}
+          {/* <SidebarThemeToggle /> */}
           {/* ------------------------------------- */}
 
           <MenuItem

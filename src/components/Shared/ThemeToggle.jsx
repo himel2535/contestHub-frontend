@@ -6,14 +6,14 @@ import useTheme from "../../hooks/useTheme";
 
 
 const ThemeToggle = () => {
-  const [theme, toggleTheme] = useTheme();
+  const {theme, toggleTheme} = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
       aria-label="Toggle Dark/Light Theme"
  
-      className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-yellow-400 transition-colors duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+      className="p-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-yellow-400 transition-colors duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 cursor-pointer"
     >
       {theme === "dark" ? (
         <FaSun className="text-xl" />

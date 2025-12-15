@@ -1,20 +1,18 @@
+import React, { useState } from "react";
 import Container from "../Container";
 import { AiOutlineMenu } from "react-icons/ai";
-import { useState } from "react";
-
-import { NavLink, Link } from "react-router";
+import { NavLink, Link } from "react-router"; 
 import useAuth from "../../../hooks/useAuth";
 import avatarImg from "../../../assets/images/placeholder.jpg";
 import logo from "../../../assets/images/Screen_Shot_2025-12-15_at_3.48.31_PM-removebg-preview.png";
-import useTheme from "../../../hooks/useTheme";
-import { FaSun, FaMoon } from "react-icons/fa";
+import ThemeToggle from "../ThemeToggle";
+
 
 const Navbar = ({ isDashboard }) => {
-  // isDashboard prop is assumed to be passed
   const { user, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { theme, toggleTheme } = useTheme();
+
 
   const linkClass = ({ isActive }) =>
     `transition ${
@@ -76,18 +74,8 @@ const Navbar = ({ isDashboard }) => {
                 isDashboard ? "ml-auto" : ""
               }`}
             >
-              {/* Theme Toggle (Always present and visible) */}
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle Dark/Light Theme"
-                className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-yellow-400 transition-colors duration-300 shadow-sm hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex-shrink-0"
-              >
-                {theme === "dark" ? (
-                  <FaSun className="text-xl" />
-                ) : (
-                  <FaMoon className="text-xl" />
-                )}
-              </button>
+
+              <ThemeToggle /> 
 
               <div className="relative">
                 {/* Dropdown Toggle Button (AiOutlineMenu + Avatar) */}
