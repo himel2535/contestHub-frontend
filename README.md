@@ -3,18 +3,18 @@ ContestHub is a modern, full-stack, role-based platform designed for creating, d
 
 🌐 Live Deployment & Source Code
 Platform	URL
-Live Site URL	[INSERT YOUR LIVE SITE URL HERE]
-Client Side Repository	[INSERT YOUR CLIENT REPO URL HERE]
-Server Side Repository	[INSERT YOUR SERVER REPO URL HERE]
+Live Site URL:	[https://contest-hub-bfe54.web.app/]
+Client Side Repository:	[https://github.com/himel2535/contestHub-frontend]
+Server Side Repository:	[https://github.com/himel2535/contestHub-backend]
 
 Export to Sheets
 
 🔑 Test Account Credentials
 To fully test the application's comprehensive role management features, you can use the following demo accounts:
 
-Role	Email	Password
-Admin	admin@gmail.com	admin@gmail.com
-Contest Creator	jhankar@gmail.com	jhankar@gmail.com
+	Email	Password
+Role: Admin ,	Email: admin@gmail.com	, Password: admin@gmail.com
+Role: Contest Creator, Email: jhankar@gmail.com,  Password: jhankar@gmail.com
 Normal User	[Please use a self-registered user account]	[Password]
 
 Export to Sheets
@@ -50,10 +50,10 @@ Robust Role-Based Access Control (RBAC): Implements three distinct user roles (A
 
 💻 Technologies Used
 Category	Technologies
-Frontend	React, Tailwind CSS, TanStack Query, React Hook Form, Framer Motion (or AOS), React Datepicker
-Backend	Node.js, Express.js
-Database	MongoDB
-Authentication	Firebase Auth (Email/Password & Google Sign-in), JWT
+Frontend:	React, Tailwind CSS,headlessui, TanStack Query, React Hook Form, Framer Motion (or AOS), React Datepicker
+Backend:	Node.js, Express.js
+Database:	MongoDB
+Authentication:	Firebase Auth (Email/Password & Google Sign-in), JWT
 
 Export to Sheets
 
@@ -62,8 +62,8 @@ Clone the Repositories:
 
 Bash
 
-git clone [Client Repo URL]
-git clone [Server Repo URL]
+git clone [https://github.com/himel2535/contestHub-frontend]
+git clone [https://github.com/himel2535/contestHub-backend]
 Client Setup:
 
 Bash
