@@ -1,16 +1,20 @@
+
+
 import Container from "../Shared/Container";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../Shared/LoadingSpinner";
 import PopularContestCard from "./PopularContestCard";
-import { Link } from "react-router";
+import { Link } from "react-router"; 
 import ErrorPage from "../Shared/ErrorPage/ErrorPage";
 
 const PopularContests = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ["popular-contests"],
     queryFn: async () => {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/contests`);
+  
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/contests?limit=500`); 
+
       return res.data;
     },
   });

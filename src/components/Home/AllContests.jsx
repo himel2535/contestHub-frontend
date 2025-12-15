@@ -160,7 +160,7 @@ const AllContests = () => {
 
         {/* Contest Cards */}
         {!isNoResults && (
-          <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {contests.map((contest, index) => (
               <div
                 key={contest._id}
