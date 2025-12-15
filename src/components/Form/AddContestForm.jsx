@@ -175,7 +175,7 @@ const AddContestForm = () => {
                   {...register("category", {
                     required: "Category is required",
                   })}
-                  // 💡 ডার্ক মোড সিলেক্ট স্টাইল
+               
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                 >
                   <option className="dark:bg-gray-800" value="">Select a Category</option>
@@ -187,6 +187,7 @@ const AddContestForm = () => {
                   <option className="dark:bg-gray-800" value="Article Writing">Article Writing</option>
                   <option className="dark:bg-gray-800" value="Photography">Photography Contest</option>
                   <option className="dark:bg-gray-800" value="Video Editing">Video Editing Contest</option>
+                  <option className="dark:bg-gray-800" value="Video Editing">Cyber Security Contest</option>
                 </select>
                 {errors.category && (
                   <p className="text-xs text-red-500 mt-1">
@@ -197,7 +198,7 @@ const AddContestForm = () => {
 
               {/* Description */}
               <div>
-                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+
                 <label className="block text-gray-700 dark:text-gray-300 font-medium">
                   Description
                 </label>
@@ -205,7 +206,7 @@ const AddContestForm = () => {
                   {...register("description", {
                     required: "Description is required",
                   })}
-                  // 💡 ডার্ক মোড টেক্সটএরিয়া স্টাইল
+         
                   className="w-full h-[150px] p-3 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                   placeholder="Describe the contest objectives, rules, and eligibility."
                 />
@@ -226,7 +227,7 @@ const AddContestForm = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Prize Money */}
                 <div>
-                  {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+        
                   <label className="block text-gray-700 dark:text-gray-300 font-medium">
                     Prize Money ($){" "}
                   </label>
@@ -237,7 +238,7 @@ const AddContestForm = () => {
                     })}
                     type="number"
                     step="0.01"
-                    // 💡 ডার্ক মোড ইনপুট স্টাইল
+       
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100"
                   />
                   {errors.prizeMoney && (
@@ -249,7 +250,7 @@ const AddContestForm = () => {
 
                 {/* Contest Fee */}
                 <div>
-                  {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+  
                   <label className="block text-gray-700 dark:text-gray-300 font-medium">
                     Entry Fee ($)
                   </label>
@@ -260,7 +261,7 @@ const AddContestForm = () => {
                     })}
                     type="number"
                     step="0.01"
-                    // 💡 ডার্ক মোড ইনপুট স্টাইল
+                
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100"
                   />
                   {errors.contestFee && (
@@ -272,7 +273,7 @@ const AddContestForm = () => {
 
                 {/* Participants Count */}
                 <div>
-                  {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+            
                   <label className="block text-gray-700 dark:text-gray-300 font-medium">
                     Participants
                   </label>
@@ -282,7 +283,7 @@ const AddContestForm = () => {
                       min: { value: 1, message: "Must be at least 1" },
                     })}
                     type="number"
-                    // 💡 ডার্ক মোড ইনপুট স্টাইল
+            
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100"
                   />
                   {errors.participantsCount && (
@@ -295,7 +296,7 @@ const AddContestForm = () => {
 
               {/* Deadline */}
               <div>
-                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+          
                 <label className="block text-gray-700 dark:text-gray-300 font-medium">
                   Deadline
                 </label>
@@ -304,7 +305,7 @@ const AddContestForm = () => {
                     required: "Deadline is required",
                   })}
                   type="datetime-local"
-                  // 💡 ডার্ক মোড ইনপুট স্টাইল
+       
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-yellow-500 focus:border-yellow-500 bg-white dark:bg-gray-700 dark:text-gray-100 transition duration-150"
                 />
                 {errors.deadline && (
@@ -316,10 +317,10 @@ const AddContestForm = () => {
 
               {/* Image upload */}
               <div 
-                // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড এবং বর্ডার
+        
                 className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700"
               >
-                {/* 💡 ডার্ক মোড লেবেল টেক্সট */}
+      
                 <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
                   Banner Image Upload
                 </label>
@@ -329,7 +330,7 @@ const AddContestForm = () => {
                   })}
                   type="file"
                   accept="image/*"
-                  // 💡 ডার্ক মোড ফাইল ইনপুট স্টাইল
+
                   className="cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-100 file:text-yellow-700 hover:file:bg-yellow-200 dark:file:bg-yellow-800 dark:file:text-white dark:hover:file:bg-yellow-700"
                 />
                 {errors.image && (
@@ -339,7 +340,7 @@ const AddContestForm = () => {
                 )}
               </div>
 
-              {/* Submit Button (কালার ঠিক আছে, ডার্ক মোডেও একই থাকবে) */}
+      
               <button
                 type="submit"
                 disabled={isDisabled}
