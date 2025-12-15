@@ -1,6 +1,6 @@
 
 import useAuth from "../../../hooks/useAuth";
-import coverImg from "../../../assets/images/logo1.jpg";
+import coverImg from "../../../assets/images/contestBanner00.jpg";
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { FaUser, FaEnvelope, FaIdCardAlt, FaKey, FaCrown } from "react-icons/fa";
