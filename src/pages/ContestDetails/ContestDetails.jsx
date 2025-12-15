@@ -6,7 +6,8 @@ import SubmitTaskModal from "../Submit/SubmitTaskModal";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../components/Shared/ErrorPage/ErrorPage";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+// FIX: useSearchParams ইম্পোর্ট করা হলো URL query প্যারামিটার চেক করার জন্য
+import { useParams, useSearchParams, useNavigate } from "react-router"; // useNavigate যোগ করা হয়েছে
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
@@ -27,7 +28,9 @@ const ContestDetails = () => {
 
   const { user, loading: authLoading } = useAuth();
   const { id } = useParams();
+  const [searchParams] = useSearchParams(); // FIX: setSearchParams যোগ করা হলো
   const queryClient = useQueryClient();
+  const navigate = useNavigate(); // useNavigate hook
 
   // Fetch contest data
   const {
@@ -61,6 +64,26 @@ const ContestDetails = () => {
     enabled: !!user?.email && !!contest && !authLoading,
     refetchOnWindowFocus: false,
   });
+
+  // FIX 1: URL query parameter চেক করে ডেটা রি-ফেচ করার লজিক
+  useEffect(() => {
+    // 'paymentUpdate' প্যারামিটারটি চেক করা হলো
+    const shouldRefetch = searchParams.get("paymentUpdate") === "true";
+
+    if (shouldRefetch) {
+      // 1. নিশ্চিত রি-ফেচ: সার্ভার থেকে নতুন participants ডেটা দ্রুত আনো
+      // invalidate + refetch ব্যবহার করা হলো দ্রুত আপডেট নিশ্চিত করতে
+      queryClient.invalidateQueries(["contest", id]);
+      queryClient.refetchQueries(["contest", id]);
+      
+      // 2. URL থেকে 'paymentUpdate' প্যারামিটারটি সরিয়ে দাও
+      // useNavigate বা setSearchParams ব্যবহার করে URL পরিষ্কার করা হলো
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete("paymentUpdate");
+      // navigate ব্যবহার করা হলো URL পরিষ্কার করতে, কিন্তু page reload হবে না
+      navigate({ search: newSearchParams.toString() }, { replace: true });
+    }
+  }, [searchParams, queryClient, id, navigate]); // navigate dependency হিসেবে যোগ করা হলো
 
   // Countdown
   useEffect(() => {
@@ -112,8 +135,10 @@ const ContestDetails = () => {
   const isSubmitted = submissionStatus?.submitted;
   const isFinalized = !!winner?.name || isContestEnded;
 
+  // FIX 2: Registration সফল হলে দ্রুত রি-ফেচ নিশ্চিত করা হলো
   const handleRegistered = () => {
     queryClient.invalidateQueries(["contest", id]);
+    queryClient.refetchQueries(["contest", id]);
   };
 
   const handleSubmitted = () => {

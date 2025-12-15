@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"; 
 import useAuth from "../../hooks/useAuth";
 
 const AllContestCard = ({ contest }) => {
@@ -30,30 +30,45 @@ const AllContestCard = ({ contest }) => {
         />
       </div>
 
-      {/* Content */}
+      {/* Content Container - Fixed height is key for consistent card size */}
       <div className="p-4 space-y-2 text-gray-800 dark:text-gray-200">
-        <h2 className="text-lg sm:text-xl font-bold">{name}</h2>
+        
 
-        <p className="text-sm font-semibold text-shadow-golden dark:text-yellow-400">
-          {category}
-        </p>
+        <div className="h-14 overflow-hidden">
+            <h2 
+                className="text-lg sm:text-xl font-bold line-clamp-2" 
+                title={name}
+            >
+                {name}
+            </h2>
+        </div>
+        
 
-        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-          Participants: {participantsCount}
-        </p>
 
-        <p className="text-sm text-gray-600 dark:text-gray-400">
-          {shortDesc}
-        </p>
+        <div className="space-y-1">
+            <p className="text-sm font-semibold text-shadow-golden dark:text-yellow-400">
+                {category}
+            </p>
+
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Participants: {participantsCount}
+            </p>
+        </div>
+        
+
+        <div className="h-10 overflow-hidden">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+                {shortDesc}
+            </p>
+        </div>
+
 
         {/* --- Details Button (Applied Golden Glow Style) --- */}
         <button
           onClick={handleDetails}
           className="w-full mt-3 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg transition font-semibold relative overflow-hidden cursor-pointer"
           style={{
-        
             boxShadow: '0 0 8px rgba(255, 215, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.3)',
-         
             transition: 'box-shadow 0.3s ease-in-out',
           }}
           onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.5)'}

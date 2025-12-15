@@ -24,7 +24,7 @@ const WinRateChart = ({ winPercentage }) => {
       <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-100 mb-4 flex items-center">
         <FaChartPie className="mr-2 text-yellow-600" /> Win Rate
       </h3>
-      <div className="relative w-32 h-32">
+      <div className="relative w-50 h-50">
         <div
           className="w-full h-full rounded-full"
           style={{
@@ -122,8 +122,12 @@ const ParticipantStatistics = () => {
       </div>
     );
 
-  const { participationCount, winCount, winPercentage, categoryStats } =
-    statsData;
+  const {
+    participationCount,
+    winCount,
+    winPercentage,
+    //  categoryStats
+  } = statsData;
 
   return (
     <div className="container mx-auto px-4 sm:px-8 py-8">
@@ -191,9 +195,9 @@ const ParticipantStatistics = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid justify-center items-center grid-cols-1 lg:grid-cols-1 gap-8 text-center item-center justify-center">
         <WinRateChart winPercentage={winPercentage} />
-        <CategoryBarChart categoryStats={categoryStats} />
+        {/* <CategoryBarChart categoryStats={categoryStats} /> */}
       </div>
     </div>
   );
