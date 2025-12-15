@@ -55,6 +55,8 @@ const AllContests = () => {
   if (isError) return <ErrorPage />;
 
   const isNoResults = contests.length === 0;
+  
+
   const headingText = currentContestType
     ? `Category Results for: "${currentContestType}"`
     : "Explore All Available Contests";
@@ -72,6 +74,8 @@ const AllContests = () => {
           <h2
             className="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-gray-200 pt-4 mb-2 inline-block border-b-4 border-yellow-500"
             data-aos="fade-down"
+
+            style={{ textShadow: '0 0 5px rgba(255, 215, 0, 0.4)' }} 
           >
             {headingText}
           </h2>
@@ -88,7 +92,15 @@ const AllContests = () => {
             data-aos="fade-up"
             data-aos-delay="200"
           >
-            <div className="relative flex items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full shadow-lg overflow-hidden">
+            {/* --- FIX APPLIED HERE: Search Bar Glow --- */}
+            <div 
+              className="relative flex items-center bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full shadow-lg overflow-hidden transition-shadow duration-300"
+     
+              style={{
+                boxShadow: '0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 215, 0, 0.7)',
+ 
+              }}
+            >
               <input
                 type="text"
                 placeholder="Search by Contest Category (e.g., Design, Coding)"
@@ -101,6 +113,10 @@ const AllContests = () => {
                 type="submit"
                 className="absolute right-0 top-0 bottom-0 w-14 bg-yellow-500 hover:bg-yellow-600 text-white flex items-center justify-center transition-colors duration-200"
                 aria-label="Start category search"
+   
+                style={{
+                   boxShadow: '0 0 5px rgba(255, 215, 0, 0.8)'
+                }}
               >
                 <FaSearch className="text-lg sm:text-xl" />
               </button>
@@ -115,7 +131,7 @@ const AllContests = () => {
                 newSearchParams.set("page", "1");
                 setSearchParams(newSearchParams);
               }}
-              className="mt-2 text-sm text-red-500 hover:underline"
+              className="mt-2  cursor-pointer text-red-500 hover:underline"
             >
               Clear Search Filter
             </button>

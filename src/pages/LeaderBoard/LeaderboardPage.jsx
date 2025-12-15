@@ -36,7 +36,7 @@ const LeaderboardPage = () => {
 
   return (
     <Container>
-      <div className="py-12">
+      <div className="pt-12 pb-22 overflow-hidden">
         {/* --- Heading --- */}
         <div
           className="text-center mb-10"
@@ -199,7 +199,9 @@ const RankingCard = ({
       className={`absolute inset-0 rounded-xl bg-gradient-to-br ${color} opacity-90`}
     ></div>
 
-    {hero && <FaStar className="text-5xl text-white mb-2 animate-pulse relative z-10" />}
+    {hero && (
+      <FaStar className="text-5xl text-white mb-2 animate-pulse relative z-10" />
+    )}
 
     <div className="text-center mt-auto w-full px-2 relative z-10">
       <div className="text-4xl font-extrabold mb-1 flex items-center justify-center text-white">
@@ -217,7 +219,9 @@ const RankingCard = ({
         alt={winner.name}
       />
 
-      <p className="text-xl font-bold truncate w-full text-white">{winner.name}</p>
+      <p className="text-xl font-bold truncate w-full text-white">
+        {winner.name}
+      </p>
       <p className="text-sm truncate text-gray-200">Wins: {winner.wins}</p>
     </div>
   </div>
