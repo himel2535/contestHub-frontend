@@ -6,8 +6,8 @@ import SubmitTaskModal from "../Submit/SubmitTaskModal";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import ErrorPage from "../../components/Shared/ErrorPage/ErrorPage";
 import { useState, useEffect } from "react";
-// FIX: useSearchParams ইম্পোর্ট করা হলো URL query প্যারামিটার চেক করার জন্য
-import { useParams, useSearchParams, useNavigate } from "react-router"; // useNavigate যোগ করা হয়েছে
+
+import { useParams, useSearchParams, useNavigate } from "react-router"; 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
@@ -28,7 +28,7 @@ const ContestDetails = () => {
 
   const { user, loading: authLoading } = useAuth();
   const { id } = useParams();
-  const [searchParams] = useSearchParams(); // FIX: setSearchParams যোগ করা হলো
+  const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate(); // useNavigate hook
 
@@ -71,20 +71,16 @@ const ContestDetails = () => {
     const shouldRefetch = searchParams.get("paymentUpdate") === "true";
 
     if (shouldRefetch) {
-      // 1. নিশ্চিত রি-ফেচ: সার্ভার থেকে নতুন participants ডেটা দ্রুত আনো
-      // invalidate + refetch ব্যবহার করা হলো দ্রুত আপডেট নিশ্চিত করতে
       queryClient.invalidateQueries(["contest", id]);
       queryClient.refetchQueries(["contest", id]);
       
-      // 2. URL থেকে 'paymentUpdate' প্যারামিটারটি সরিয়ে দাও
-      // useNavigate বা setSearchParams ব্যবহার করে URL পরিষ্কার করা হলো
+
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.delete("paymentUpdate");
-      // navigate ব্যবহার করা হলো URL পরিষ্কার করতে, কিন্তু page reload হবে না
+
       navigate({ search: newSearchParams.toString() }, { replace: true });
     }
-  }, [searchParams, queryClient, id, navigate]); // navigate dependency হিসেবে যোগ করা হলো
-
+  }, [searchParams, queryClient, id, navigate]); 
   // Countdown
   useEffect(() => {
     if (!contest?.deadline) return;
@@ -135,7 +131,7 @@ const ContestDetails = () => {
   const isSubmitted = submissionStatus?.submitted;
   const isFinalized = !!winner?.name || isContestEnded;
 
-  // FIX 2: Registration সফল হলে দ্রুত রি-ফেচ নিশ্চিত করা হলো
+
   const handleRegistered = () => {
     queryClient.invalidateQueries(["contest", id]);
     queryClient.refetchQueries(["contest", id]);
@@ -158,7 +154,7 @@ const ContestDetails = () => {
 
   return (
     <Container>
-      <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-8 py-8 px-4 sm:px-6 overflow-x-hidden">
+      <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-8 py-8  sm:px-6 overflow-x-hidden">
         {/* Left Content */}
         <div className="flex-1 space-y-6">
           {/* Main Image */}
