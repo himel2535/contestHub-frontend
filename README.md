@@ -1,10 +1,11 @@
 🏆 Project: ContestHub - The Ultimate Creative Contest Platform
 ContestHub is a modern, full-stack, role-based platform designed for creating, discovering, participating in, and managing a wide array of creative contests, including Design, Article Writing, Gaming Reviews, and Business Ideas. The application boasts a professional, responsive UI and robust role management for Admins, Contest Creators, and Normal Users.
 
-🌐 Live Deployment & Source Code
-Platform	URL
+
 Live Site URL:	[https://contest-hub-bfe54.web.app/]
+
 Client Side Repository:	[https://github.com/himel2535/contestHub-frontend]
+
 Server Side Repository:	[https://github.com/himel2535/contestHub-backend]
 
 Export to Sheets
@@ -14,7 +15,9 @@ To fully test the application's comprehensive role management features, you can 
 
 	Email	Password
 Role: Admin ,	Email: admin@gmail.com	, Password: admin@gmail.com
+
 Role: Contest Creator, Email: jhankar@gmail.com,  Password: jhankar@gmail.com
+
 Normal User	[Please use a self-registered user account]	[Password]
 
 Export to Sheets
@@ -63,7 +66,9 @@ Clone the Repositories:
 Bash
 
 git clone [https://github.com/himel2535/contestHub-frontend]
+
 git clone [https://github.com/himel2535/contestHub-backend]
+
 Client Setup:
 
 Bash
