@@ -1,6 +1,6 @@
-// src/pages/Dashboard/Profile.jsx (আপডেট করা কোড)
+
 import useAuth from "../../../hooks/useAuth";
-import coverImg from "../../../assets/images/cover.jpg";
+import coverImg from "../../../assets/images/logo1.jpg";
 import useRole from "../../../hooks/useRole";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { FaUser, FaEnvelope, FaIdCardAlt, FaKey, FaCrown } from "react-icons/fa";
@@ -21,10 +21,10 @@ const Profile = () => {
   const HeadingIcon = FaUser;
 
   return (
-    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড যোগ করা হয়েছে
+
     <div className="flex flex-col items-center py-8 md:py-12 px-4 min-h-screen dark:bg-gray-900">
       
-      {/* 👑 কাস্টম হেডিং সেকশন */}
+
       <div
         className="text-center mb-10"
         data-aos="fade-down"
@@ -86,7 +86,7 @@ const Profile = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 text-sm text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 pb-6 mb-6">
               
               {/* Name */}
-              {/* 💡 ফিক্স: md:items-start নিশ্চিত করা হলো */}
+     
               <div
                 className="flex flex-col items-center md:items-start"
                 data-aos="fade-right"
@@ -101,7 +101,7 @@ const Profile = () => {
               </div>
 
               {/* Email */}
-              {/* 💡 ফিক্স: md:items-start নিশ্চিত করা হলো */}
+
               <div
                 className="flex flex-col items-center md:items-start"
                 data-aos="fade-up"
@@ -115,8 +115,6 @@ const Profile = () => {
                 </span>
               </div>
 
-              {/* User ID */}
-              {/* 💡 ফিক্স: md:items-start নিশ্চিত করা হলো */}
               <div
                 className="flex flex-col items-center md:items-start"
                 data-aos="fade-left"
@@ -125,7 +123,7 @@ const Profile = () => {
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 flex items-center">
                   <FaIdCardAlt className="mr-2 text-yellow-600" /> User ID
                 </p>
-                {/* User ID ছোট করার জন্য break-all ব্যবহার করা হয়েছে */}
+
                 <span className="font-bold text-lg text-gray-900 dark:text-gray-100 break-all">
                   {user?.uid.substring(0, 15)}...
                 </span>
@@ -133,7 +131,7 @@ const Profile = () => {
 
             </div>
 
-            {/* 💡 নতুন সেকশন: Role (এখন যেহেতু Role উপরে চলে গেছে, এই সেকশনটি সরানো হলো বা ফাঁকা রাখা হলো) */}
+
             <div className="mt-6">
                  {/* This section can be used for extra information if needed, or left empty */}
             </div>

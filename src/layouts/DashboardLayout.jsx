@@ -2,16 +2,16 @@
 import { Outlet } from "react-router";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
-import useTheme from "../hooks/useTheme"; // আপনার কাস্টম হুক
+import useTheme from "../hooks/useTheme"; 
 import Navbar from "../components/Shared/Navbar/Navbar";
 
 const DashboardLayout = () => {
-  // কাস্টম হুক থেকে থিম স্টেট নিন
+
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => setMounted(true), []);
+  useEffect(() => setMounted(true), [mounted]);
   if (!mounted) return null;
 
   return (

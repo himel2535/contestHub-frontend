@@ -109,10 +109,10 @@ const AddContestForm = () => {
   const isDisabled = isSubmitting || isMutationPending;
 
   return (
-    // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড
-    <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900 min-h-screen">
+
+    <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900 min-h-screen overflow-hidden">
       
-      {/* 👑 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+
       <div
         className="text-center mb-10"
         data-aos="fade-down"

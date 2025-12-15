@@ -1,8 +1,13 @@
-// src/pages/Dashboard/Participant/MyProfile.jsx (আপডেট করা কোড)
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { FaUser, FaTrophy, FaChartPie, FaEdit, FaSave, FaCrown } from "react-icons/fa"; // FaCrown import করা হয়েছে
+import {
+  FaUser,
+  FaTrophy,
+  FaChartPie,
+  FaEdit,
+  FaSave,
+  FaCrown,
+} from "react-icons/fa";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -16,9 +21,8 @@ const WinRateChart = ({ winPercentage }) => {
 
   return (
     <div
-      // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং বর্ডার যোগ করা হয়েছে
       className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl border-t-4 border-yellow-500"
-      data-aos="fade-right" 
+      data-aos="fade-right"
       data-aos-duration="800"
     >
       <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center">
@@ -32,7 +36,6 @@ const WinRateChart = ({ winPercentage }) => {
             background: `conic-gradient(#facc15 ${won}%, #d1d5db 0)`,
           }}
         >
-          {/* 💡 ডার্ক মোড ইনার ব্যাকগ্রাউন্ড যোগ করা হয়েছে */}
           <div className="absolute inset-4 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center">
             <span className="text-xl font-bold text-yellow-600">{won}%</span>
           </div>
@@ -99,26 +102,19 @@ const MyProfile = () => {
     return <div className="text-red-500">Failed to load profile data.</div>;
 
   const { profile, participationCount, winCount, winPercentage } = statsData;
-  
-  // 🏆 কাস্টম হেডিং ডিজাইন প্রয়োগ করা হয়েছে
-  const HeadingIcon = FaUser; // প্রোফাইলের জন্য FaUser ব্যবহার করা হলো
 
+  const HeadingIcon = FaUser;
   return (
-    <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900">
-      
-      {/* 💡 কাস্টম হেডিং স্টাইল প্রয়োগ করা হয়েছে */}
+    <div className="container mx-auto px-4 sm:px-8 py-8 dark:bg-gray-900 overflow-hidden">
       <div
-        className="text-center mb-10" 
+        className="text-center mb-10"
         data-aos="fade-down"
         data-aos-duration="800"
       >
-        <h2
-          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2"
-        >
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-100 inline-flex items-center border-b-4 border-yellow-500 pb-2">
           <HeadingIcon className="mr-2 text-yellow-600 text-2xl sm:text-3xl flex-shrink-0" />
           <span className="">
             <span>My Profile & Stats</span>
-            {/* এখানে কোনো dynamic count নেই, তাই count সেকশনটি বাদ দেওয়া হলো */}
           </span>
         </h2>
       </div>
@@ -129,9 +125,8 @@ const MyProfile = () => {
           <WinRateChart winPercentage={winPercentage} />
 
           <div
-            // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং বর্ডার যোগ করা হয়েছে
             className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl border-t-4 border-yellow-500"
-            data-aos="fade-up" 
+            data-aos="fade-up"
             data-aos-delay="200"
           >
             <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center">
@@ -156,9 +151,8 @@ const MyProfile = () => {
 
         {/* 2. Profile Details and Update Form (Right) */}
         <div
-          // 💡 ডার্ক মোড ব্যাকগ্রাউন্ড, শ্যাডো এবং বর্ডার যোগ করা হয়েছে
           className="lg:col-span-2 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg dark:shadow-2xl border-t-4 border-yellow-500"
-          data-aos="fade-left" 
+          data-aos="fade-left"
           data-aos-duration="800"
         >
           <div className="flex justify-between items-center mb-6 border-b dark:border-gray-700 pb-4">
@@ -180,7 +174,7 @@ const MyProfile = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Photo and Email */}
-            <div className="flex items-center space-x-6 mb-6">
+            <div className="flex md:flex-row flex-col items-center space-x-6 mb-6">
               <img
                 src={
                   profile?.photo ||
@@ -188,7 +182,6 @@ const MyProfile = () => {
                   "https://via.placeholder.com/150"
                 }
                 alt={profile?.name}
-                // 💡 ডার্ক মোড বর্ডার কালার যোগ করা হয়েছে
                 className="w-24 h-24 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700"
               />
               <div>
@@ -216,11 +209,11 @@ const MyProfile = () => {
                   type="text"
                   disabled={!isEditing}
                   {...register("name", { required: true })}
-                  // 💡 ডার্ক মোড টেক্সট, ব্যাকগ্রাউন্ড এবং বর্ডার ক্লাস যোগ করা হয়েছে
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none transition 
-                    ${isEditing
-                      ? "border-yellow-500 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-yellow-200"
-                      : "bg-gray-100 dark:bg-gray-700 dark:text-gray-300 cursor-default border-gray-200 dark:border-gray-600"
+                    ${
+                      isEditing
+                        ? "border-yellow-500 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-yellow-200"
+                        : "bg-gray-100 dark:bg-gray-700 dark:text-gray-300 cursor-default border-gray-200 dark:border-gray-600"
                     }`}
                 />
               </div>
@@ -234,11 +227,11 @@ const MyProfile = () => {
                   type="url"
                   disabled={!isEditing}
                   {...register("photo")}
-                  // 💡 ডার্ক মোড টেক্সট, ব্যাকগ্রাউন্ড এবং বর্ডার ক্লাস যোগ করা হয়েছে
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none transition 
-                    ${isEditing
-                      ? "border-yellow-500 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-yellow-200"
-                      : "bg-gray-100 dark:bg-gray-700 dark:text-gray-300 cursor-default border-gray-200 dark:border-gray-600"
+                    ${
+                      isEditing
+                        ? "border-yellow-500 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-yellow-200"
+                        : "bg-gray-100 dark:bg-gray-700 dark:text-gray-300 cursor-default border-gray-200 dark:border-gray-600"
                     }`}
                 />
               </div>
@@ -257,11 +250,11 @@ const MyProfile = () => {
                   disabled={!isEditing}
                   {...register("bio")}
                   placeholder="A short bio or your current location/address"
-                  // 💡 ডার্ক মোড টেক্সট, ব্যাকগ্রাউন্ড এবং বর্ডার ক্লাস যোগ করা হয়েছে
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none transition 
-                    ${isEditing
-                      ? "border-yellow-500 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-yellow-200"
-                      : "bg-gray-100 dark:bg-gray-700 dark:text-gray-300 cursor-default border-gray-200 dark:border-gray-600"
+                    ${
+                      isEditing
+                        ? "border-yellow-500 dark:bg-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-yellow-200"
+                        : "bg-gray-100 dark:bg-gray-700 dark:text-gray-300 cursor-default border-gray-200 dark:border-gray-600"
                     }`}
                 />
               </div>
