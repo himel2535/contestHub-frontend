@@ -154,7 +154,7 @@ const ContestSubmissions = () => {
 
       <div className="mb-8">
         {/* --- FIX 1: Use CustomHeading here --- */}
-        // eslint-disable-next-line react-hooks/static-components
+
         <CustomHeading name={contestName} />
       </div>
 
@@ -254,10 +254,10 @@ const ContestSubmissions = () => {
                           disabled={isDisabled || isProcessing}
                           className={`relative inline-block px-3 py-1 text-xs sm:text-sm font-semibold leading-tight rounded-full transition duration-200 ease-in-out shadow-md
                          ${
-                          isDisabled
-                         ? "bg-gray-300 text-gray-500 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400"
-                          : "bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
-                          }`}
+                           isDisabled
+                             ? "bg-gray-300 text-gray-500 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400"
+                             : "bg-yellow-500 text-white hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+                         }`}
                         >
                           {isProcessing ? "Processing..." : "Declare Winner"}
                         </button>
